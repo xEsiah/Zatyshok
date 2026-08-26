@@ -1,3 +1,6 @@
+COMPOSE_DEV=docker compose -f docker-compose.yml
+COMPOSE_PROD=docker compose -f docker-compose.prod.yml
+
 .PHONY: build network dev prod clean seed backend ps logs restart down up db-shell reset-db
 
 export USER_ID := $(shell id -u)
@@ -13,44 +16,49 @@ network:
 	@docker network inspect shared-network >/dev/null 2>&1 || docker network create shared-network
 
 build:
-	docker compose build --build-arg USER_ID=$(USER_ID) --build-arg GROUP_ID=$(GROUP_ID)
+	$(COMPOSE_DEV) build --build-arg USER_ID=$(USER_ID) --build-arg GROUP_ID=$(GROUP_ID)
 
 dev: network build
-	docker compose up -d
+	$(COMPOSE_DEV) up -d
 	cd frontend && npm run dev
 
-prod: network build
-	docker compose -f docker-compose.prod.yml up -d --build
+prod: network
+	$(COMPOSE_PROD) build --build-arg USER_ID=$(USER_ID) --build-arg GROUP_ID=$(GROUP_ID)
+	$(COMPOSE_PROD) up -d --build
 
 clean:
-	docker compose down --remove-orphans
+	$(COMPOSE_DEV) down --remove-orphans
+	$(COMPOSE_PROD) down --remove-orphans
 
 seed: 
-	docker exec -i zatyshok-db mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < init.sql
-	docker exec -i zatyshok-db mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < dump.sql
+	docker exec -i zatyshok-db mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < backend/init.sql
+	docker exec -i zatyshok-db mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < backend/datas.sql
 
 backend:
-	docker compose up -d --build backend
+	$(COMPOSE_DEV) up -d --build backend
 
 ps:
-	docker compose ps
+	$(COMPOSE_DEV) ps
+	$(COMPOSE_PROD) ps
 
 logs:
-	docker compose logs backend -f
+	$(COMPOSE_DEV) logs backend -f
 
 restart:
-	docker compose restart backend
+	$(COMPOSE_DEV) restart backend
 
 down:
-	docker compose down
+	$(COMPOSE_DEV) down
+	$(COMPOSE_PROD) down
 
 up:
-	docker compose up -d
+	$(COMPOSE_DEV) up -d
 
 db-shell:
-	docker compose exec db mariadb -u root -p
+	docker exec -it zatyshok-db mariadb -u root -p
 
 reset-db:
-	docker compose down
+	$(COMPOSE_DEV) down
+	$(COMPOSE_PROD) down
 	sudo rm -rf ./zatyshok-db-data
-	docker compose up -d
+	$(COMPOSE_DEV) up -d
