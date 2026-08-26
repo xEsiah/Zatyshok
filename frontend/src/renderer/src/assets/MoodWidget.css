@@ -1,0 +1,151 @@
+.mood-widget {
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 36vh;
+
+  h3 {
+    position: relative;
+
+    .history-button {
+      position: absolute;
+      top: 2px;
+      right: 3%;
+      -webkit-app-region: no-drag;
+      background: transparent;
+      border: 1px solid var(--color-lilas-doux);
+      color: var(--color-lilas-doux);
+      border-radius: 8px;
+      font-size: 0.7rem;
+    }
+    .history-button:hover {
+      transform: scale(1.1);
+      transition: transform 0.2s;
+    }
+  }
+}
+
+.mood-widget:has(.mood-list-container) {
+  justify-content: flex-start;
+  max-height: 36vh;
+
+  .mood-list-container {
+    margin-top: 15px;
+    overflow-y: scroll;
+
+    padding: 10px;
+    background: var(--bg-color);
+    border-radius: 16px;
+    box-shadow:
+      inset 2px 2px 5px var(--shadow-dark),
+      inset -2px -2px 5px var(--shadow-light);
+
+    p {
+      opacity: 0.6;
+      font-size: 0.9rem;
+    }
+
+    .mood-history-row {
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--color-rose-poudre);
+      padding-bottom: 5px;
+    }
+
+    .mood-date-display {
+      min-width: 80px;
+      display: inline-block;
+    }
+
+    .mood-emoji-display {
+      margin: 0 10px;
+    }
+
+    .mood-note-display {
+      white-space: normal;
+      overflow: visible;
+    }
+
+    .mood-load-more-btn {
+      width: 100%;
+      margin-top: 10px;
+    }
+  }
+}
+
+.mood-grid {
+  display: flex;
+  gap: 5px;
+  margin: 15px 0;
+  justify-content: center;
+}
+
+.mood-btn {
+  font-size: 1.4rem;
+  flex: 1;
+  padding: 10px 0;
+  border-radius: 50px;
+}
+
+.mood-btn.active {
+  background: var(--color-lilas-vif);
+  box-shadow: inset 4px 4px 8px rgba(0, 0, 0, 0.15);
+  transform: scale(0.96);
+}
+
+.mood-btn:not(.active):hover {
+  background-color: var(--color-rose-poudre);
+  color: white;
+  box-shadow:
+    6px 6px 12px var(--shadow-dark),
+    -6px -6px 12px var(--shadow-light);
+  transform: translateY(-2px);
+}
+
+.mood-btn.active:hover {
+  filter: brightness(1.15);
+  box-shadow: inset 6px 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.mood-input-group {
+  margin-bottom: 15px;
+}
+
+.mood-history {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: var(--bg-color);
+  border-radius: 16px;
+  box-shadow:
+    inset 2px 2px 5px var(--shadow-dark),
+    inset -2px -2px 5px var(--shadow-light);
+}
+
+.mood-history-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.mood-label {
+  font-weight: 700;
+  color: var(--color-lilas-doux);
+}
+
+.mood-emoji-display {
+  font-size: 1.1rem;
+}
+
+.mood-note-display {
+  font-style: italic;
+  opacity: 0.7;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: var(--color-profond);
+  padding-right: 0.5vw;
+}

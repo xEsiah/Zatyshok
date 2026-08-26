@@ -1,0 +1,32 @@
+name: Auto Create PR
+
+on:
+  push:
+    branches-ignore:
+      - main
+
+jobs:
+  create-pr:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          CURRENT_BRANCH="${{ github.ref_name }}"
+
+          COMMIT_TITLE=$(git log -1 --pretty=format:%s)
+          COMMIT_BODY=$(git log -1 --pretty=format:%b)
+
+          BODY_CONTENT="${COMMIT_BODY:-Automated PR from $CURRENT_BRANCH to main.}"
+
+          gh pr create \
+            --base main \
+            --head "$CURRENT_BRANCH" \
+            --title "$COMMIT_TITLE" \
+            --body "$BODY_CONTENT" || true

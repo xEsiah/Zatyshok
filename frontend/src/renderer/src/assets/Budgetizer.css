@@ -1,0 +1,413 @@
+/* ==========================================================================
+   BUDGETIZER COMPONENT (Basé sur l'architecture de BentoView)
+   ========================================================================== */
+
+/* --- 1. LAYOUT PRINCIPAL (GRID) --- */
+.budget-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 2.5vw;
+  width: 95%;
+  height: 100%;
+  min-height: 100%;
+  padding-bottom: 2vh;
+  box-sizing: border-box;
+}
+
+/* Carte principale (gauche) */
+.budget-main-card {
+  grid-column: 1 / 2;
+  padding: 3vh 3vw;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  max-height: 100%;
+}
+
+/* Sidebar (droite) */
+.budget-sidebar {
+  grid-column: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+/* Widget dans la sidebar */
+.budget-widget-card {
+  padding: 3vh 2vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+/* --- 2. HAUT DE LA CARTE PRINCIPALE (FORMULAIRES) --- */
+.budget-header-tabs {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2vh;
+  flex-shrink: 0;
+}
+
+.budget-header {
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.budget-mode-switch {
+  display: flex;
+  gap: 10px;
+}
+
+.budget-forms-area {
+  display: flex;
+  gap: 2vw;
+  flex-shrink: 0;
+}
+
+.budget-form-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.budget-form-col small {
+  font-weight: 600;
+  color: var(--color-profond);
+  margin-bottom: 5px;
+}
+
+.budget-category-add-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* --- 3. ZONE HISTORIQUE (SCROLLABLE) --- */
+.budget-history-area {
+  margin-top: 3vh;
+  padding-top: 2vh;
+  border-top: 1px solid var(--shadow-dark);
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.budget-history-header {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 15px;
+  flex-shrink: 0;
+}
+
+.budget-history-header h3 {
+  margin: 0;
+}
+
+.budget-filters {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* Zone scrollable gérée par les standards (scrollbar unifiée dans main.css) */
+.budget-list {
+  flex: 1 1 0;
+  min-height: 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+}
+
+/* Élément de la liste */
+.budget-list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow:
+    4px 4px 10px var(--shadow-dark),
+    -4px -4px 10px var(--shadow-light);
+  font-size: 0.9rem;
+  flex-shrink: 0;
+}
+
+.budget-empty-msg {
+  text-align: center;
+  color: var(--color-profond);
+  opacity: 0.5;
+  font-style: italic;
+  margin-top: 20px;
+}
+
+/* --- 4. GRAPHIQUE ET LÉGENDE --- */
+.budget-chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+  width: 100%;
+}
+
+.budget-total-display {
+  margin: 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--color-profond);
+  text-align: center;
+}
+
+.budget-chart-container {
+  width: 160px;
+  height: 160px;
+  margin: auto;
+  border-radius: 50%;
+  box-shadow:
+    8px 8px 16px var(--shadow-dark),
+    -8px -8px 16px var(--shadow-light);
+  background: var(--card-bg);
+  flex-shrink: 0;
+}
+
+.budget-sidebar-totals {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 15px 0;
+  padding: 15px;
+  background: var(--bg-color);
+  border-radius: 16px;
+  box-shadow:
+    inset 2px 2px 5px var(--shadow-dark),
+    inset -2px -2px 5px var(--shadow-light);
+}
+
+.sidebar-total-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: var(--color-profond);
+  font-weight: 500;
+}
+
+.sidebar-total-row.balance {
+  margin-top: 5px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--color-lilas-doux);
+  font-weight: 700;
+}
+
+.total-out {
+  color: #e74c3c;
+}
+.total-in {
+  color: #2ecc71;
+}
+.pos {
+  color: #2ecc71;
+}
+.neg {
+  color: #e74c3c;
+}
+
+.budget-pie-svg {
+  border-radius: 50%;
+  transform: rotate(-90deg);
+}
+
+.budget-legend-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  flex: 1 1 0;
+  min-height: 0;
+}
+
+.budget-legend-item {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: var(--color-profond);
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--card-bg);
+  box-shadow:
+    inset 2px 2px 5px var(--shadow-dark),
+    inset -2px -2px 5px var(--shadow-light);
+}
+
+/* --- 5. OVERRIDES INPUTS & CUSTOM DROPDOWN --- */
+input[type='number'].soft-input::-webkit-inner-spin-button,
+input[type='number'].soft-input::-webkit-outer-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+input[type='number'].soft-input {
+  appearance: textfield !important;
+  -moz-appearance: textfield !important;
+}
+
+.budget-custom-select {
+  position: relative;
+  width: 100%;
+}
+
+.budget-select-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.budget-select-btn::after {
+  content: '';
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%238d7d77'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.budget-select-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 10px;
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow:
+    8px 8px 16px var(--shadow-dark),
+    -8px -8px 16px var(--shadow-light);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.budget-select-option {
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--color-profond);
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.budget-select-option:hover {
+  background: var(--bg-color);
+  box-shadow:
+    inset 4px 4px 8px var(--shadow-dark),
+    inset -4px -4px 8px var(--shadow-light);
+  color: var(--color-lilas-vif);
+}
+
+/* ==========================================================================
+   6. RESPONSIVE DESIGN (Calqué sur BentoView - 1350px)
+   ========================================================================== */
+@media (max-width: 1350px) {
+  .budget-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    min-height: 100%;
+    width: 90%;
+    margin: 0 auto;
+  }
+
+  .budget-main-card,
+  .budget-sidebar {
+    grid-column: 1 / 2;
+  }
+
+  .budget-sidebar {
+    gap: 3vh;
+  }
+
+  .budget-header-tabs {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .budget-forms-area {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .budget-history-area {
+    min-height: 350px;
+    flex: none;
+  }
+
+  /* --- LAYOUT WIDGET (1/3 Graphique - 2/3 Légende) --- */
+  .budget-widget-card {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-areas:
+      'title title'
+      'chart legend'
+      'totals legend';
+    align-items: center;
+    gap: 20px;
+    padding: 25px;
+    margin-bottom: 20px;
+    h3 {
+      grid-area: title;
+      margin-bottom: 0;
+      text-align: center;
+    }
+  }
+
+  .budget-chart-wrapper {
+    grid-area: chart;
+    margin: 0 auto;
+    gap: 10px;
+  }
+
+  .budget-total-display {
+    font-size: 1.3rem;
+  }
+
+  .budget-chart-container {
+    grid-area: chart;
+    margin: auto;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    max-width: 160px;
+  }
+
+  .budget-empty-msg {
+    margin: auto;
+  }
+
+  .budget-sidebar-totals {
+    grid-area: totals;
+    margin: 0;
+    max-width: 90%;
+  }
+
+  .budget-legend-area {
+    grid-area: legend;
+    max-height: 100%;
+  }
+}

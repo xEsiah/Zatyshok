@@ -1,0 +1,126 @@
+/* ==========================================================================
+   WRITE VIEW
+   ========================================================================== */
+[data-theme='him'] input:is([type='date'], [type='time'])::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+}
+
+input:is([type='date'], [type='time'])::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+}
+
+input:is([type='date'], [type='time'])::-webkit-calendar-picker-indicator:hover {
+  transform: scale(1.25);
+  transition: transform 0.2s;
+}
+
+.write-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 100%;
+  min-height: 100%;
+  height: auto;
+  padding-bottom: 2vh;
+  box-sizing: border-box;
+}
+
+/* La carte prend les dimensions du Bento */
+.write-grid {
+  width: 95%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5vw;
+  padding: 5vh 5vw !important;
+  border-radius: var(--radius-bento);
+  box-sizing: border-box;
+}
+
+/* Les 3 boutons (Goal, Event, Thought) */
+.category-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+/* Groupe Date & Heure */
+.date-group {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  align-items: flex-start;
+}
+
+.date-group .date {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date-group .hour {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.recurrence-group {
+  flex: 1.5;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.recurrence-group .date-label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.recurrence-group input[type='checkbox'] {
+  margin: 0;
+  width: 14px;
+  height: 14px;
+  accent-color: var(--color-profond);
+}
+
+.recurrence-group .soft-input {
+  width: 100%;
+}
+
+.date-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-lilas-doux);
+  padding-left: 5px;
+}
+
+.soft-textarea {
+  flex: 1;
+  width: 100%;
+  resize: none;
+  padding: 25px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+
+.write-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  margin-top: auto;
+}
+
+.write-actions .soft-btn,
+.write-actions .soft-btn-primary {
+  min-width: 140px;
+  padding: 12px 20px;
+  font-size: 1rem;
+}
