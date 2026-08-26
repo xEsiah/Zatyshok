@@ -57,5 +57,5 @@ npmRebuild: false
 publish:
   provider: github
   owner: xEsiah
-  repo: zatyshok-frontend
+  repo: Zatyshok
   releaseType: release
