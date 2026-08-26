@@ -1,0 +1,204 @@
+{
+  "password": {
+    "him": {
+      "subject": "Security Alert: Passkey Updated ⚡",
+      "title": "SECURITY PROTOCOL UPDATED",
+      "msg": "Your identity passkey has been successfully re-encrypted in the mainframe.",
+      "emoji": "🛡️",
+      "color": "#ffd31d",
+      "bg": "#0a0b10",
+      "text": "#eceff1"
+    },
+    "her": {
+      "subject": "Yay! Your key is updated ✨",
+      "title": "New Magic Key! 🎀",
+      "msg": "Your new password is now safely tucked away in your little drawer.",
+      "emoji": "💌",
+      "color": "#b174e8",
+      "bg": "#f4f1f8",
+      "text": "#462f5f"
+    },
+    "art": {
+      "subject": "Palette Updated 🎨",
+      "title": "Canvas Secured",
+      "msg": "The pigment access code for your studio has been successfully updated.",
+      "emoji": "🖼️",
+      "color": "#456b6f",
+      "bg": "#f4ebd9",
+      "text": "#4a2e2b"
+    },
+    "artFR": {
+      "subject": "Palette Mise à Jour 🎨",
+      "title": "Atelier Sécurisé",
+      "msg": "Le code d'accès de ton atelier a été mis à jour avec succès.",
+      "emoji": "🖌️",
+      "color": "#456b6f",
+      "bg": "#f4ebd9",
+      "text": "#4a2e2b"
+    },
+    "music": {
+      "subject": "Acoustic Tuning: Passkey Updated 🎵",
+      "title": "Studio Tuned",
+      "msg": "The access chord to your music space has been successfully updated.",
+      "emoji": "🎧",
+      "color": "#4a6fa5",
+      "bg": "#eef2f6",
+      "text": "#162938"
+    },
+    "musicFR": {
+      "subject": "Accordage Réussi : Mot de passe à jour 🎵",
+      "title": "Studio Accordé",
+      "msg": "L'accord d'accès à ton espace musical a été mis à jour avec succès.",
+      "emoji": "🎧",
+      "color": "#4a6fa5",
+      "bg": "#eef2f6",
+      "text": "#162938"
+    },
+    "default": {
+      "subject": "Password Changed Successfully",
+      "title": "Password Updated",
+      "msg": "Your account password has been changed successfully.",
+      "emoji": "🔐",
+      "color": "#8d7d77",
+      "bg": "#faf7f2",
+      "text": "#4e342e"
+    }
+  },
+  "release": {
+    "him": {
+      "subject": "System Update: Version {{version}} Live 🚀",
+      "title": "PATCH NOTES RECEIVED",
+      "msg": "A new version of the client ({{version}}) is ready. Simply launch or restart Zatyshok to apply the update.",
+      "btn": "LAUNCH APP",
+      "emoji": "⚙️",
+      "color": "#ffd31d",
+      "bg": "#0a0b10",
+      "text": "#eceff1"
+    },
+    "her": {
+      "subject": "New small update ! ✨ ({{version}})",
+      "title": "Looking great ! 🎀",
+      "msg": "A new version ({{version}}) is available. Just restart the app to enjoy it ! ✨",
+      "btn": "OPEN ZATYSHOK",
+      "emoji": "🌸",
+      "color": "#b174e8",
+      "bg": "#f4f1f8",
+      "text": "#462f5f"
+    },
+    "art": {
+      "subject": "New Pigments: Version {{version}} 🎨",
+      "title": "Studio Upgrade",
+      "msg": "The version {{version}} of your studio is ready. Restart the application to refresh your tools.",
+      "btn": "OPEN STUDIO",
+      "emoji": "🖼️",
+      "color": "#456b6f",
+      "bg": "#f4ebd9",
+      "text": "#4a2e2b"
+    },
+    "artFR": {
+      "subject": "Nouveaux Pigments : Version {{version}} 🎨",
+      "title": "Amélioration de l'Atelier",
+      "msg": "La version {{version}} de ton atelier est prête. Relance simplement l'application pour voir les changements.",
+      "btn": "OUVRIR L'ATELIER",
+      "emoji": "🖌️",
+      "color": "#456b6f",
+      "bg": "#f4ebd9",
+      "text": "#4a2e2b"
+    },
+    "music": {
+      "subject": "New Track: Version {{version}} 📻",
+      "title": "Mix Upgraded",
+      "msg": "The version {{version}} of your studio is ready. Restart the application to load the new stems.",
+      "btn": "PLAY ZATYSHOK",
+      "emoji": "📻",
+      "color": "#4a6fa5",
+      "bg": "#eef2f6",
+      "text": "#162938"
+    },
+    "musicFR": {
+      "subject": "Nouvelle Piste : Version {{version}} 📻",
+      "title": "Mix Amélioré",
+      "msg": "La version {{version}} de ton studio est prête. Relance l'application pour charger les nouvelles pistes.",
+      "btn": "LANCER ZATYSHOK",
+      "emoji": "📻",
+      "color": "#4a6fa5",
+      "bg": "#eef2f6",
+      "text": "#162938"
+    },
+    "default": {
+      "subject": "Zatyshok Update: {{version}} is here!",
+      "title": "New Version Available",
+      "msg": "A new release of Zatyshok ({{version}}) is available. Launch or restart the application to see the changes.",
+      "btn": "LAUNCH APP",
+      "emoji": "🚀",
+      "color": "#8d7d77",
+      "bg": "#faf7f2",
+      "text": "#4e342e"
+    }
+  },
+  "forgotPassword": {
+    "him": {
+      "subject": "Security Alert: Reset Protocol ⚡",
+      "title": "RESET PROTOCOL INITIATED",
+      "msg": "Here is your decryption key to reset your passkey:",
+      "emoji": "🛡️",
+      "color": "#ffd31d",
+      "bg": "#0a0b10",
+      "text": "#eceff1"
+    },
+    "her": {
+      "subject": "Oops! Forgot your key? ✨",
+      "title": "Magic Reset Key! 🎀",
+      "msg": "Don't worry, here is the magic code to get a new one:",
+      "emoji": "💌",
+      "color": "#b174e8",
+      "bg": "#f4f1f8",
+      "text": "#462f5f"
+    },
+    "art": {
+      "subject": "Palette Access Code 🎨",
+      "title": "Canvas Reset",
+      "msg": "Here is the new pigment access code to unlock your studio:",
+      "emoji": "🖼️",
+      "color": "#456b6f",
+      "bg": "#f4ebd9",
+      "text": "#4a2e2b"
+    },
+    "artFR": {
+      "subject": "Code d'Accès Palette 🎨",
+      "title": "Réinitialisation de l'Atelier",
+      "msg": "Voici le code pour déverrouiller ton atelier :",
+      "emoji": "🖌️",
+      "color": "#456b6f",
+      "bg": "#f4ebd9",
+      "text": "#4a2e2b"
+    },
+    "music": {
+      "subject": "Tuning Fork: Reset Protocol 🎶",
+      "title": "Beat Reset",
+      "msg": "Here is the rhythm code to unlock your frequency:",
+      "emoji": "🎹",
+      "color": "#4a6fa5",
+      "bg": "#eef2f6",
+      "text": "#162938"
+    },
+    "musicFR": {
+      "subject": "Diapason : Protocole de Réinitialisation 🎶",
+      "title": "Réinitialisation du Rythme",
+      "msg": "Voici le code rythmique pour déverrouiller ta fréquence :",
+      "emoji": "🎹",
+      "color": "#4a6fa5",
+      "bg": "#eef2f6",
+      "text": "#162938"
+    },
+    "default": {
+      "subject": "Reset of your password",
+      "title": "Password Reset",
+      "msg": "Your expirable reset code :",
+      "emoji": "🔐",
+      "color": "#8d7d77",
+      "bg": "#faf7f2",
+      "text": "#4e342e"
+    }
+  }
+}

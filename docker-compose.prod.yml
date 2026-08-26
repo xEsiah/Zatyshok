@@ -1,0 +1,64 @@
+name: zatyshok-prod
+
+services:
+  db:
+    image: mariadb:10.11
+    container_name: zatyshok-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ../zatyshok-db-data:/var/lib/mysql
+    networks:
+      - app-network
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "mysqladmin ping -h localhost -u root -p$$MARIADB_ROOT_PASSWORD",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./backend
+      args:
+        USER_ID: ${USER_ID:-1000}
+        GROUP_ID: ${GROUP_ID:-1000}
+    image: zatyshok-backend:latest
+    container_name: zatyshok-backend
+    restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - ./backend/uploads:/app/uploads
+    networks:
+      - app-network
+
+  tunnel:
+    image: cloudflare/cloudflared:latest
+    container_name: app-tunnel
+    restart: always
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate run
+    depends_on:
+      - backend
+    networks:
+      - app-network
+      - shared-network
+
+networks:
+  app-network:
+  shared-network:
+    external: true

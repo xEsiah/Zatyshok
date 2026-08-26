@@ -1,0 +1,21 @@
+name: CD - Deploy to Home Server
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "backend/**"
+      - "docker-compose.prod.yml"
+      - "Makefile"
+
+jobs:
+  deploy_on_home_server:
+    runs-on: self-hosted
+    steps:
+      - name: Deploy with Docker Compose
+        run: |
+          cd /home/zatyshok/Zatyshok
+          git pull origin main
+          make prod
+          docker image prune -f

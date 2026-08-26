@@ -1,0 +1,276 @@
+/* ==========================================================================
+   BENTO VIEW
+   ========================================================================== */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-template-rows: 1fr;
+  gap: 2.5vw;
+  width: 95%;
+  height: 100%;
+  min-height: 100%;
+  padding-bottom: 2vh;
+  box-sizing: border-box;
+}
+
+.main-card {
+  grid-column: 1 / 2;
+  padding: 0vh 3vw;
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.sidebar {
+  grid-column: 2 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+.header-area {
+  text-align: left;
+  width: 90%;
+  font-size: 1.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: flex-start;
+  min-height: 15%;
+}
+
+.header-area h2 {
+  margin: 0;
+}
+
+.api-slider-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  min-height: 24vh;
+  box-sizing: border-box;
+}
+
+.api-content-box {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.api-icon {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.api-value {
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 5px 0;
+}
+
+.api-label {
+  color: var(--color-lilas-doux);
+  font-size: 0.8rem;
+}
+
+.api-nav-side-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: none;
+  background: var(--card-bg);
+  color: var(--color-lilas-vif);
+  box-shadow:
+    2px 2px 5px var(--shadow-dark),
+    -2px -2px 5px var(--shadow-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  z-index: 10;
+  transition: all 0.2s;
+  padding-bottom: 2px;
+}
+
+.api-nav-side-btn:hover {
+  background: var(--color-rose-poudre);
+  color: white;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+}
+.api-icon-text {
+  position: relative;
+  z-index: 2;
+  font-size: 1.8rem;
+}
+.api-nav-side-btn.left {
+  left: 10px;
+}
+.api-nav-side-btn.right {
+  right: 10px;
+}
+
+/* Points en bas du widget */
+.api-dots-absolute {
+  position: absolute;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 6px;
+}
+
+.api-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--shadow-dark);
+  transition: 0.3s;
+}
+
+.api-dot.active {
+  background: var(--color-lilas-vif);
+}
+
+/* - Spécifique Spotify - */
+.spotify-widget-visual {
+  width: 75px;
+  height: 75px;
+  border-radius: 15px;
+  box-shadow:
+    4px 4px 10px var(--shadow-dark),
+    -4px -4px 10px var(--shadow-light);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+}
+
+.album-cover {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 2. LES CONTROLES */
+.spotify-controls {
+  margin-bottom: 5px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.ctrl-btn {
+  background: none;
+  border: none;
+  font-size: 1.1rem;
+  padding: 5px;
+  transition: transform 0.1s;
+  color: var(--color-profond);
+}
+
+.ctrl-btn:hover {
+  transform: scale(1.2);
+}
+
+.main-play {
+  font-size: 1.4rem;
+}
+
+/* 3. LES DÉTAILS TEXTE */
+.spotify-text-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 100%;
+  overflow: hidden;
+  text-align: center;
+}
+
+.spotify-artist {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--color-lilas-vif);
+}
+
+.track-info-scroll-container {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.track-info-scroll {
+  display: inline-block;
+  font-size: 0.85rem;
+  opacity: 0.8;
+  font-weight: 500;
+  animation: scrollText 10s linear infinite;
+}
+
+/* 4. LE BOUTON CONNECT */
+.soft-btn-mini {
+  min-width: 100%;
+  font-size: 0.8rem;
+  border-radius: 20px;
+  background: var(--color-lilas-doux);
+  border: none;
+  color: white;
+}
+
+.spotify-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.switch-view-daily {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 50px;
+  height: 50px;
+  font-size: 1.5em;
+  z-index: 10;
+}
+
+.switch-view-daily:hover {
+  background-color: var(--color-rose-poudre);
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@media (max-width: 1350px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    height: auto;
+    width: 90%;
+  }
+  .sidebar {
+    grid-column: 1 / 2;
+    gap: 3vh;
+  }
+  .widget-card {
+    margin-bottom: 20px;
+  }
+}

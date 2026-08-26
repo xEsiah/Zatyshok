@@ -1,0 +1,72 @@
+/* ==========================================================================
+   LOGIN & AUTHENTIFICATION
+   ========================================================================== */
+.login-container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-color);
+}
+
+.login-card {
+  width: 90vw;
+  max-width: 400px;
+  padding: 5vh 5vw;
+  text-align: center;
+}
+
+.login-header h1 {
+  margin: 0;
+  color: var(--color-profond);
+  font-size: 2rem;
+}
+
+.login-header p {
+  color: var(--color-lilas-doux);
+  margin-bottom: 30px;
+  font-weight: 500;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.input-group {
+  text-align: left;
+}
+
+.login-submit {
+  margin-top: 10px;
+  width: 100%;
+  padding: 15px !important;
+  font-size: 1rem;
+}
+
+.login-error {
+  color: #e74c3c;
+  font-size: 0.85rem;
+  margin: 0;
+  font-weight: 600;
+}
+
+.logout-button {
+  -webkit-app-region: no-drag;
+  background: transparent;
+  border: 1px solid var(--color-lilas-doux);
+  color: var(--color-lilas-doux);
+  border-radius: 8px;
+  font-size: 0.7rem;
+  margin-left: 15px;
+  margin-right: auto;
+  transition: all 0.2s;
+}
+
+.logout-button:hover {
+  background: var(--color-lilas-vif);
+  color: white;
+  border-color: var(--color-lilas-vif);
+}
