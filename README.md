@@ -41,30 +41,29 @@ This project is structured as a monorepo containing both the desktop frontend an
 ### Quick Start (Makefile)
 
 - `make dev`: Launches the local infrastructure (MariaDB and Backend via Docker) and starts the frontend development server.
-- `make prod`: Launches the production infrastructure with the Cloudflare tunnel.
-- `make clean`: Stops and removes all containers.
+- `make prod`: Builds and launches the production infrastructure with the Cloudflare tunnel.
+- `make clean`: Stops and removes all dev and prod containers.
 - `make seed`: Initializes the database with structure and default data.
 
-### Backend Development in SSH
+### Backend Development
 
-To recompile sources and recreate the backend container without affecting the database or stopping the Cloudflare tunnel:
+To recompile sources and recreate the backend container:
 
 - `make backend`
 
 ### Container Management
 
-- `make ps`: View container status
+- `make ps`: View container status for both environments
 - `make logs`: View backend logs in real-time
 - `make restart`: Restart the Node.js API process
 - `make down`: Stop all infrastructure cleanly
-- `make up`: Start all infrastructure in the background
+- `make up`: Start development infrastructure in the background
 
 ### Database Management
 
 The database runs in isolation and stores persistent data in `./zatyshok-db-data`.
 
 - `make db-shell`: Connect to MariaDB CLI (Root access)
-
 - `make reset-db`: Complete database reset (Caution: deletes all data)
 
 ---
