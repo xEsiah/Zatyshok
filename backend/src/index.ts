@@ -71,7 +71,7 @@ const PORT = process.env.PORT || 3000;
 app.get("/", async (req, res) => {
   const release = await getLatestReleaseInfo();
   const downloadUrl =
-    release?.url || "https://github.com/xEsiah/Zatyshok/releases";
+    release?.url || "https://github.com/xEsiah/zatyshok-frontend/releases";
   const version = release?.version || "latest";
 
   res.send(`
