@@ -2,8 +2,7 @@ import db from "../config/db.js";
 import { transporter } from "../routes/auth.js";
 import { getReleaseEmailTemplate } from "../routes/user.js";
 
-const GITHUB_REPO = "xEsiah/zatyshok-frontend";
-const GITHUB_API_URL = `https://api.github.com/repos/${GITHUB_REPO}/releases/latest`;
+const GITHUB_API_URL = `https://api.github.com/repos/xEsiah/Zatyshok/releases/latest`;
 
 let lastReleaseCache: { version: string; url: string } | null = null;
 

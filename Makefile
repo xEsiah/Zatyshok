@@ -1,7 +1,9 @@
 COMPOSE_DEV=docker compose -f docker-compose.yml
 COMPOSE_PROD=docker compose -f docker-compose.prod.yml
 
-.PHONY: build network dev prod clean seed backend ps logs restart down up db-shell reset-db
+.PHONY: dev-up dev-down dev-build dev-logs dev-restart dev-backend
+.PHONY: prod-up prod-down prod-build prod-logs prod-restart
+.PHONY: network clean ps seed db-shell reset-db
 
 export USER_ID := $(shell id -u)
 export GROUP_ID := $(shell id -g)
@@ -15,47 +17,56 @@ endif
 network:
 	@docker network inspect shared-network >/dev/null 2>&1 || docker network create shared-network
 
-build:
-	$(COMPOSE_DEV) build --build-arg USER_ID=$(USER_ID) --build-arg GROUP_ID=$(GROUP_ID)
+# --- Dev ---
+dev-build:
+	$(COMPOSE_DEV) build
 
-dev: network build
+dev-up: network dev-build
 	$(COMPOSE_DEV) up -d
-	cd frontend && npm run dev
 
-prod: network
-	$(COMPOSE_PROD) build --build-arg USER_ID=$(USER_ID) --build-arg GROUP_ID=$(GROUP_ID)
-	$(COMPOSE_PROD) up -d --build
+dev-down:
+	$(COMPOSE_DEV) down
+
+dev-logs:
+	$(COMPOSE_DEV) logs -f
+
+dev-restart:
+	$(COMPOSE_DEV) restart backend
+
+dev-backend:
+	$(COMPOSE_DEV) up -d --build backend
+
+# --- Prod (app only, no proxy) ---
+prod-build: network
+	$(COMPOSE_PROD) build
+
+prod-up: network prod-build
+	$(COMPOSE_PROD) up -d
+
+prod-down:
+	$(COMPOSE_PROD) down
+
+prod-logs:
+	$(COMPOSE_PROD) logs -f
+
+prod-restart:
+	$(COMPOSE_PROD) restart
+
+# --- Utils ---
+ps:
+	$(COMPOSE_DEV) ps
+	$(COMPOSE_PROD) ps
 
 clean:
 	$(COMPOSE_DEV) down --remove-orphans
 	$(COMPOSE_PROD) down --remove-orphans
 
-seed: 
-	docker exec -i zatyshok-db mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < backend/init.sql
-	docker exec -i zatyshok-db mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < backend/datas.sql
-
-backend:
-	$(COMPOSE_DEV) up -d --build backend
-
-ps:
-	$(COMPOSE_DEV) ps
-	$(COMPOSE_PROD) ps
-
-logs:
-	$(COMPOSE_DEV) logs backend -f
-
-restart:
-	$(COMPOSE_DEV) restart backend
-
-down:
-	$(COMPOSE_DEV) down
-	$(COMPOSE_PROD) down
-
-up:
-	$(COMPOSE_DEV) up -d
+seed:
+	docker exec -i zatyshok-db-dev mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < init.sql
+	docker exec -i zatyshok-db-dev mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < datas.sql
 
 db-shell:
-	docker exec -it zatyshok-db mariadb -u root -p
+	docker exec -it zatyshok-db-dev mariadb -u root -p
 
 reset-db:
 	$(COMPOSE_DEV) down

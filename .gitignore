@@ -144,7 +144,7 @@ vite.config.ts.timestamp-*
 .vite/
 
 # Others
-dump.sql
+datas.sql
 nginx/
 certbot/
 backend/uploads/profiles/profile-*
