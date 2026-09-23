@@ -17,5 +17,5 @@ jobs:
         run: |
           cd /home/esiahdmin/apps/zatyshok/Zatyshok
           git pull origin main
-          make prod
+          make prod-up
           docker image prune -f
