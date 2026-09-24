@@ -29,6 +29,7 @@ app.use(
           "http://localhost:5173",
           "http://localhost:5174",
           "https://api-zatyshok.esiah.dev",
+          "https://zatyshok.esiah.dev",
         ].includes(origin)
       ) {
         callback(null, true);

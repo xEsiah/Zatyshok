@@ -1,8 +1,8 @@
-import '../assets/DailyView.css'
 import { JSX, useEffect, useState, useCallback } from 'react'
 import { api, CalendarEntry } from '../services'
 import { useModal } from './ModalContext'
 import { useUser } from './UserContext'
+import { AudioPlayer } from './AudioPlayer'
 
 export function DailyView(): JSX.Element {
   const [planning, setPlanning] = useState<CalendarEntry[]>([])
@@ -130,9 +130,9 @@ export function DailyView(): JSX.Element {
   }
 
   return (
-    <div className="daily-layout">
-      <div className="planner-scroll-area">
-        <h2 className="main-title">{t.daily.upcoming}</h2>
+    <div className="flex h-full min-h-full flex-col">
+      <div className="flex-1 min-h-0 flex flex-col">
+        <h2 className="m-0">{t.daily.upcoming}</h2>
         <small>
           {t.daily.todayIs} {prettyDate}
         </small>
@@ -140,30 +140,33 @@ export function DailyView(): JSX.Element {
         {loading ? (
           <p>{t.daily.loading}</p>
         ) : planning.length === 0 ? (
-          <p className="empty-state">{t.daily.nothingPlanned}</p>
+          <p className="mt-5 text-center italic opacity-60">{t.daily.nothingPlanned}</p>
         ) : (
-          <div className="planner-list">
+          <div className="flex flex-col gap-[8px] mt-[10px] min-h-0 flex-1 overflow-y-auto px-[10px] pb-[25px] pt-0">
             <small>
               {t.daily.plannerTitle} ({planning.length})
             </small>
             {planning.map((entry) => {
               const entryDate = normalizeDate(entry.date)
               return (
-                <div key={entry.id} className="soft-ui planner-item">
-                  <span className="planner-icon">
+                <div
+                  key={entry.id}
+                  className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-[16px] transition-all duration-300 flex items-center gap-[12px] flex-shrink-0 min-h-[90px] p-[15px] box-border shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-transform duration-200 hover:scale-[1.01]"
+                >
+                  <span className="text-[1.2rem]">
                     {entry.category === 'goal' ? t.daily.iconGoal : t.daily.iconEvent}
                   </span>
-                  <div className="planner-item-content">
+                  <div className="flex-1">
                     {editingId === entry.id ? (
-                      <div className="edit-inline-form">
+                      <div className="flex flex-row items-center justify-around gap-[12px] font-bold text-[1.3rem] w-full">
                         <input
-                          className="planner-edit-input"
+                          className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border w-[25%]"
                           value={editText}
                           onChange={(e) => setEditText(e.target.value)}
                         />
                         <input
                           type="date"
-                          className="planner-edit-input"
+                          className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border w-[25%]"
                           value={editDate}
                           onChange={(e) => setEditDate(e.target.value)}
                         />
@@ -178,8 +181,8 @@ export function DailyView(): JSX.Element {
                           <option value="event">{t.daily.iconEvent} Event</option>
                           <option value="note">📌 Note</option>
                         </select>
-                        <div className="planner-recurrence-wrapper">
-                          <label className="planner-recurrence-label">
+                        <div className="flex w-[20%] flex-col items-start gap-[6px] mt-0">
+                          <label className="flex flex-row items-center gap-[6px] text-[0.75rem] cursor-pointer text-left whitespace-nowrap">
                             <input
                               type="checkbox"
                               checked={editIsRecurring}
@@ -188,7 +191,7 @@ export function DailyView(): JSX.Element {
                             {t.daily.recurring}
                           </label>
                           <select
-                            className="planner-edit-select"
+                            className="planner-edit-select w-full"
                             value={editRecurrenceRule}
                             onChange={(e) => setEditRecurrenceRule(e.target.value)}
                             disabled={!editIsRecurring}
@@ -202,9 +205,14 @@ export function DailyView(): JSX.Element {
                       </div>
                     ) : (
                       <>
-                        <span className="planner-text">{entry.text}</span>
+                        <span className="font-semibold [word-break:break-word] leading-[1.3] block w-full">
+                          {entry.text}
+                        </span>
+                        {entry.entry_type === 'audio' && entry.media_url && (
+                          <AudioPlayer src={entry.media_url} compact />
+                        )}
                         {entryDate !== todayStr && (
-                          <small className="planner-date-small">
+                          <small className="block text-[0.8rem] opacity-80 m-0">
                             {t.daily.for}:{' '}
                             {new Date(entry.date!).toLocaleDateString('en-GB', {
                               day: 'numeric',
@@ -219,14 +227,30 @@ export function DailyView(): JSX.Element {
                     )}
                   </div>
                   {editingId === entry.id ? (
-                    <div className="planner-actions">
-                      <button onClick={handleSaveEdit}>✔️</button>
-                      <button onClick={() => setEditingId(null)}>✖️</button>
+                    <div className="invisible group-hover:visible flex flex-col gap-[10px]">
+                      <button
+                        className="not-italic text-[var(--color-profond)] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
+                        onClick={handleSaveEdit}
+                      >
+                        ✔️
+                      </button>
+                      <button
+                        className="not-italic text-[var(--color-profond)] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
+                        onClick={() => setEditingId(null)}
+                      >
+                        ✖️
+                      </button>
                     </div>
                   ) : (
-                    <div className="planner-actions">
-                      <button onClick={() => handleStartEdit(entry)}>🖊️</button>
+                    <div className="invisible group-hover:visible flex flex-col gap-[10px]">
                       <button
+                        className="not-italic text-[var(--color-profond)] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
+                        onClick={() => handleStartEdit(entry)}
+                      >
+                        🖊️
+                      </button>
+                      <button
+                        className="not-italic text-[var(--color-profond)] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
                         onClick={(e) => {
                           e.stopPropagation()
                           handleDeleteEntry(entry.id)
@@ -242,44 +266,49 @@ export function DailyView(): JSX.Element {
             })}
           </div>
         )}
-      </div>
 
-      {thoughts.length > 0 && (
-        <div className="post-it-area">
-          <small>
-            {t.daily.notesTitle} ({thoughts.length})
-          </small>
-          <div className="post-it-scroll-container">
-            <div className="post-it-grid">
+        {thoughts.length > 0 && (
+          <div className="flex-none mt-[15px] mb-[15px] border-t-2 border-dashed [border-top-color:rgba(255,255,255,0.5)] max-h-[180px] w-full">
+            <small>
+              {t.daily.notesTitle} ({thoughts.length})
+            </small>
+          <div className="w-full overflow-x-auto [scroll-behavior:smooth] pt-[40px]! -mt-[30px]! [&::-webkit-scrollbar]:h-[4px]">
+            <div className="flex flex-nowrap gap-[5px] w-full items-start pb-[10px] overflow-visible! h-auto! after:content-[''] after:flex-[0_0_1px] after:h-[1px]">
               {thoughts.map((note) => {
                 const isEditing = editingId === note.id
                 const len = note.text.length
-                const dynamicFontSize =
+                const dynamicFontCls =
                   len > 90
-                    ? '0.75rem'
+                    ? 'text-[0.75rem]'
                     : len > 75
-                      ? '0.80rem'
+                      ? 'text-[0.80rem]'
                       : len > 60
-                        ? '0.85rem'
+                        ? 'text-[0.85rem]'
                         : len > 45
-                          ? '0.90rem'
+                          ? 'text-[0.90rem]'
                           : len > 30
-                            ? '0.95rem'
+                            ? 'text-[0.95rem]'
                             : len > 15
-                              ? '1.05rem'
-                              : '1.2rem'
+                              ? 'text-[1.05rem]'
+                              : 'text-[1.2rem]'
                 return (
-                  <div key={note.id} className="post-it">
-                    <div className="post-it-pin">📍</div>
+                  <div
+                    key={note.id}
+                    className="group relative flex flex-col w-[140px] min-w-[140px] h-[120px] p-[10px] ml-[5px] rounded-[2px_2px_15px_2px] shadow-[3px_3px_6px_rgba(0,0,0,0.2)] italic rotate-[-1deg] odd:rotate-[-0.5deg] odd:bg-[var(--postit-bg-odd)] odd:text-[var(--postit-text-odd)] even:rotate-[1.5deg] even:bg-[var(--postit-bg-even)] even:text-[var(--postit-text-even)] transition-transform duration-200 hover:scale-[1.05] hover:z-10 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[15px] after:bg-[linear-gradient(transparent,rgba(0,0,0,0.36))] after:pointer-events-none after:rounded-[2px_2px_15px_2px]"
+                  >
+                    <div className="absolute -translate-x-1/2 text-[1.5rem] group-odd:top-[-15%] group-odd:left-[60%] group-even:top-[-17%] group-even:left-[20%]">
+                      📍
+                    </div>
 
                     {isEditing ? (
-                      <div className="edit-post-it-content">
+                      <div className="flex flex-col gap-[10px] w-full h-full">
                         <input
-                          className="soft-input-mini"
+                          className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border"
                           value={editText}
                           onChange={(e) => setEditText(e.target.value)}
                         />
                         <select
+                          className="p-[10px_14px] rounded-[8px] cursor-pointer font-medium transition-all duration-200 bg-[var(--bg-color)] text-[var(--color-profond)] shadow-[inset_4px_4px_8px_var(--shadow-dark),inset_-4px_-4px_8px_var(--shadow-light)] [&_option]:bg-[var(--bg-color)] [&_option]:font-medium"
                           value={editCategory}
                           onChange={(e) =>
                             setEditCategory(e.target.value as 'goal' | 'event' | 'note')
@@ -290,14 +319,24 @@ export function DailyView(): JSX.Element {
                           <option value="note">📌 Note</option>
                         </select>
                         <div>
-                          <button onClick={handleSaveEdit}>✔️</button>
-                          <button onClick={() => setEditingId(null)}>✖️</button>
+                          <button
+                            className="w-1/2 not-italic font-bold text-[var(--color-profond)] [text-shadow:0_0_1px_#00000078] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
+                            onClick={handleSaveEdit}
+                          >
+                            ✔️
+                          </button>
+                          <button
+                            className="w-1/2 not-italic font-bold text-[var(--color-profond)] [text-shadow:0_0_1px_#00000078] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
+                            onClick={() => setEditingId(null)}
+                          >
+                            ✖️
+                          </button>
                         </div>
                       </div>
                     ) : (
                       <>
                         <button
-                          className="post-it-close"
+                          className="invisible group-hover:visible absolute bottom-[2px] bg-none border-none font-bold text-[1rem] p-0 left-[1px] not-italic [text-shadow:0_0_1px_#00000078] transition-transform duration-200 hover:scale-[1.3]"
                           onClick={(e) => {
                             e.stopPropagation()
                             handleDeleteEntry(note.id)
@@ -306,12 +345,17 @@ export function DailyView(): JSX.Element {
                         >
                           🗑️
                         </button>
-                        <div className="post-it-content" style={{ fontSize: dynamicFontSize }}>
+                        <div
+                          className={`flex-1 overflow-y-auto min-h-0 flex flex-col items-center justify-around text-center [word-break:keep-all] leading-[1.2] p-[3px] [scroll-behavior:smooth] [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-[10px] group-odd:[&::-webkit-scrollbar-thumb]:bg-[var(--color-lilas-doux)] group-even:[&::-webkit-scrollbar-thumb]:bg-[var(--color-rose-poudre)] ${dynamicFontCls}`}
+                        >
                           <span>{note.text}</span>
+                          {note.entry_type === 'audio' && note.media_url && (
+                            <AudioPlayer src={note.media_url} compact />
+                          )}
                           <button
                             onClick={() => handleStartEdit(note)}
                             title="Modifier"
-                            className="post-it-edit"
+                            className="invisible group-hover:visible absolute bottom-[2px] bg-none border-none font-bold text-[1rem] p-0 right-[1px] not-italic [text-shadow:0_0_1px_#00000078] transition-transform duration-200 hover:scale-[1.3]"
                           >
                             🖊️
                           </button>
@@ -325,6 +369,7 @@ export function DailyView(): JSX.Element {
           </div>
         </div>
       )}
+      </div>
     </div>
   )
 }

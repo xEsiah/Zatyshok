@@ -1,9 +1,9 @@
 COMPOSE_DEV=docker compose -f docker-compose.yml
 COMPOSE_PROD=docker compose -f docker-compose.prod.yml
 
-.PHONY: dev-up dev-down dev-build dev-logs dev-restart dev-backend
+.PHONY: dev-up dev-down dev-build dev-logs dev-restart dev-backend dev-front
 .PHONY: prod-up prod-down prod-build prod-logs prod-restart
-.PHONY: network clean ps seed db-shell reset-db
+.PHONY: network clean ps seed db-shell reset-db release
 
 export USER_ID := $(shell id -u)
 export GROUP_ID := $(shell id -g)
@@ -23,9 +23,14 @@ dev-build:
 
 dev-up: network dev-build
 	$(COMPOSE_DEV) up -d
+	$(MAKE) -s dev-front &
 
 dev-down:
 	$(COMPOSE_DEV) down
+
+dev-front:
+	pkill -f "electron-vite dev" 2>/dev/null || true
+	cd frontend && npm run dev
 
 dev-logs:
 	$(COMPOSE_DEV) logs -f
@@ -63,13 +68,17 @@ clean:
 
 seed:
 	docker exec -i zatyshok-db-dev mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < init.sql
-	docker exec -i zatyshok-db-dev mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < datas.sql
-
+	(echo "SET FOREIGN_KEY_CHECKS=0;" && cat datas.sql && echo "SET FOREIGN_KEY_CHECKS=1;") | docker exec -i zatyshok-db-dev mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME)
 db-shell:
 	docker exec -it zatyshok-db-dev mariadb -u root -p
 
 reset-db:
 	$(COMPOSE_DEV) down
-	$(COMPOSE_PROD) down
 	sudo rm -rf ./zatyshok-db-data
 	$(COMPOSE_DEV) up -d
+	@echo "Attente de l'initialisation de MariaDB (15s)..."
+	@sleep 15
+	$(MAKE) seed
+
+release:
+	gh workflow run deploy.yml

@@ -1,8 +1,40 @@
 import { Router, Request, Response } from "express";
 import auth from "../middlewares/auth.js";
 import db from "../config/db.js";
+import multer from "multer";
+import path from "path";
+import fs from "fs/promises";
+import { existsSync } from "fs";
 
 const router = Router();
+
+const audioStorage = multer.diskStorage({
+  destination: (_req, _file, cb) => {
+    cb(null, "uploads/audio/");
+  },
+  filename: (_req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    const ext = path.extname(file.originalname) || ".webm";
+    cb(null, "audio-" + uniqueSuffix + ext);
+  },
+});
+
+const uploadAudio = multer({
+  storage: audioStorage,
+  limits: { fileSize: 25 * 1024 * 1024 },
+});
+
+const AUDIO_DIR = path.resolve("uploads/audio");
+
+const deleteAudioFile = async (mediaUrl: string | null) => {
+  if (!mediaUrl || !mediaUrl.startsWith("uploads/audio/")) return;
+  const fullPath = path.resolve(mediaUrl);
+  if (!fullPath.startsWith(AUDIO_DIR + path.sep)) return;
+  if (!existsSync(fullPath)) return;
+  await fs
+    .unlink(fullPath)
+    .catch((err) => console.error("Délétion ratée:", err));
+};
 
 router.get("/", auth, async (req: Request, res: Response) => {
   try {
@@ -101,6 +133,17 @@ router.post("/", auth, async (req: Request, res: Response) => {
   }
 });
 
+router.post(
+  "/upload-audio",
+  auth,
+  uploadAudio.single("audio"),
+  async (req: any, res: Response) => {
+    if (!req.file) return res.status(400).json({ error: "No file uploaded" });
+
+    res.json({ mediaUrl: `uploads/audio/${req.file.filename}` });
+  },
+);
+
 router.patch("/:id", auth, async (req: Request, res: Response) => {
   const { id } = req.params;
   const {
@@ -124,6 +167,8 @@ router.patch("/:id", auth, async (req: Request, res: Response) => {
     }
 
     const current = existing[0];
+    const mediaUrlChanged =
+      media_url !== undefined && media_url !== current.media_url;
 
     await db.execute(
       "UPDATE calendar_entries SET text = ?, date = ?, moment = ?, category = ?, entry_type = ?, media_url = ?, is_recurring = ?, recurrence_rule = ? WHERE id = ? AND user_id = ?",
@@ -142,6 +187,11 @@ router.patch("/:id", auth, async (req: Request, res: Response) => {
         req.user.id,
       ],
     );
+
+    if (mediaUrlChanged) {
+      await deleteAudioFile(current.media_url);
+    }
+
     res.json({ success: true });
   } catch (err) {
     res.status(500).json({ error: "Database error" });
@@ -151,16 +201,23 @@ router.patch("/:id", auth, async (req: Request, res: Response) => {
 router.delete("/:id", auth, async (req: Request, res: Response) => {
   const { id } = req.params;
   try {
-    const [result]: any = await db.execute(
-      "DELETE FROM calendar_entries WHERE id = ? AND user_id = ?",
+    const [rows]: any = await db.query(
+      "SELECT media_url FROM calendar_entries WHERE id = ? AND user_id = ?",
       [id, req.user.id],
     );
 
-    if (result.affectedRows === 0) {
+    if (rows.length === 0) {
       return res
         .status(404)
         .json({ error: "Ressource non trouvée ou non autorisée" });
     }
+
+    await db.execute("DELETE FROM calendar_entries WHERE id = ? AND user_id = ?", [
+      id,
+      req.user.id,
+    ]);
+
+    await deleteAudioFile(rows[0].media_url);
 
     res.json({ success: true });
   } catch (err) {

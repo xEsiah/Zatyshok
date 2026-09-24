@@ -8,7 +8,9 @@ const router = Router();
 const spotifyApi = new SpotifyWebApi({
   clientId: process.env.SPOTIFY_CLIENT_ID,
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
-  redirectUri: "https://api-zatyshok.esiah.dev/spotify/callback",
+  redirectUri:
+    process.env.SPOTIFY_REDIRECT_URI ??
+    "https://zatyshok.esiah.dev/spotify/callback",
 });
 
 const spotifyScopes: string[] = [
@@ -18,13 +20,24 @@ const spotifyScopes: string[] = [
   "streaming",
 ];
 
-router.get("/login", auth, async (req: Request, res: Response) => {
+router.get("/login/:username", async (req: Request, res: Response) => {
   try {
+    const { username } = req.params;
+
+    const [users]: any = await db.query(
+      "SELECT id FROM users WHERE username = ?",
+      [username],
+    );
+
+    if (users.length === 0) {
+      return res.status(404).send("Utilisateur inconnu.");
+    }
+
     const state = crypto.randomBytes(16).toString("hex");
 
     await db.execute("UPDATE users SET spotify_state = ? WHERE id = ?", [
       state,
-      req.user.id,
+      users[0].id,
     ]);
 
     const authorizeURL = spotifyApi.createAuthorizeURL(spotifyScopes, state);
@@ -104,7 +117,24 @@ async function executeSpotify(
 
         userSpotifyApi.setAccessToken(newAccess);
         return await action(userSpotifyApi);
-      } catch (refreshErr) {
+      } catch (refreshErr: any) {
+        const revoked =
+          refreshErr.statusCode === 400 &&
+          /invalid_grant|expired_token|revoked/i.test(
+            JSON.stringify(
+              refreshErr.body ?? refreshErr.message ?? refreshErr,
+            ),
+          );
+        if (revoked) {
+          await db.query(
+            "UPDATE users SET spotify_access_token = NULL, spotify_refresh_token = NULL WHERE id = ?",
+            [req.user.id],
+          );
+          return Promise.reject({
+            statusCode: 403,
+            message: "Spotify non lié.",
+          });
+        }
         throw refreshErr;
       }
     }

@@ -96,7 +96,13 @@
     "savedTitle": "Recorded! ✨",
     "savedMsg": "Your track has been added to the album.",
     "errorTitle": "Mic error",
-    "errorMsg": "Failed to save the track."
+    "errorMsg": "Failed to save the track.",
+    "audioRecord": "🎙️ Record a take",
+    "audioStop": "⏹ Cut it",
+    "audioRemove": "✖ Erase take",
+    "audioErrorTitle": "Dead mic",
+    "audioErrorMsg": "Microphone not found on this console.",
+    "audioUploading": "Mastering the take..."
   },
   "bento": {
     "weather": "Acoustics",
@@ -167,6 +173,16 @@
     "changePasswordTitle": "Change Passcode 🎸",
     "oldPassword": "Current Passcode 🔑",
     "passwordSuccess": "Passcode updated! 🎵",
-    "passwordMismatch": "Passcodes do not match."
+    "passwordMismatch": "Passcodes do not match.",
+    "micPermissionTitle": "Mic Access",
+    "micPermissionHint": "Set how the console handles microphone access. The choice is remembered.",
+    "micAsk": "Ask each take",
+    "micAllow": "Open",
+    "micDeny": "Mute"
+  },
+  "notif": {
+    "title": "Release Notes",
+    "new": "NEW",
+    "empty": "No tracks released yet."
   }
 }

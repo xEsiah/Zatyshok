@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, dialog, ipcMain, screen } from 'electron'
+import { app, shell, BrowserWindow, dialog, ipcMain, screen, session } from 'electron'
 import path, { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -121,6 +121,52 @@ app.whenReady().then(() => {
   }
 
   electronApp.setAppUserModelId('com.zatyshok.app')
+
+  const readMicPermission = (): string =>
+    (store.get('micPermission') as string | undefined) ?? 'ask'
+
+  session.defaultSession.setPermissionCheckHandler((_webContents, permission) => {
+    if (permission !== 'media') return true
+    const micChoice = readMicPermission()
+    console.log('[PERMISSION] check media ->', micChoice)
+    return micChoice !== 'deny'
+  })
+
+  session.defaultSession.setPermissionRequestHandler((_webContents, permission, callback) => {
+    if (permission !== 'media') {
+      callback(true)
+      return
+    }
+
+    const micChoice = readMicPermission()
+    console.log('[PERMISSION] request media ->', micChoice)
+
+    if (micChoice === 'allow') {
+      callback(true)
+      return
+    }
+    if (micChoice === 'deny') {
+      callback(false)
+      return
+    }
+
+    dialog
+      .showMessageBox(mainWindow, {
+        type: 'question',
+        title: 'Zatyshok',
+        message: 'Zatyshok souhaite utiliser votre micro pour les notes vocales.',
+        buttons: ['Autoriser', 'Refuser'],
+        defaultId: 0,
+        cancelId: 1,
+        noLink: true
+      })
+      .then((result) => {
+        const allowed = result.response === 0
+        console.log('[PERMISSION] answered ->', allowed ? 'allow' : 'deny')
+        callback(allowed)
+      })
+      .catch(() => callback(false))
+  })
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)

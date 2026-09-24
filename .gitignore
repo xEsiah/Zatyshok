@@ -148,4 +148,5 @@ datas.sql
 nginx/
 certbot/
 backend/uploads/profiles/profile-*
+backend/uploads/audio/audio-*
 zatyshok-db-data/

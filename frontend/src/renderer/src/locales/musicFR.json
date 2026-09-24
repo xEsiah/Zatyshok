@@ -96,7 +96,13 @@
     "savedTitle": "Dans la boîte ! ✨",
     "savedMsg": "Ta piste a été ajoutée à l'album.",
     "errorTitle": "Erreur micro",
-    "errorMsg": "Échec de l'enregistrement de la piste."
+    "errorMsg": "Échec de l'enregistrement de la piste.",
+    "audioRecord": "🎙️ Enregistrer une prise",
+    "audioStop": "⏹ Couper",
+    "audioRemove": "✖ Effacer la prise",
+    "audioErrorTitle": "Micro mort",
+    "audioErrorMsg": "Micro introuvable sur cette console.",
+    "audioUploading": "Masterisation de la prise..."
   },
   "bento": {
     "weather": "Acoustique",
@@ -167,6 +173,16 @@
     "changePasswordTitle": "Modifier le mot de passe 🎸",
     "oldPassword": "Code actuel 🔑",
     "passwordSuccess": "Mot de passe mis à jour ! 🎵",
-    "passwordMismatch": "Les codes ne correspondent pas."
+    "passwordMismatch": "Les codes ne correspondent pas.",
+    "micPermissionTitle": "Accès micro",
+    "micPermissionHint": "Choisis comment la console gère l’accès au micro. Ton choix est mémorisé.",
+    "micAsk": "Demander à chaque prise",
+    "micAllow": "Ouvrir",
+    "micDeny": "Muter"
+  },
+  "notif": {
+    "title": "Notes de sortie",
+    "new": "NOUVEAU",
+    "empty": "Aucune piste sortie pour le moment."
   }
 }

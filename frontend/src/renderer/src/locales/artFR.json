@@ -96,7 +96,13 @@
     "savedTitle": "Encadré ! ✨",
     "savedMsg": "Votre œuvre a été ajoutée à la galerie.",
     "errorTitle": "Erreur de pinceau",
-    "errorMsg": "Échec de l'enregistrement du chef-d'œuvre."
+    "errorMsg": "Échec de l'enregistrement du chef-d'œuvre.",
+    "audioRecord": "🎙️ Capturer un son",
+    "audioStop": "⏹ Stop",
+    "audioRemove": "✖ Effacer l'enregistrement",
+    "audioErrorTitle": "Bruit dans l'atelier",
+    "audioErrorMsg": "Impossible d'accéder au micro.",
+    "audioUploading": "Développement de l'enregistrement..."
   },
   "bento": {
     "weather": "Atmosphère",
@@ -167,6 +173,16 @@
     "changePasswordTitle": "Modifier le mot de passe 🖌️",
     "oldPassword": "Code actuel 🔑",
     "passwordSuccess": "Palette mise à jour ! 🎨",
-    "passwordMismatch": "Les codes ne correspondent pas."
+    "passwordMismatch": "Les codes ne correspondent pas.",
+    "micPermissionTitle": "Accès au micro",
+    "micPermissionHint": "Choisis comment l’atelier gère l’accès au micro. Ton choix est mémorisé.",
+    "micAsk": "Demander à chaque fois",
+    "micAllow": "Autoriser",
+    "micDeny": "Refuser"
+  },
+  "notif": {
+    "title": "Nouveautés",
+    "new": "NOUVEAU",
+    "empty": "Pas de nouveautés pour l’instant."
   }
 }
