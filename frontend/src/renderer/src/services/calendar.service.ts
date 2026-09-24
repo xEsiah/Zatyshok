@@ -34,3 +34,15 @@ export const deleteCalendar = async (id: number): Promise<void> => {
   const res = await fetch(`${API_URL}/calendar/${id}`, { method: 'DELETE', headers })
   checkAuthError(res)
 }
+
+export const uploadAudio = async (formData: FormData): Promise<{ mediaUrl: string }> => {
+  const headers = await getHeaders()
+  const res = await fetch(`${API_URL}/calendar/upload-audio`, {
+    method: 'POST',
+    headers,
+    body: formData
+  })
+  checkAuthError(res)
+  if (!res.ok) throw new Error('Audio upload failed')
+  return res.json()
+}

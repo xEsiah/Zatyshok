@@ -98,7 +98,13 @@
     "savedTitle": "Got it! 💌",
     "savedMsg": "Safely tucked away in the little drawer.",
     "errorTitle": "Oh no!",
-    "errorMsg": "Failed to save your note."
+    "errorMsg": "Failed to save your note.",
+    "audioRecord": "🎙️ Record a sweet memo",
+    "audioStop": "⏹ Stop",
+    "audioRemove": "✖ Effacer l'enregistrement",
+    "audioErrorTitle": "Microphone... 🎀",
+    "audioErrorMsg": "Le micro n'a pas voulu s'ouvrir. Réessaie, ma belle ?",
+    "audioUploading": "Envoi de ton message..."
   },
   "bento": {
     "weather": "Weather",
@@ -169,6 +175,16 @@
     "changePasswordTitle": "Changer le mot de passe 🎀",
     "oldPassword": "Mot de passe actuel 🔑",
     "passwordSuccess": "Key changed! 🎀",
-    "passwordMismatch": "Keys don't match, sweetie!"
+    "passwordMismatch": "Keys don't match, sweetie!",
+    "micPermissionTitle": "Le petit micro 🎀",
+    "micPermissionHint": "Dis-moi si le micro peut s’ouvrir tout seul, ma belle. Ton choix est mémorisé.",
+    "micAsk": "Me demander 🥺",
+    "micAllow": "Autoriser",
+    "micDeny": "Refuser"
+  },
+  "notif": {
+    "title": "News for you 💌",
+    "new": "NEW 🎀",
+    "empty": "No news from the stars yet..."
   }
 }

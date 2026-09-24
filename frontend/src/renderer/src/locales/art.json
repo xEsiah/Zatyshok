@@ -96,7 +96,13 @@
     "savedTitle": "Framed! ✨",
     "savedMsg": "Your work has been added to the gallery.",
     "errorTitle": "Brush error",
-    "errorMsg": "Failed to save the masterpiece."
+    "errorMsg": "Failed to save the masterpiece.",
+    "audioRecord": "🎙️ Capture a sound",
+    "audioStop": "⏹ Stop",
+    "audioRemove": "✖ Discard the recording",
+    "audioErrorTitle": "Noise in the studio",
+    "audioErrorMsg": "The microphone is unavailable.",
+    "audioUploading": "Fixing the recording..."
   },
   "bento": {
     "weather": "Atmosphere",
@@ -167,6 +173,16 @@
     "changePasswordTitle": "Change Password 🖌️",
     "oldPassword": "Current Password 🔑",
     "passwordSuccess": "Palette updated! 🎨",
-    "passwordMismatch": "Passwords do not match."
+    "passwordMismatch": "Passwords do not match.",
+    "micPermissionTitle": "Artist's Microphone",
+    "micPermissionHint": "Choose how the studio handles microphone access. Your choice is kept in the sketchbook.",
+    "micAsk": "Ask each time",
+    "micAllow": "Allow",
+    "micDeny": "Deny"
+  },
+  "notif": {
+    "title": "Exhibition News",
+    "new": "NEW",
+    "empty": "No movements in the gallery."
   }
 }

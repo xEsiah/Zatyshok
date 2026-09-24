@@ -1,4 +1,3 @@
-import '../assets/Login.css'
 import { JSX, useState } from 'react'
 import { api } from '../services'
 import { useModal } from './ModalContext'
@@ -11,7 +10,7 @@ interface LoginProps {
 export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
   const [isRegister, setIsRegister] = useState(false)
   const [isForgot, setIsForgot] = useState(false)
-  const [resetStep, setResetStep] = useState(1) // 1: email, 2: code+pass
+  const [resetStep, setResetStep] = useState(1)
   const [username, setUsername] = useState('')
   const [email, setEmail] = useState('')
   const [resetToken, setResetToken] = useState('')
@@ -112,26 +111,26 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
   }
 
   return (
-    <div className="login-container">
-      <div className="soft-ui login-card">
-        <div className="login-header">
-          <h1>{t.login.title}</h1>
-          <p>{isRegister ? t.login.requestAccess : t.login.welcomeHome}</p>
+    <div className="w-full h-screen flex justify-center items-center bg-[var(--bg-color)]">
+      <div className="bg-[var(--card-bg)] rounded-[var(--radius-bento)] shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-[var(--card-border)] transition-all duration-300 w-[90vw] max-w-[400px] py-[5vh] px-[5vw] text-center">
+        <div>
+          <h1 className="m-0 text-[2rem] text-[var(--color-profond)]">{t.login.title}</h1>
+          <p className="text-[var(--color-lilas-doux)] mb-[30px] font-medium">
+            {isRegister ? t.login.requestAccess : t.login.welcomeHome}
+          </p>
         </div>
         {isForgot && (
-          <div className="login-header">
-            <h2 style={{ fontSize: '1.2rem', color: 'var(--color-lilas-vif)' }}>
-              {t.login.resetTitle}
-            </h2>
+          <div>
+            <h2 className="text-[1.2rem] text-[var(--color-lilas-vif)]">{t.login.resetTitle}</h2>
           </div>
         )}
 
-        <form onSubmit={handleSubmit} className="login-form">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {!isForgot && (
-            <div className="input-group">
+            <div className="text-left">
               <small>{isRegister ? t.login.username : 'Nom d’utilisateur ou Email'}</small>
               <input
-                className="soft-input"
+                className="w-full bg-[var(--field-bg)] border-0 px-[15px] py-[12px] rounded-xl text-[var(--color-profond)] shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-none box-border"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -142,10 +141,10 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
           )}
 
           {(isRegister || isForgot) && (
-            <div className="input-group">
+            <div className="text-left">
               <small>Email</small>
               <input
-                className="soft-input"
+                className="w-full bg-[var(--field-bg)] border-0 px-[15px] py-[12px] rounded-xl text-[var(--color-profond)] shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-none box-border"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -156,10 +155,10 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
           )}
 
           {isForgot && resetStep === 2 && (
-            <div className="input-group">
+            <div className="text-left">
               <small>{t.login.resetCode}</small>
               <input
-                className="soft-input"
+                className="w-full bg-[var(--field-bg)] border-0 px-[15px] py-[12px] rounded-xl text-[var(--color-profond)] shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-none box-border"
                 type="text"
                 value={resetToken}
                 onChange={(e) => setResetToken(e.target.value)}
@@ -170,10 +169,10 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
           )}
 
           {(!isForgot || resetStep === 2) && (
-            <div className="input-group">
+            <div className="text-left">
               <small>{isForgot ? t.login.newPassword : t.login.password}</small>
               <input
-                className="soft-input"
+                className="w-full bg-[var(--field-bg)] border-0 px-[15px] py-[12px] rounded-xl text-[var(--color-profond)] shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-none box-border"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -184,10 +183,10 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
           )}
 
           {(isRegister || (isForgot && resetStep === 2)) && (
-            <div className="input-group">
+            <div className="text-left">
               <small>{isForgot ? t.login.confirmNewPassword : 'Confirmer le mot de passe'}</small>
               <input
-                className="soft-input"
+                className="w-full bg-[var(--field-bg)] border-0 px-[15px] py-[12px] rounded-xl text-[var(--color-profond)] shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-none box-border"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -197,7 +196,11 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
             </div>
           )}
 
-          <button type="submit" className="soft-btn active login-submit" disabled={loading}>
+          <button
+            type="submit"
+            className="border-0 rounded-xl px-[18px] py-[10px] font-semibold cursor-pointer bg-[var(--color-lilas-vif)] text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)] w-full mt-2.5 p-[15px]! text-base"
+            disabled={loading}
+          >
             {loading
               ? t.login.processing
               : isForgot
@@ -212,27 +215,20 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
 
         {!isRegister && !isForgot && (
           <p
-            className="toggle-mode"
             onClick={() => setIsForgot(true)}
-            style={{ cursor: 'pointer', marginTop: '15px', fontSize: '0.8rem', opacity: 0.7 }}
+            className="cursor-pointer mt-[15px] text-[0.8rem] opacity-70"
           >
             {t.login.forgotPassword}
           </p>
         )}
 
         <p
-          className="toggle-mode"
           onClick={() => {
             setIsRegister(!isRegister)
             setIsForgot(false)
             setResetStep(1)
           }}
-          style={{
-            cursor: 'pointer',
-            marginTop: '20px',
-            fontSize: '0.9rem',
-            color: 'var(--color-lilas-doux)'
-          }}
+          className="cursor-pointer mt-5 text-[0.9rem] text-[var(--color-lilas-doux)]"
         >
           {isRegister ? t.login.toggleToLogin : t.login.toggleToRegister}
         </p>

@@ -91,7 +91,13 @@
     "savedTitle": "Success",
     "savedMsg": "Entry saved successfully.",
     "errorTitle": "Error",
-    "errorMsg": "Failed to save entry"
+    "errorMsg": "Failed to save entry",
+    "audioRecord": "🎙️ Record",
+    "audioStop": "⏹ Stop",
+    "audioRemove": "✖ Discard recording",
+    "audioErrorTitle": "Mic error",
+    "audioErrorMsg": "Could not access the microphone.",
+    "audioUploading": "Uploading recording..."
   },
   "bento": {
     "weather": "Weather",
@@ -162,6 +168,16 @@
     "changePasswordTitle": "Change Password",
     "oldPassword": "Old password",
     "passwordSuccess": "Password updated successfully! 🚀",
-    "passwordMismatch": "Passwords do not match."
+    "passwordMismatch": "Passwords do not match.",
+    "micPermissionTitle": "Microphone access",
+    "micPermissionHint": "Choose how Zatyshok handles microphone access. Your choice is remembered between sessions.",
+    "micAsk": "Ask each time",
+    "micAllow": "Allow",
+    "micDeny": "Deny"
+  },
+  "notif": {
+    "title": "What's New",
+    "new": "NEW",
+    "empty": "No news yet."
   }
 }

@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useUser } from './UserContext'
 import { JSX } from 'react'
 import { API_URL } from '../services/apiClient'
@@ -15,16 +14,8 @@ export function ProfileManager({ onOpen }: { onOpen: () => void }): JSX.Element 
       title="Edit profile"
       src={currentImg}
       alt="Profile"
-      className="profile-img-nav"
+      className="w-[80px] h-[80px] rounded-full cursor-pointer object-cover border-2 border-[var(--color-lilas-vif)] transition-transform duration-200 hover:scale-[1.1]"
       onClick={onOpen}
-      style={{
-        width: '80px',
-        height: '80px',
-        borderRadius: '50%',
-        cursor: 'pointer',
-        border: '2px solid var(--color-lilas-vif)',
-        objectFit: 'cover'
-      }}
     />
   )
 }

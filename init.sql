@@ -1,6 +1,6 @@
 -- zatyshok_db.system_settings definition
 
-CREATE TABLE `system_settings` (
+CREATE TABLE IF NOT EXISTS `system_settings` (
   `setting_key` varchar(255) NOT NULL,
   `setting_value` text DEFAULT NULL,
   PRIMARY KEY (`setting_key`)
@@ -9,7 +9,7 @@ CREATE TABLE `system_settings` (
 
 -- zatyshok_db.users definition
 
-CREATE TABLE `users` (
+CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(50) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE `users` (
 
 -- zatyshok_db.budget_categories definition
 
-CREATE TABLE `budget_categories` (
+CREATE TABLE IF NOT EXISTS `budget_categories` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `user_id` int(11) NOT NULL,
@@ -44,7 +44,7 @@ CREATE TABLE `budget_categories` (
 
 -- zatyshok_db.calendar_entries definition
 
-CREATE TABLE `calendar_entries` (
+CREATE TABLE IF NOT EXISTS `calendar_entries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `text` text NOT NULL,
@@ -64,7 +64,7 @@ CREATE TABLE `calendar_entries` (
 
 -- zatyshok_db.mood_entries definition
 
-CREATE TABLE `mood_entries` (
+CREATE TABLE IF NOT EXISTS `mood_entries` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
   `mood` enum('great','ok','meh','bad') NOT NULL,
@@ -79,7 +79,7 @@ CREATE TABLE `mood_entries` (
 
 -- zatyshok_db.transactions definition
 
-CREATE TABLE `transactions` (
+CREATE TABLE IF NOT EXISTS `transactions` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `amount` decimal(10,2) NOT NULL,
   `description` varchar(255) DEFAULT NULL,

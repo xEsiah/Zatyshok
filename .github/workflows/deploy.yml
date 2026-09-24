@@ -17,7 +17,8 @@ jobs:
     steps:
       - name: Deploy with Docker Compose
         run: |
-          cd /home/esiahdmin/apps/zatyshok/Zatyshok
+          cd /srv/apps/zatyshok/Zatyshok
           git pull origin main
+          make prod-build
           make prod-up
           docker image prune -f

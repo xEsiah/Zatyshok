@@ -97,7 +97,13 @@
     "savedTitle": "Encrypted ⚡",
     "savedMsg": "Data safely stored in the Bat-Cave servers.",
     "errorTitle": "Error",
-    "errorMsg": "Write protected: partition full."
+    "errorMsg": "Write protected: partition full.",
+    "audioRecord": "🎙️ Record Transmission",
+    "audioStop": "⏹ Terminate",
+    "audioRemove": "✖ Erase Recording",
+    "audioErrorTitle": "Comms Interference",
+    "audioErrorMsg": "Microphone access denied. Check the headset.",
+    "audioUploading": "Transmitting data..."
   },
   "bento": {
     "weather": "Atmospheric Radar",
@@ -168,6 +174,16 @@
     "changePasswordTitle": "Encryption Update",
     "oldPassword": "Current Hash",
     "passwordSuccess": "Neural link updated.",
-    "passwordMismatch": "Checksum error: Passwords do not match."
+    "passwordMismatch": "Checksum error: Passwords do not match.",
+    "micPermissionTitle": "COMMS ACCESS",
+    "micPermissionHint": "Set the microphone authorization protocol. Your choice is stored in the local vault.",
+    "micAsk": "Ask per request",
+    "micAllow": "Authorize",
+    "micDeny": "Block"
+  },
+  "notif": {
+    "title": "System Updates",
+    "new": "UPDATE",
+    "empty": "No reports in the mainframe."
   }
 }
