@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { ElectronAPI } from '@electron-toolkit/preload'
 
 declare global {

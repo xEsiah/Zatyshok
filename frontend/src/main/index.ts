@@ -15,9 +15,8 @@ autoUpdater.logger = log
 
 autoUpdater.allowDowngrade = false
 autoUpdater.allowPrerelease = false
-autoUpdater.forceDevUpdateConfig = true
 
-const StoreClass = (Store as any).default || Store
+const StoreClass = (Store as unknown as { default?: typeof Store }).default ?? Store
 const store = new StoreClass()
 
 let mainWindow: BrowserWindow

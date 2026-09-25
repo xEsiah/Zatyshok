@@ -15,6 +15,8 @@
   --color-shadow-d: var(--shadow-dark);
   --color-shadow-l: var(--shadow-light);
   --radius-card: var(--radius-bento);
+  --font-quicksand: 'Quicksand', sans-serif;
+  --font-fira-code: 'Fira Code', monospace;
 }
 
 /* ==========================================================================
@@ -191,21 +193,21 @@
   [data-theme='him'] button,
   [data-theme='him'] input,
   [data-theme='him'] textarea {
-    font-family: var(--font-dev) !important;
+    font-family: var(--font-fira-code) !important;
   }
 
   [data-theme='art'] body,
   [data-theme='artFR'] body,
   [data-role='art'] body,
   [data-role='artFR'] body {
-    font-family: var(--font-art);
+    font-family: var(--font-quicksand);
   }
 
   [data-theme='music'] body,
   [data-theme='musicFR'] body,
   [data-role='music'] body,
   [data-role='musicFR'] body {
-    font-family: var(--font-music);
+    font-family: var(--font-quicksand);
   }
 
   /* --- Select édition planning (flèche SVG custom — DailyView) --- */
