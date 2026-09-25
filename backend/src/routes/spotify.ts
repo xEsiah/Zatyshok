@@ -10,7 +10,7 @@ const spotifyApi = new SpotifyWebApi({
   clientSecret: process.env.SPOTIFY_CLIENT_SECRET,
   redirectUri:
     process.env.SPOTIFY_REDIRECT_URI ??
-    "https://zatyshok.esiah.dev/spotify/callback",
+    "https://api-zatyshok.esiah.dev/spotify/callback",
 });
 
 const spotifyScopes: string[] = [
@@ -121,9 +121,7 @@ async function executeSpotify(
         const revoked =
           refreshErr.statusCode === 400 &&
           /invalid_grant|expired_token|revoked/i.test(
-            JSON.stringify(
-              refreshErr.body ?? refreshErr.message ?? refreshErr,
-            ),
+            JSON.stringify(refreshErr.body ?? refreshErr.message ?? refreshErr),
           );
         if (revoked) {
           await db.query(

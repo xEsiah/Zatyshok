@@ -95,7 +95,7 @@ export function MoodWidget(): JSX.Element {
 
   return (
     <div
-      className={`flex-1 w-full max-[1350px]:flex-none max-[1350px]:h-[max(26vh,350px)] bg-card rounded-(--radius-bento) shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 px-5 py-6.25 flex flex-col ${isHistoryView ? 'min-h-0' : 'justify-between'} max-[1350px]:h-[max(26vh,350px)] ${isHistoryView ? '' : 'has-[.mood-list-container]:justify-start'}`}
+      className={`flex-1 w-full max-[1350px]:flex-none max-[1350px]:h-[max(26vh,350px)] bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 px-5 py-6.25 flex flex-col ${isHistoryView ? 'min-h-0' : 'justify-between'} max-[1350px]:h-[max(26vh,350px)] ${isHistoryView ? '' : 'has-[.mood-list-container]:justify-start'}`}
     >
       <h3 className="sidebar-title relative">
         {isHistoryView ? t.mood.historyTitle : t.mood.feelingTitle}

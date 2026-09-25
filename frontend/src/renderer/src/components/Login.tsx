@@ -112,7 +112,7 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
 
   return (
     <div className="w-full h-screen flex justify-center items-center bg-bg">
-      <div className="bg-card rounded-(--radius-bento) shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 w-[90vw] max-w-130 aspect-square p-[5vh_5vw] flex flex-col justify-evenly text-center font-quicksand">
+      <div className="bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 w-[90vw] max-w-130 aspect-square p-[5vh_5vw] flex flex-col justify-evenly text-center font-quicksand">
         <div className="flex flex-col items-center gap-1.5">
           <h1 className="m-0 text-[2rem] text-profund">{t.login.title}</h1>
           <p className="text-lilas-doux font-medium mb-7.5">

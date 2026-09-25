@@ -1,6 +1,6 @@
 {
   "name": "zatyshok",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "An Electron moodboard & planner application with React and TypeScript (originally for the prettiest girl)",
   "main": "./out/main/index.js",
   "author": {
