@@ -2,6 +2,7 @@ import { useState, useEffect, JSX, useMemo, useCallback } from 'react'
 import { api, BudgetCategory, Expense } from '../services'
 import { useUser } from './UserContext'
 import { useModal } from './ModalContext'
+import { Dropdown } from './ui/Dropdown'
 
 export function Budgetizer(): JSX.Element {
   const { t, userRole } = useUser()
@@ -15,7 +16,6 @@ export function Budgetizer(): JSX.Element {
   const [amount, setAmount] = useState('')
   const [desc, setDescription] = useState('')
   const [catId, setCatId] = useState<string>('')
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
 
   const loadData = useCallback(async (): Promise<void> => {
     try {
@@ -169,9 +169,9 @@ export function Budgetizer(): JSX.Element {
   ]
 
   const getCategoryColorClass = (id: number | null): string => {
-    if (id === null) return 'text-[var(--color-profond)]'
+    if (id === null) return 'text-profond'
     const index = categories.findIndex((c) => c.id === id)
-    if (index === -1) return 'text-[var(--color-profond)]'
+    if (index === -1) return 'text-profond'
     return pieChartColorClasses[index % pieChartColorClasses.length]
   }
 
@@ -217,15 +217,15 @@ export function Budgetizer(): JSX.Element {
 
   return (
     <div className="grid grid-cols-[2fr_1fr] grid-rows-[1fr] gap-[2.5vw] w-[95%] h-full min-h-full pb-[2vh] box-border max-[1350px]:flex max-[1350px]:flex-col max-[1350px]:items-stretch max-[1350px]:grid-cols-1 max-[1350px]:grid-rows-[auto] max-[1350px]:h-auto max-[1350px]:min-h-0 max-[1350px]:w-[95%] max-[1350px]:shrink-0">
-      <div className="bg-[var(--card-bg)] rounded-[var(--radius-bento)] shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-[var(--card-border)] transition-all duration-300 flex min-h-0 max-h-full min-w-0 flex-col p-[3vh_3vw] max-[1350px]:max-h-none">
-        <div className="mb-[2vh] flex shrink-0 items-center justify-between max-[1350px]:flex-col max-[1350px]:items-start max-[1350px]:gap-[15px]">
+      <div className="bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 flex min-h-0 max-h-full min-w-0 flex-col p-[3vh_3vw] max-[1350px]:max-h-none">
+        <div className="mb-[2vh] flex shrink-0 items-center justify-between max-[1350px]:flex-col max-[1350px]:items-start max-[1350px]:gap-3.75">
           <h2 className="m-0 shrink-0">{t.budget.title}</h2>
-          <div className="flex gap-[10px]">
+          <div className="flex gap-2.5">
             <button
-              className={`border-0 rounded-xl px-[18px] py-[10px] font-semibold text-[var(--color-lilas-doux)] cursor-pointer bg-[var(--card-bg)] shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
+              className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
                 mode === 'expense'
-                  ? 'bg-[var(--color-lilas-vif)] text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
-                  : 'hover:bg-[var(--color-rose-poudre)] hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
+                  ? 'bg-lilas text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-96 hover:brightness-115 hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
+                  : 'hover:bg-rose hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
               }`}
               onClick={() => {
                 setMode('expense')
@@ -235,10 +235,10 @@ export function Budgetizer(): JSX.Element {
               {t.budget.outcome}
             </button>
             <button
-              className={`border-0 rounded-xl px-[18px] py-[10px] font-semibold text-[var(--color-lilas-doux)] cursor-pointer bg-[var(--card-bg)] shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
+              className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
                 mode === 'income'
-                  ? 'bg-[var(--color-lilas-vif)] text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
-                  : 'hover:bg-[var(--color-rose-poudre)] hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
+                  ? 'bg-lilas text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-96 hover:brightness-115 hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
+                  : 'hover:bg-rose hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
               }`}
               onClick={() => {
                 setMode('income')
@@ -250,90 +250,55 @@ export function Budgetizer(): JSX.Element {
           </div>
         </div>
 
-        <div className="flex shrink-0 gap-[2vw] max-[1350px]:flex-col max-[1350px]:gap-[25px]">
-          <div className="flex flex-1 flex-col gap-[10px]">
-            <small className="mb-[5px] font-semibold text-[var(--color-profond)]">
+        <div className="flex shrink-0 gap-[2vw] max-[1350px]:flex-col max-[1350px]:gap-6.25">
+          <div className="flex flex-1 flex-col gap-2.5">
+            <small className="mb-1.25 font-semibold text-profond">
               {mode === 'expense' ? t.budget.addExpense : t.budget.addIncome}
             </small>
             <input
-              className="w-full bg-[var(--field-bg)] border-0 px-[15px] py-[12px] rounded-xl text-[var(--color-profond)] shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-none box-border appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+              className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border appearance-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
               type="number"
               placeholder={t.budget.amount}
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
             <input
-              className="w-full bg-[var(--field-bg)] border-0 px-[15px] py-[12px] rounded-xl text-[var(--color-profond)] shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-none box-border"
+              className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
               placeholder={t.budget.description}
               value={desc}
               onChange={(e) => setDescription(e.target.value)}
             />
 
-            <div className="relative w-full">
-              <div
-                className="w-full bg-[var(--field-bg)] border-0 px-[15px] py-[12px] rounded-xl text-[var(--color-profond)] shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-none box-border flex items-center justify-between"
-                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              >
-                {catId
-                  ? currentCategories.find((c) => c.id.toString() === catId)?.name
-                  : `-- ${t.budget.category} --`}
-                <svg
-                  className="h-[18px] w-[18px] shrink-0"
-                  viewBox="0 0 24 24"
-                  fill="#8d7d77"
-                  aria-hidden="true"
-                >
-                  <path d="M7 10l5 5 5-5z" />
-                </svg>
-              </div>
-              {isDropdownOpen && (
-                <div className="absolute inset-x-0 top-full z-[100] flex max-h-[200px] flex-col gap-1 overflow-y-auto rounded-[16px] bg-[var(--card-bg)] p-2.5 shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)]">
-                  <div
-                    className="cursor-pointer rounded-lg px-[14px] py-[10px] font-medium text-[var(--color-profond)] transition-all duration-200 ease-in-out hover:bg-[var(--bg-color)] hover:text-[var(--color-lilas-vif)] hover:shadow-[inset_4px_4px_8px_var(--shadow-dark),inset_-4px_-4px_8px_var(--shadow-light)]"
-                    onClick={() => {
-                      setCatId('')
-                      setIsDropdownOpen(false)
-                    }}
-                  >
-                    -- {t.budget.category} --
-                  </div>
-                  {currentCategories.map((c) => (
-                    <div
-                      key={c.id}
-                      className="cursor-pointer rounded-lg px-[14px] py-[10px] font-medium text-[var(--color-profond)] transition-all duration-200 ease-in-out hover:bg-[var(--bg-color)] hover:text-[var(--color-lilas-vif)] hover:shadow-[inset_4px_4px_8px_var(--shadow-dark),inset_-4px_-4px_8px_var(--shadow-light)]"
-                      onClick={() => {
-                        setCatId(c.id.toString())
-                        setIsDropdownOpen(false)
-                      }}
-                    >
-                      {c.name}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+            <Dropdown
+              options={[
+                { value: '', label: `-- ${t.budget.category} --` },
+                ...currentCategories.map((c) => ({ value: c.id.toString(), label: c.name }))
+              ]}
+              value={catId}
+              onChange={setCatId}
+            />
 
             <button
-              className="bg-[var(--color-lilas-vif)] text-white border-0 px-[25px] py-[12px] rounded-[15px] font-bold cursor-pointer transition-all duration-200 enabled:hover:brightness-[1.15] enabled:hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="bg-lilas text-white border-0 px-6.25 py-3 rounded-[15px] font-bold cursor-pointer transition-all duration-200 enabled:hover:brightness-115 enabled:hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={handleAddExpense}
             >
               {t.budget.save}
             </button>
           </div>
 
-          <div className="flex flex-1 flex-col gap-[10px]">
-            <small className="mb-[5px] font-semibold text-[var(--color-profond)]">
+          <div className="flex flex-1 flex-col gap-2.5">
+            <small className="mb-1.25 font-semibold text-profond">
               {mode === 'expense' ? t.budget.addCategory : t.budget.addIncomeCategory}
             </small>
-            <div className="flex gap-[10px]">
+            <div className="flex gap-2.5">
               <input
-                className="w-full bg-[var(--field-bg)] border-0 px-[15px] py-[12px] rounded-xl text-[var(--color-profond)] shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-none box-border flex-1"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border flex-1"
                 value={newCat}
                 onChange={(e) => setNewCat(e.target.value)}
                 placeholder={t.budget.newCategoryPlaceholder}
               />
               <button
-                className="border-0 rounded-xl px-[18px] py-[10px] font-semibold text-[var(--color-lilas-doux)] cursor-pointer bg-[var(--color-lilas-vif)] text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]"
+                className="border-0 rounded-xl px-4.5 py-2.5 font-semibold cursor-pointer bg-lilas text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-96 hover:brightness-115 hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]"
                 onClick={handleAddCategory}
               >
                 +
@@ -342,17 +307,17 @@ export function Budgetizer(): JSX.Element {
           </div>
         </div>
 
-        <div className="mt-[3vh] flex min-h-0 flex-1 flex-col border-t border-[var(--shadow-dark)] pt-[2vh] max-[1350px]:flex-initial max-[1350px]:max-h-none">
-          <div className="mb-[15px] flex shrink-0 flex-col gap-[15px]">
+        <div className="mt-[3vh] flex min-h-0 flex-1 flex-col border-t border-shadow-d pt-[2vh] max-[1350px]:flex-initial max-[1350px]:max-h-none">
+          <div className="mb-3.75 flex shrink-0 flex-col gap-3.75">
             <h3 className="m-0">{t.budget.historyTitle || t.budget.latestExpensesTitle}</h3>
-            <div className="flex flex-wrap gap-[10px]">
+            <div className="flex flex-wrap gap-2.5">
               {(['month', '3months', '6months', 'year'] as const).map((f) => (
                 <button
                   key={f}
-                  className={`border-0 rounded-xl px-[18px] py-[10px] font-semibold text-[var(--color-lilas-doux)] cursor-pointer bg-[var(--card-bg)] shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
+                  className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
                     filter === f
-                      ? 'bg-[var(--color-lilas-vif)] text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
-                      : 'hover:bg-[var(--color-rose-poudre)] hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
+                      ? 'bg-lilas text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-96 hover:brightness-115 hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
+                      : 'hover:bg-rose hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
                   }`}
                   onClick={() => setFilter(f)}
                 >
@@ -369,16 +334,16 @@ export function Budgetizer(): JSX.Element {
             </div>
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col gap-[10px] overflow-y-auto p-[10px] max-[1350px]:flex-none max-[1350px]:h-[300px] max-[1350px]:overflow-y-auto max-[1350px]:min-h-0">
+          <div className="flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto p-2.5 max-[1350px]:flex-none max-[1350px]:h-75 max-[1350px]:overflow-y-auto max-[1350px]:min-h-0">
             {filteredExpenses.length === 0 ? (
-              <p className="mt-5 text-center italic text-[var(--color-profond)] opacity-50 max-[1350px]:m-auto">
+              <p className="mt-5 text-center italic text-profond opacity-50 max-[1350px]:m-auto">
                 {t.budget.noRecentExpenses}
               </p>
             ) : (
               filteredExpenses.map((exp, index) => (
                 <div
                   key={exp.id || index}
-                  className={`flex shrink-0 items-center justify-between rounded-[12px] bg-[var(--card-bg)] p-[10px_15px] text-[0.9rem] shadow-[4px_4px_10px_var(--shadow-dark),-4px_-4px_10px_var(--shadow-light)] ${getCategoryColorClass(exp.category_id)}`}
+                  className={`flex shrink-0 items-center justify-between rounded-xl bg-card p-[10px_15px] text-[0.9rem] shadow-[4px_4px_10px_var(--shadow-dark),-4px_-4px_10px_var(--shadow-light)] ${getCategoryColorClass(exp.category_id)}`}
                 >
                   <span>
                     {exp.description} (
@@ -393,13 +358,13 @@ export function Budgetizer(): JSX.Element {
       </div>
 
       <div className="flex min-w-0 flex-col justify-between">
-        <div className="bg-[var(--card-bg)] rounded-[var(--radius-bento)] shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-[var(--card-border)] transition-all duration-300 flex h-full flex-col items-center p-[3vh_2vw] max-[1350px]:grid max-[1350px]:grid-cols-[1fr_2fr] max-[1350px]:items-stretch max-[1350px]:grid-rows-[auto_1fr_auto] max-[1350px]:gap-5 max-[1350px]:p-[25px] overflow-hidden max-[1350px]:h-auto">
+        <div className="bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 flex h-full flex-col items-center p-[3vh_2vw] max-[1350px]:grid max-[1350px]:grid-cols-[1fr_2fr] max-[1350px]:items-stretch max-[1350px]:grid-rows-[auto_1fr_auto] max-[1350px]:gap-5 max-[1350px]:p-6.25 overflow-hidden max-[1350px]:h-auto">
           <h3 className="max-[1350px]:col-span-2 max-[1350px]:mb-0 max-[1350px]:text-center">
             {t.budget.chart}
           </h3>
 
           {grandTotal > 0 ? (
-            <div className="mx-auto h-[160px] w-[160px] shrink-0 rounded-full bg-[var(--card-bg)] shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] max-[1350px]:col-start-1 max-[1350px]:mx-auto max-[1350px]:row-start-2 max-[1350px]:aspect-square max-[1350px]:h-auto max-[1350px]:max-w-[160px] max-[1350px]:w-full">
+            <div className="mx-auto size-40 shrink-0 rounded-full bg-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] max-[1350px]:col-start-1 max-[1350px]:mx-auto max-[1350px]:row-start-2 max-[1350px]:aspect-square max-[1350px]:h-auto max-[1350px]:max-w-40 max-[1350px]:w-full">
               <svg
                 viewBox="0 0 100 100"
                 width="100%"
@@ -425,22 +390,20 @@ export function Budgetizer(): JSX.Element {
               </svg>
             </div>
           ) : (
-            <p className="mt-5 text-center italic text-[var(--color-profond)] opacity-50 max-[1350px]:m-auto">
-              Ø
-            </p>
+            <p className="mt-5 text-center italic text-profond opacity-50 max-[1350px]:m-auto">Ø</p>
           )}
 
-          <div className="my-[15px] flex w-full flex-col gap-[10px] rounded-[16px] bg-[var(--bg-color)] p-[15px] shadow-[inset_2px_2px_5px_var(--shadow-dark),inset_-2px_-2px_5px_var(--shadow-light)] max-[1350px]:col-start-1 max-[1350px]:m-0 max-[1350px]:max-w-[90%] max-[1350px]:row-start-3">
-            <div className="flex justify-between text-[0.9rem] font-medium text-[var(--color-profond)]">
+          <div className="my-3.75 flex w-full flex-col gap-2.5 rounded-2xl bg-bg p-3.75 shadow-[inset_2px_2px_5px_var(--shadow-dark),inset_-2px_-2px_5px_var(--shadow-light)] max-[1350px]:col-start-1 max-[1350px]:m-0 max-[1350px]:max-w-[90%] max-[1350px]:row-start-3">
+            <div className="flex justify-between text-[0.9rem] font-medium text-profond">
               <span>{t.budget.outcome} :</span>
               <b className="text-[#e74c3c]">-{totalExpensePeriod.toFixed(2)}€</b>
             </div>
-            <div className="flex justify-between text-[0.9rem] font-medium text-[var(--color-profond)]">
+            <div className="flex justify-between text-[0.9rem] font-medium text-profond">
               <span>{t.budget.income} :</span>
               <b className="text-[#2ecc71]">+{totalIncomePeriod.toFixed(2)}€</b>
             </div>
 
-            <div className="mt-[5px] flex justify-between border-t border-dashed border-[var(--color-lilas-doux)] pt-[10px] text-[0.9rem] font-bold text-[var(--color-profond)]">
+            <div className="mt-1.25 flex justify-between border-t border-dashed border-lilas-doux pt-2.5 text-[0.9rem] font-bold text-profond">
               <span>{t.budget.balance || 'Balance'} :</span>
               <b
                 className={
@@ -456,7 +419,7 @@ export function Budgetizer(): JSX.Element {
             {pieChartData.map((c) => (
               <div
                 key={c.id}
-                className="flex justify-between rounded-lg bg-[var(--card-bg)] px-3 py-2 text-[0.85rem] text-[var(--color-profond)] shadow-[inset_2px_2px_5px_var(--shadow-dark),inset_-2px_-2px_5px_var(--shadow-light)]"
+                className="flex justify-between rounded-lg bg-card px-3 py-2 text-[0.85rem] text-profond shadow-[inset_2px_2px_5px_var(--shadow-dark),inset_-2px_-2px_5px_var(--shadow-light)]"
               >
                 <span>
                   <span className={getCategoryColorClass(c.id)}>●</span> {c.name}

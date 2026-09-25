@@ -3,6 +3,7 @@ import { api, CalendarEntry } from '../services'
 import { useModal } from './ModalContext'
 import { useUser } from './UserContext'
 import { AudioPlayer } from './AudioPlayer'
+import { Dropdown } from './ui/Dropdown'
 
 export function DailyView(): JSX.Element {
   const [planning, setPlanning] = useState<CalendarEntry[]>([])
@@ -142,7 +143,7 @@ export function DailyView(): JSX.Element {
         ) : planning.length === 0 ? (
           <p className="mt-5 text-center italic opacity-60">{t.daily.nothingPlanned}</p>
         ) : (
-          <div className="flex flex-col gap-[8px] mt-[10px] min-h-0 flex-1 overflow-y-auto px-[10px] pb-[25px] pt-0">
+          <div className="flex flex-col gap-2 mt-2.5 min-h-0 flex-1 overflow-y-auto px-2.5 pb-6.25 pt-0">
             <small>
               {t.daily.plannerTitle} ({planning.length})
             </small>
@@ -151,38 +152,37 @@ export function DailyView(): JSX.Element {
               return (
                 <div
                   key={entry.id}
-                  className="group bg-[var(--card-bg)] border border-[var(--card-border)] rounded-[16px] transition-all duration-300 flex items-center gap-[12px] flex-shrink-0 min-h-[90px] p-[15px] box-border shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-transform duration-200 hover:scale-[1.01]"
+                  className="group bg-card border border-(--card-border) rounded-2xl transition-transform duration-300 flex items-center gap-3 shrink-0 min-h-22.5 p-3.75 box-border shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] hover:scale-101"
                 >
                   <span className="text-[1.2rem]">
                     {entry.category === 'goal' ? t.daily.iconGoal : t.daily.iconEvent}
                   </span>
                   <div className="flex-1">
                     {editingId === entry.id ? (
-                      <div className="flex flex-row items-center justify-around gap-[12px] font-bold text-[1.3rem] w-full">
+                      <div className="flex flex-row items-center justify-around gap-3 font-bold text-[1.3rem] w-full">
                         <input
-                          className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border w-[25%]"
+                          className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border w-[25%]"
                           value={editText}
                           onChange={(e) => setEditText(e.target.value)}
                         />
                         <input
                           type="date"
-                          className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border w-[25%]"
+                          className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border w-[25%]"
                           value={editDate}
                           onChange={(e) => setEditDate(e.target.value)}
                         />
-                        <select
-                          className="planner-edit-select"
+                        <Dropdown
+                          size="compact"
+                          options={[
+                            { value: 'goal', label: `${t.daily.iconGoal} Goal` },
+                            { value: 'event', label: `${t.daily.iconEvent} Event` },
+                            { value: 'note', label: '📌 Note' }
+                          ]}
                           value={editCategory}
-                          onChange={(e) =>
-                            setEditCategory(e.target.value as 'goal' | 'event' | 'note')
-                          }
-                        >
-                          <option value="goal">{t.daily.iconGoal} Goal</option>
-                          <option value="event">{t.daily.iconEvent} Event</option>
-                          <option value="note">📌 Note</option>
-                        </select>
-                        <div className="flex w-[20%] flex-col items-start gap-[6px] mt-0">
-                          <label className="flex flex-row items-center gap-[6px] text-[0.75rem] cursor-pointer text-left whitespace-nowrap">
+                          onChange={(v) => setEditCategory(v as 'goal' | 'event' | 'note')}
+                        />
+                        <div className="flex w-[20%] flex-col items-start gap-1.5 mt-0">
+                          <label className="flex flex-row items-center gap-1.5 text-[0.75rem] cursor-pointer text-left whitespace-nowrap">
                             <input
                               type="checkbox"
                               checked={editIsRecurring}
@@ -190,17 +190,18 @@ export function DailyView(): JSX.Element {
                             />
                             {t.daily.recurring}
                           </label>
-                          <select
-                            className="planner-edit-select w-full"
+                          <Dropdown
+                            size="compact"
+                            options={[
+                              { value: 'daily', label: t.daily.daily },
+                              { value: 'weekly', label: t.daily.weekly },
+                              { value: 'monthly', label: t.daily.monthly },
+                              { value: 'yearly', label: t.daily.yearly }
+                            ]}
                             value={editRecurrenceRule}
-                            onChange={(e) => setEditRecurrenceRule(e.target.value)}
+                            onChange={setEditRecurrenceRule}
                             disabled={!editIsRecurring}
-                          >
-                            <option value="daily">{t.daily.daily}</option>
-                            <option value="weekly">{t.daily.weekly}</option>
-                            <option value="monthly">{t.daily.monthly}</option>
-                            <option value="yearly">{t.daily.yearly}</option>
-                          </select>
+                          />
                         </div>
                       </div>
                     ) : (
@@ -227,30 +228,30 @@ export function DailyView(): JSX.Element {
                     )}
                   </div>
                   {editingId === entry.id ? (
-                    <div className="invisible group-hover:visible flex flex-col gap-[10px]">
+                    <div className="invisible group-hover:visible flex flex-col gap-2.5">
                       <button
-                        className="not-italic text-[var(--color-profond)] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
+                        className="not-italic text-profond text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
                         onClick={handleSaveEdit}
                       >
                         ✔️
                       </button>
                       <button
-                        className="not-italic text-[var(--color-profond)] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
+                        className="not-italic text-profond text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
                         onClick={() => setEditingId(null)}
                       >
                         ✖️
                       </button>
                     </div>
                   ) : (
-                    <div className="invisible group-hover:visible flex flex-col gap-[10px]">
+                    <div className="invisible group-hover:visible flex flex-col gap-2.5">
                       <button
-                        className="not-italic text-[var(--color-profond)] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
+                        className="not-italic text-profond text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
                         onClick={() => handleStartEdit(entry)}
                       >
                         🖊️
                       </button>
                       <button
-                        className="not-italic text-[var(--color-profond)] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
+                        className="not-italic text-profond text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
                         onClick={(e) => {
                           e.stopPropagation()
                           handleDeleteEntry(entry.id)
@@ -268,107 +269,107 @@ export function DailyView(): JSX.Element {
         )}
 
         {thoughts.length > 0 && (
-          <div className="flex-none mt-[15px] mb-[15px] border-t-2 border-dashed [border-top-color:rgba(255,255,255,0.5)] max-h-[180px] w-full">
+          <div className="flex-none mt-3.75 mb-3.75 border-t-2 border-dashed border-t-white/50 max-h-45 w-full">
             <small>
               {t.daily.notesTitle} ({thoughts.length})
             </small>
-          <div className="w-full overflow-x-auto [scroll-behavior:smooth] pt-[40px]! -mt-[30px]! [&::-webkit-scrollbar]:h-[4px]">
-            <div className="flex flex-nowrap gap-[5px] w-full items-start pb-[10px] overflow-visible! h-auto! after:content-[''] after:flex-[0_0_1px] after:h-[1px]">
-              {thoughts.map((note) => {
-                const isEditing = editingId === note.id
-                const len = note.text.length
-                const dynamicFontCls =
-                  len > 90
-                    ? 'text-[0.75rem]'
-                    : len > 75
-                      ? 'text-[0.80rem]'
-                      : len > 60
-                        ? 'text-[0.85rem]'
-                        : len > 45
-                          ? 'text-[0.90rem]'
-                          : len > 30
-                            ? 'text-[0.95rem]'
-                            : len > 15
-                              ? 'text-[1.05rem]'
-                              : 'text-[1.2rem]'
-                return (
-                  <div
-                    key={note.id}
-                    className="group relative flex flex-col w-[140px] min-w-[140px] h-[120px] p-[10px] ml-[5px] rounded-[2px_2px_15px_2px] shadow-[3px_3px_6px_rgba(0,0,0,0.2)] italic rotate-[-1deg] odd:rotate-[-0.5deg] odd:bg-[var(--postit-bg-odd)] odd:text-[var(--postit-text-odd)] even:rotate-[1.5deg] even:bg-[var(--postit-bg-even)] even:text-[var(--postit-text-even)] transition-transform duration-200 hover:scale-[1.05] hover:z-10 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-[15px] after:bg-[linear-gradient(transparent,rgba(0,0,0,0.36))] after:pointer-events-none after:rounded-[2px_2px_15px_2px]"
-                  >
-                    <div className="absolute -translate-x-1/2 text-[1.5rem] group-odd:top-[-15%] group-odd:left-[60%] group-even:top-[-17%] group-even:left-[20%]">
-                      📍
-                    </div>
-
-                    {isEditing ? (
-                      <div className="flex flex-col gap-[10px] w-full h-full">
-                        <input
-                          className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border"
-                          value={editText}
-                          onChange={(e) => setEditText(e.target.value)}
-                        />
-                        <select
-                          className="p-[10px_14px] rounded-[8px] cursor-pointer font-medium transition-all duration-200 bg-[var(--bg-color)] text-[var(--color-profond)] shadow-[inset_4px_4px_8px_var(--shadow-dark),inset_-4px_-4px_8px_var(--shadow-light)] [&_option]:bg-[var(--bg-color)] [&_option]:font-medium"
-                          value={editCategory}
-                          onChange={(e) =>
-                            setEditCategory(e.target.value as 'goal' | 'event' | 'note')
-                          }
-                        >
-                          <option value="goal">{t.daily.iconGoal} Goal</option>
-                          <option value="event">{t.daily.iconEvent} Event</option>
-                          <option value="note">📌 Note</option>
-                        </select>
-                        <div>
-                          <button
-                            className="w-1/2 not-italic font-bold text-[var(--color-profond)] [text-shadow:0_0_1px_#00000078] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
-                            onClick={handleSaveEdit}
-                          >
-                            ✔️
-                          </button>
-                          <button
-                            className="w-1/2 not-italic font-bold text-[var(--color-profond)] [text-shadow:0_0_1px_#00000078] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-[1.3]"
-                            onClick={() => setEditingId(null)}
-                          >
-                            ✖️
-                          </button>
-                        </div>
+            <div className="w-full overflow-x-auto scroll-smooth pt-10! -mt-7.5! [&::-webkit-scrollbar]:h-1">
+              <div className="flex flex-nowrap gap-1.25 w-full items-start pb-2.5 overflow-visible! h-auto! after:content-[''] after:flex-[0_0_1px] after:h-px">
+                {thoughts.map((note) => {
+                  const isEditing = editingId === note.id
+                  const len = note.text.length
+                  const dynamicFontCls =
+                    len > 90
+                      ? 'text-[0.75rem]'
+                      : len > 75
+                        ? 'text-[0.80rem]'
+                        : len > 60
+                          ? 'text-[0.85rem]'
+                          : len > 45
+                            ? 'text-[0.90rem]'
+                            : len > 30
+                              ? 'text-[0.95rem]'
+                              : len > 15
+                                ? 'text-[1.05rem]'
+                                : 'text-[1.2rem]'
+                  return (
+                    <div
+                      key={note.id}
+                      className="group relative flex flex-col w-35 min-w-35 h-30 p-2.5 ml-1.25 rounded-[2px_2px_15px_2px] shadow-[3px_3px_6px_rgba(0,0,0,0.2)] italic odd:rotate-[-0.5deg] odd:bg-(--postit-bg-odd) odd:text-(--postit-text-odd) even:rotate-[1.5deg] even:bg-(--postit-bg-even) even:text-(--postit-text-even) transition-transform duration-200 hover:scale-105 hover:z-10 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-3.75 after:bg-linear-to-b after:from-transparent after:to-black/36 after:pointer-events-none after:rounded-[2px_2px_15px_2px]"
+                    >
+                      <div className="absolute -translate-x-1/2 text-[1.5rem] group-odd:top-[-15%] group-odd:left-[60%] group-even:top-[-17%] group-even:left-[20%]">
+                        📍
                       </div>
-                    ) : (
-                      <>
-                        <button
-                          className="invisible group-hover:visible absolute bottom-[2px] bg-none border-none font-bold text-[1rem] p-0 left-[1px] not-italic [text-shadow:0_0_1px_#00000078] transition-transform duration-200 hover:scale-[1.3]"
-                          onClick={(e) => {
-                            e.stopPropagation()
-                            handleDeleteEntry(note.id)
-                          }}
-                          title={t.daily.deleteNote}
-                        >
-                          🗑️
-                        </button>
-                        <div
-                          className={`flex-1 overflow-y-auto min-h-0 flex flex-col items-center justify-around text-center [word-break:keep-all] leading-[1.2] p-[3px] [scroll-behavior:smooth] [&::-webkit-scrollbar]:w-[4px] [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-[10px] group-odd:[&::-webkit-scrollbar-thumb]:bg-[var(--color-lilas-doux)] group-even:[&::-webkit-scrollbar-thumb]:bg-[var(--color-rose-poudre)] ${dynamicFontCls}`}
-                        >
-                          <span>{note.text}</span>
-                          {note.entry_type === 'audio' && note.media_url && (
-                            <AudioPlayer src={note.media_url} compact />
-                          )}
-                          <button
-                            onClick={() => handleStartEdit(note)}
-                            title="Modifier"
-                            className="invisible group-hover:visible absolute bottom-[2px] bg-none border-none font-bold text-[1rem] p-0 right-[1px] not-italic [text-shadow:0_0_1px_#00000078] transition-transform duration-200 hover:scale-[1.3]"
-                          >
-                            🖊️
-                          </button>
+
+                      {isEditing ? (
+                        <div className="flex flex-col gap-2.5 w-full h-full">
+                          <input
+                            className="w-full h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profund shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
+                            value={editText}
+                            onChange={(e) => setEditText(e.target.value)}
+                          />
+                          <Dropdown
+                            size="compact"
+                            className="w-full"
+                            options={[
+                              { value: 'goal', label: `${t.daily.iconGoal} Goal` },
+                              { value: 'event', label: `${t.daily.iconEvent} Event` },
+                              { value: 'note', label: '📌 Note' }
+                            ]}
+                            value={editCategory}
+                            onChange={(v) => setEditCategory(v as 'goal' | 'event' | 'note')}
+                          />
+                          <div>
+                            <button
+                              className="w-1/2 not-italic font-bold text-profond text-shadow-[0_0_1px_#00000078] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
+                              onClick={handleSaveEdit}
+                            >
+                              ✔️
+                            </button>
+                            <button
+                              className="w-1/2 not-italic font-bold text-profond text-shadow-[0_0_1px_#00000078] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
+                              onClick={() => setEditingId(null)}
+                            >
+                              ✖️
+                            </button>
+                          </div>
                         </div>
-                      </>
-                    )}
-                  </div>
-                )
-              })}
+                      ) : (
+                        <>
+                          <button
+                            className="invisible group-hover:visible absolute bottom-0.5 bg-none border-none font-bold text-[1rem] p-0 left-px not-italic text-shadow-[0_0_1px_#00000078] transition-transform duration-200 hover:scale-130"
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              handleDeleteEntry(note.id)
+                            }}
+                            title={t.daily.deleteNote}
+                          >
+                            🗑️
+                          </button>
+                          <div
+                            className={`flex-1 overflow-y-auto min-h-0 flex flex-col items-center justify-around text-center break-keep leading-[1.2] p-0.75 scroll-smooth [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-[10px] group-odd:[&::-webkit-scrollbar-thumb]:bg-lilas-doux group-even:[&::-webkit-scrollbar-thumb]:bg-rose ${dynamicFontCls}`}
+                          >
+                            <span>{note.text}</span>
+                            {note.entry_type === 'audio' && note.media_url && (
+                              <AudioPlayer src={note.media_url} compact />
+                            )}
+                            <button
+                              onClick={() => handleStartEdit(note)}
+                              title="Modifier"
+                              className="invisible group-hover:visible absolute bottom-0.5 bg-none border-none font-bold text-[1rem] p-0 right-px not-italic text-shadow-[0_0_1px_#00000078] transition-transform duration-200 hover:scale-130"
+                            >
+                              🖊️
+                            </button>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
       </div>
     </div>
   )

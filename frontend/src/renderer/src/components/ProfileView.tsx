@@ -5,6 +5,7 @@ import { API_URL } from '../services/apiClient'
 import { api } from '../services'
 import { useModal } from './ModalContext'
 import { Card } from './layout/Card'
+import { Dropdown } from './ui/Dropdown'
 
 interface UserFullProfile {
   username: string
@@ -31,7 +32,6 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [editForm, setEditForm] = useState({ username: '', email: '' })
   const [isSaving, setIsSaving] = useState(false)
-  const [isThemeOpen, setIsThemeOpen] = useState(false)
   const [micPermission, setMicPermission] = useState<'ask' | 'allow' | 'deny'>('ask')
 
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -187,23 +187,23 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
     : `${API_URL}/uploads/profiles/default.png`
 
   return (
-    <Card className="w-full flex-1 min-h-0 flex flex-col p-[3vh_4vw] box-border text-[var(--color-lilas-doux)]">
-      <div className="flex items-center justify-between border-b border-[var(--shadow-dark)] pb-[12px]">
-        <h2 className="m-0 text-[0.85rem] uppercase tracking-[2px] text-[var(--color-lilas-vif)]">
+    <Card className="w-full flex-1 min-h-0 flex flex-col p-[3vh_4vw] box-border text-lilas-doux">
+      <div className="flex items-center justify-between border-b border-shadow-d pb-3">
+        <h2 className="m-0 text-[0.85rem] uppercase tracking-[2px] text-lilas">
           {t.profile.title}
         </h2>
         <button
           onClick={onBack}
-          className="bg-[var(--color-lilas-vif)] text-white border-0 px-[25px] py-[12px] rounded-[15px] font-bold cursor-pointer transition-all duration-200 enabled:hover:brightness-[1.15] enabled:hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-lilas text-white border-0 px-6.25 py-3 rounded-[15px] font-bold cursor-pointer transition-all duration-200 enabled:hover:brightness-[1.15] enabled:hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {t.profile.btnBack}
         </button>
       </div>
 
-      <div className="flex items-center gap-[30px] mt-[2.5vh]">
+      <div className="flex items-center gap-7.5 mt-[2.5vh]">
         <div
           title="Edit profile picture"
-          className="relative h-[110px] w-[110px] cursor-pointer overflow-hidden rounded-full border-4 border-[var(--color-lilas-vif)] shadow-[4px_4px_12px_var(--shadow-dark)]"
+          className="relative h-27.5 w-27.5 cursor-pointer overflow-hidden rounded-full border-4 border-lilas shadow-[4px_4px_12px_var(--shadow-dark)]"
           onClick={() => fileInputRef.current?.click()}
         >
           <img src={currentImg} alt="Profile" className="h-full w-full object-cover" />
@@ -215,13 +215,13 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
         <div className="flex-1">
           {!isEditing ? (
             <>
-              <div className="flex items-center gap-[15px]">
-                <h1 className="m-0 text-[2.2rem] text-[var(--color-profond)]">
+              <div className="flex items-center gap-3.75">
+                <h1 className="m-0 text-[2.2rem] text-profond">
                   {profileData?.username || t.app.loading}
                 </h1>
                 <button
                   title="Edit username, password & email"
-                  className="border-none bg-transparent text-[1.2rem] text-[var(--color-lilas-doux)] opacity-60 transition-opacity duration-200 hover:opacity-100"
+                  className="border-none bg-transparent text-[1.2rem] text-lilas-doux opacity-60 transition-opacity duration-200 hover:opacity-100"
                   onClick={() => setIsEditing(true)}
                 >
                   🖊️
@@ -230,31 +230,33 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
               <p>{profileData?.email}</p>
             </>
           ) : (
-            <div className="flex w-full max-w-[300px] flex-col gap-[10px]">
-              <input
-                className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border"
-                value={editForm.username}
-                onChange={(e) => setEditForm({ ...editForm, username: e.target.value })}
-                disabled={isSaving}
-                placeholder={t.login.usernamePlaceholder}
-              />
-              <input
-                className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border"
-                value={editForm.email}
-                onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
-                disabled={isSaving}
-                placeholder="Email"
-              />
-              <div className="flex w-auto gap-[10px]">
+            <div className="flex gap-5 items-start">
+              <div className="flex flex-col gap-2.5 flex-1 min-w-0">
+                <input
+                  className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profund shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
+                  value={editForm.username}
+                  onChange={(e) => setEditForm({ ...editForm, username: e.target.value })}
+                  disabled={isSaving}
+                  placeholder={t.login.usernamePlaceholder}
+                />
+                <input
+                  className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profund shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
+                  value={editForm.email}
+                  onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
+                  disabled={isSaving}
+                  placeholder="Email"
+                />
+              </div>
+              <div className="flex flex-col gap-2.5 shrink-0">
                 <button
-                  className="h-[35px] w-[35px] flex items-center justify-center cursor-pointer rounded-[8px] border-none bg-[var(--color-lilas-vif)] text-white shadow-[3px_3px_6px_var(--shadow-dark),-3px_-3px_6px_var(--shadow-light)] transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-[1px] hover:shadow-[6px_6px_12px_var(--shadow-dark)]"
+                  className="h-8.75 w-8.75 flex items-center justify-center cursor-pointer rounded-lg border-none bg-lilas text-white shadow-[3px_3px_6px_var(--shadow-dark),-3px_-3px_6px_var(--shadow-light)] transition-all duration-200 ease-in-out hover:-translate-y-px hover:shadow-[6px_6px_12px_var(--shadow-dark)]"
                   onClick={saveInfo}
                   disabled={isSaving}
                 >
                   {isSaving ? '...' : '✔️'}
                 </button>
                 <button
-                  className="h-[35px] w-[35px] flex items-center justify-center cursor-pointer rounded-[8px] border-none bg-[var(--color-rose-poudre)] text-white shadow-[3px_3px_6px_var(--shadow-dark),-3px_-3px_6px_var(--shadow-light)] transition-all duration-200 ease-[cubic-bezier(0.4,0,0.2,1)] hover:-translate-y-[1px] hover:shadow-[6px_6px_12px_var(--shadow-dark)]"
+                  className="h-8.75 w-8.75 flex items-center justify-center cursor-pointer rounded-lg border-none bg-rose text-white shadow-[3px_3px_6px_var(--shadow-dark),-3px_-3px_6px_var(--shadow-light)] transition-all duration-200 ease-in-out hover:-translate-y-px hover:shadow-[6px_6px_12px_var(--shadow-dark)]"
                   onClick={() => setIsEditing(false)}
                   disabled={isSaving}
                 >
@@ -265,41 +267,21 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
           )}
         </div>
 
-        <div className="flex min-w-[140px] flex-col items-end gap-[8px]">
+        <div className="flex min-w-35 flex-col items-end gap-2">
           <label className="text-[0.8rem] font-bold">Theme</label>
-          <div className="relative w-full">
-            <div
-              className={`h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border flex min-w-[130px] items-center justify-between font-semibold after:inline-block after:h-[16px] after:w-[16px] after:bg-center after:bg-no-repeat after:content-[''] after:bg-[url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%2024%2024%22%20fill=%22%238d7d77%22%3E%3Cpath%20d=%22M7%2010l5%205%205-5z%22/%3E%3C/svg%3E')] ${
-                userRole === 'her' ? 'cursor-not-allowed opacity-70' : 'cursor-pointer'
-              }`}
-              onClick={() => {
-                if (userRole !== 'her') setIsThemeOpen(!isThemeOpen)
-              }}
-            >
-              {themeOptions.find((o) => o.value === userRole)?.label || 'Default'}
-            </div>
-            {isThemeOpen && userRole !== 'her' && (
-              <div className="absolute right-0 top-full z-[100] mt-[5px] flex min-w-[140px] flex-col gap-1 rounded-[8px] border border-[var(--color-lilas-doux)] bg-[var(--card-bg)] p-2 shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)]">
-                {availableThemes.map((theme) => (
-                  <div
-                    key={theme.value}
-                    className="cursor-pointer rounded-[8px] p-[10px_12px] text-right text-[0.9rem] font-medium text-[var(--color-profond)] transition-all duration-200 hover:bg-[var(--color-lilas-vif)] hover:text-white"
-                    onClick={() => {
-                      setUserRole(theme.value)
-                      setIsThemeOpen(false)
-                      api.updateUserRole(theme.value).catch(console.error)
-                    }}
-                  >
-                    {theme.label}
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
+          <Dropdown
+            disabled={userRole === 'her'}
+            options={availableThemes.map((t) => ({ value: t.value, label: t.label }))}
+            value={userRole}
+            onChange={(v) => {
+              setUserRole(v as Role)
+              api.updateUserRole(v).catch(console.error)
+            }}
+          />
         </div>
       </div>
 
-      <div className="grid grid-cols-4 gap-[10px] mt-[2.5vh]">
+      <div className="grid grid-cols-4 gap-2.5 mt-[2.5vh]">
         {[
           { label: t.profile.statsMoods, value: profileData?.stats.moods },
           { label: t.profile.statsGoals, value: profileData?.stats.goals },
@@ -308,45 +290,43 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
         ].map((stat, idx) => (
           <div
             key={idx}
-            className="bg-[var(--card-bg)] rounded-[var(--radius-bento)] shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-[var(--card-border)] transition-all duration-300 p-[15px] text-center"
+            className="bg-card rounded-(--radius-bento) shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 p-3.75 text-center"
           >
-            <span className="block text-2xl font-bold text-[var(--color-lilas-vif)]">
-              {stat.value ?? 0}
-            </span>
+            <span className="block text-2xl font-bold text-lilas">{stat.value ?? 0}</span>
             <span className="text-[0.75rem] opacity-70">{stat.label}</span>
           </div>
         ))}
       </div>
 
       <div className="grid grid-cols-2 gap-[2.5vw] mt-[2.5vh] flex-1 min-h-0">
-        <Card className="p-[25px] flex flex-col justify-center text-center">
-          <h3 className="mb-[15px] mt-0 border-b border-[var(--shadow-dark)] pb-[10px] text-[0.85rem] uppercase tracking-[1.5px] text-[var(--color-lilas-vif)] opacity-90">
+        <Card className="p-6.25 flex flex-col justify-center text-center">
+          <h3 className="mb-3.75 mt-0 border-b border-shadow-d pb-2.5 text-[0.85rem] uppercase tracking-[1.5px] text-lilas opacity-90">
             {t.profile.changePasswordTitle}
           </h3>
-          <div className="flex flex-col items-stretch gap-[12px]">
+          <div className="flex flex-col items-stretch gap-3">
             <input
               type="password"
-              className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border w-full"
+              className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border w-full"
               placeholder={t.profile.oldPassword}
               value={passForm.old}
               onChange={(e) => setPassForm({ ...passForm, old: e.target.value })}
             />
             <input
               type="password"
-              className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border w-full"
+              className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border w-full"
               placeholder={t.login.passwordPlaceholder}
               value={passForm.newP}
               onChange={(e) => setPassForm({ ...passForm, newP: e.target.value })}
             />
             <input
               type="password"
-              className="h-[4vh] px-2 py-[4px] border-0 rounded-md bg-[var(--field-bg)] text-[var(--color-profond)] shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-none text-[0.85rem] box-border w-full"
+              className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border w-full"
               placeholder="Confirm"
               value={passForm.confirm}
               onChange={(e) => setPassForm({ ...passForm, confirm: e.target.value })}
             />
             <button
-              className="border-0 rounded-xl px-[18px] py-[10px] font-semibold text-[var(--color-lilas-doux)] cursor-pointer bg-[var(--color-lilas-vif)] text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)] w-full"
+              className="border-0 rounded-xl px-4.5 py-2.5 font-semibold cursor-pointer bg-lilas text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)] w-full"
               onClick={handleUpdatePassword}
             >
               OK
@@ -354,43 +334,43 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
           </div>
         </Card>
 
-        <Card className="p-[25px] flex flex-col justify-center text-center">
-          <h3 className="mb-[15px] mt-0 border-b border-[var(--shadow-dark)] pb-[10px] text-[0.85rem] uppercase tracking-[1.5px] text-[var(--color-lilas-vif)] opacity-90">
+        <Card className="p-6.25 flex flex-col justify-center text-center">
+          <h3 className="mb-3.75 mt-0 border-b border-shadow-d pb-2.5 text-[0.85rem] uppercase tracking-[1.5px] text-lilas opacity-90">
             {t.profile.micPermissionTitle}
           </h3>
-          <div className="flex flex-col items-stretch gap-[12px]">
+          <div className="flex flex-col items-stretch gap-3">
             <button
-              className={`border-0 rounded-xl px-[18px] py-[10px] font-semibold text-[var(--color-lilas-doux)] cursor-pointer bg-[var(--card-bg)] shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 w-full ${
+              className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 w-full ${
                 micPermission === 'ask'
-                  ? 'bg-[var(--color-lilas-vif)] text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
-                  : 'hover:bg-[var(--color-rose-poudre)] hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
+                  ? 'bg-lilas text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
+                  : 'hover:bg-rose hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
               }`}
               onClick={() => applyMicPermission('ask')}
             >
               {t.profile.micAsk}
             </button>
             <button
-              className={`border-0 rounded-xl px-[18px] py-[10px] font-semibold text-[var(--color-lilas-doux)] cursor-pointer bg-[var(--card-bg)] shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 w-full ${
+              className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 w-full ${
                 micPermission === 'allow'
-                  ? 'bg-[var(--color-lilas-vif)] text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
-                  : 'hover:bg-[var(--color-rose-poudre)] hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
+                  ? 'bg-lilas text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
+                  : 'hover:bg-rose hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
               }`}
               onClick={() => applyMicPermission('allow')}
             >
               {t.profile.micAllow}
             </button>
             <button
-              className={`border-0 rounded-xl px-[18px] py-[10px] font-semibold text-[var(--color-lilas-doux)] cursor-pointer bg-[var(--card-bg)] shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 w-full ${
+              className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 w-full ${
                 micPermission === 'deny'
-                  ? 'bg-[var(--color-lilas-vif)] text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
-                  : 'hover:bg-[var(--color-rose-poudre)] hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
+                  ? 'bg-lilas text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-[0.96] hover:brightness-[1.15] hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)]'
+                  : 'hover:bg-rose hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
               }`}
               onClick={() => applyMicPermission('deny')}
             >
               {t.profile.micDeny}
             </button>
           </div>
-          <p className="mt-[12px] text-[0.8rem] text-[var(--color-profond)] opacity-70">
+          <p className="mt-3 text-[0.8rem] text-profond opacity-70">
             {t.profile.micPermissionHint}
           </p>
         </Card>

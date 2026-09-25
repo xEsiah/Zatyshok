@@ -7,7 +7,7 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
   {
-    version: '2.2.0',
+    version: '2.2.1',
     date: '2026-09-25',
     title: 'Notes vocales et changelogs',
     features: [

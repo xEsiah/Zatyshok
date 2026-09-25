@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { API_URL, getHeaders, checkAuthError } from './apiClient'
 import { BudgetCategory, Expense } from './types'
 
