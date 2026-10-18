@@ -15,8 +15,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Create Pull Request
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           CURRENT_BRANCH="${{ github.ref_name }}"
 

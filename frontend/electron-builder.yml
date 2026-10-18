@@ -55,7 +55,9 @@ appImage:
   artifactName: ${name}-${version}.${ext}
 npmRebuild: false
 publish:
-  provider: github
-  owner: xEsiah
-  repo: Zatyshok
-  releaseType: release
+  - provider: generic
+    url: https://git.cohaise.dev/Esiah/Zatyshok/raw/branch/update-feed
+  - provider: github
+    owner: xEsiah
+    repo: Zatyshok
+    releaseType: release

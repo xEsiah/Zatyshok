@@ -2,16 +2,17 @@ import db from "../config/db.js";
 import { transporter } from "../routes/auth.js";
 import { getReleaseEmailTemplate } from "../routes/user.js";
 
-const GITHUB_API_URL = `https://api.github.com/repos/xEsiah/Zatyshok/releases/latest`;
+const GITEA_API_URL = `https://git.cohaise.dev/api/v1/repos/Esiah/Zatyshok/releases/latest`;
+const RELEASE_PAGE_URL = `https://git.cohaise.dev/Esiah/Zatyshok/releases`;
 
 let lastReleaseCache: { version: string; url: string } | null = null;
 
 /**
- * Récupère les infos de la dernière release sur GitHub
+ * Récupère les infos de la dernière release sur Gitea
  */
-export async function fetchLatestGitHubRelease() {
+export async function fetchLatestRelease() {
   try {
-    const response = await fetch(GITHUB_API_URL, {
+    const response = await fetch(GITEA_API_URL, {
       headers: { "User-Agent": "Zatyshok-Backend-Monitor" },
     });
 
@@ -20,7 +21,7 @@ export async function fetchLatestGitHubRelease() {
     const data: any = await response.json();
     const info = {
       version: data.tag_name,
-      url: data.html_url,
+      url: data.html_url || `${RELEASE_PAGE_URL}/tag/${data.tag_name}`,
     };
 
     lastReleaseCache = info;
@@ -36,7 +37,7 @@ export async function fetchLatestGitHubRelease() {
  */
 export async function checkAndNotifyNewRelease() {
   try {
-    const latest = await fetchLatestGitHubRelease();
+    const latest = await fetchLatestRelease();
     if (!latest) return;
 
     const [rows]: any = await db.query(
@@ -117,5 +118,5 @@ export function setupReleaseMonitoring() {
  */
 export async function getLatestReleaseInfo() {
   if (lastReleaseCache) return lastReleaseCache;
-  return await fetchLatestGitHubRelease();
+  return await fetchLatestRelease();
 }
