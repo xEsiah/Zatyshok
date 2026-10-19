@@ -11,14 +11,55 @@ on:
       - ".github/workflows/deploy.yml"
   workflow_dispatch:
 
+concurrency:
+  group: cd-home-server
+  cancel-in-progress: false
+
 jobs:
-  deploy_on_home_server:
-    runs-on: self-hosted
+  build_backend_image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
-      - name: Deploy with Docker Compose
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      - name: Login to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          tags: ghcr.io/xesiah/zatyshok-backend:latest
+          build-args: |
+            USER_ID=${{ vars.IMAGE_UID || '1000' }}
+            GROUP_ID=${{ vars.IMAGE_GID || '1000' }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy_on_home_server:
+    needs: build_backend_image
+    runs-on: self-hosted
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - name: Pull image and restart
+        env:
+          GHCR_USER: ${{ github.actor }}
+          GHCR_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           cd /srv/apps/zatyshok/Zatyshok
           git pull origin main
-          make prod-build
-          make prod-up
+          docker login ghcr.io -u "$GHCR_USER" -p "$GHCR_TOKEN"
+          make prod-pull prod-up
+          docker rmi zatyshok-backend:latest 2>/dev/null || true
           docker image prune -f

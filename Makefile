@@ -2,7 +2,7 @@ COMPOSE_DEV=docker compose -f docker-compose.yml
 COMPOSE_PROD=docker compose -f docker-compose.prod.yml
 
 .PHONY: dev-up dev-down dev-build dev-logs dev-restart dev-backend dev-front
-.PHONY: prod-up prod-down prod-build prod-logs prod-restart
+.PHONY: prod-up prod-down prod-build prod-pull prod-logs prod-restart
 .PHONY: network clean ps seed db-shell reset-db release
 
 export USER_ID := $(shell id -u)
@@ -45,7 +45,10 @@ dev-backend:
 prod-build: network
 	$(COMPOSE_PROD) build
 
-prod-up: network prod-build
+prod-pull: network
+	$(COMPOSE_PROD) pull backend
+
+prod-up: network
 	$(COMPOSE_PROD) up -d
 
 prod-down:
