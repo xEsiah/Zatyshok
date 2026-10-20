@@ -160,6 +160,26 @@ router.post("/login", async (req: Request, res: Response) => {
       expiresIn: "30d",
     });
 
+    try {
+      await db.execute("UPDATE users SET last_login_at = NOW() WHERE id = ?", [
+        user.id,
+      ]);
+      const loginIp =
+        (req.headers["cf-connecting-ip"] as string) ||
+        req.socket.remoteAddress ||
+        null;
+      await db.execute(
+        "INSERT INTO login_events (user_id, ip, app_version) VALUES (?, ?, ?)",
+        [
+          user.id,
+          loginIp,
+          (req.headers["x-app-version"] as string) || null,
+        ],
+      );
+    } catch (trackErr) {
+      console.error("[LOGIN TRACKING ERROR]", trackErr);
+    }
+
     res.json({
       token,
       username: user.username,

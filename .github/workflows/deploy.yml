@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - "backend/**"
+      - "migrations/**"
       - "docker-compose.prod.yml"
       - "Makefile"
       - ".github/workflows/deploy.yml"
@@ -60,6 +61,7 @@ jobs:
           cd /srv/apps/zatyshok/Zatyshok
           git pull origin main
           docker login ghcr.io -u "$GHCR_USER" -p "$GHCR_TOKEN"
+          make prod-migrate
           make prod-pull prod-up
           docker rmi zatyshok-backend:latest 2>/dev/null || true
           docker image prune -f
