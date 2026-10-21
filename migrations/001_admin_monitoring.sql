@@ -5,7 +5,15 @@ ALTER TABLE `users`
   ADD COLUMN IF NOT EXISTS `app_version` VARCHAR(20) NULL,
   ADD COLUMN IF NOT EXISTS `is_admin` TINYINT(1) NOT NULL DEFAULT 0;
 
-UPDATE `users` SET `created_at` = NOW() WHERE `created_at` IS NULL;
+UPDATE `users` u
+SET u.`created_at` = COALESCE(
+  (SELECT MIN(`created_at`) FROM `calendar_entries` WHERE `user_id` = u.`id`),
+  (SELECT MIN(`created_at`) FROM `mood_entries` WHERE `user_id` = u.`id`),
+  (SELECT MIN(`created_at`) FROM `transactions` WHERE `user_id` = u.`id`),
+  (SELECT MIN(`created_at`) FROM `budget_categories` WHERE `user_id` = u.`id`),
+  NOW()
+)
+WHERE u.`created_at` IS NULL;
 
 CREATE TABLE IF NOT EXISTS `login_events` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
