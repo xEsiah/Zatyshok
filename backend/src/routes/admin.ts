@@ -1,20 +1,30 @@
 import { Request, Response, Router } from "express";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 import db from "../config/db.js";
 import { fetchLatestGitHubRelease, getLatestReleaseInfo } from "../services/releaseService.js";
+import { transporter } from "./auth.js";
 import {
-  clientKey,
   clearAdminCookie,
   clearLoginFailures,
+  clearPending2faCookie,
+  clientKey,
   getAdminUser,
+  getPending2faId,
   isLoginBlocked,
   recordLoginFailure,
   requireAdmin,
   setAdminCookie,
+  setPending2faCookie,
 } from "../middlewares/admin.js";
 
 const ADMIN_COOKIE_HOURS = 12;
+const TWOFA_CODE_LENGTH = 6;
+const TWOFA_TTL_MINUTES = 5;
+const TWOFA_MAX_ATTEMPTS = 5;
+const TWOFA_RESEND_COOLDOWN_SECONDS = 60;
+const TWOFA_BCRYPT_ROUNDS = 10;
 
 const router = Router();
 
@@ -186,6 +196,47 @@ router.get("/login", async (req: Request, res: Response) => {
   res.send(getLoginHtml(req));
 });
 
+const build2faEmail = (fr: boolean, code: string) => {
+  const content = fr
+    ? {
+        subject: "Code de connexion · Zatyshok Admin",
+        title: "Code de connexion",
+        text: "Voici ton code pour accéder à l'administration :",
+        expiry: `Valable ${TWOFA_TTL_MINUTES} minutes. Si tu n'es pas à l'origine de cette demande, ignore cet email.`,
+      }
+    : {
+        subject: "Sign-in code · Zatyshok Admin",
+        title: "Sign-in code",
+        text: "Here is your code to access the administration panel:",
+        expiry: `Valid for ${TWOFA_TTL_MINUTES} minutes. If you didn't request this, ignore this email.`,
+      };
+  return `
+    <div style="font-family: 'Quicksand', sans-serif; background-color: #0a0a0f; color: #e0e0e0; padding: 40px; text-align: center; border-radius: 20px; border: 1px solid #1e1e2e;">
+      <h1 style="color: #f5c518; margin: 0 0 12px;">${content.title}</h1>
+      <p style="font-size: 15px; margin: 0 0 24px;">${content.text}</p>
+      <div style="font-size: 34px; font-weight: 700; letter-spacing: 0.35em; color: #f5c518; margin: 0 0 28px;">${code}</div>
+      <p style="font-size: 12px; opacity: 0.6; margin: 0;">${content.expiry}</p>
+      <p style="margin-top: 30px; font-size: 12px; opacity: 0.5;">© 2026 - Co Hai Se • Zatyshok • Automated Transmission</p>
+    </div>`;
+};
+
+const send2faCode = async (userId: number, email: string, fr: boolean): Promise<void> => {
+  const code = String(crypto.randomInt(10 ** TWOFA_CODE_LENGTH)).padStart(TWOFA_CODE_LENGTH, "0");
+  const hash = await bcrypt.hash(code, TWOFA_BCRYPT_ROUNDS);
+  await db.execute("DELETE FROM admin_2fa_codes WHERE user_id = ? AND used = 0", [userId]);
+  await db.execute(
+    `INSERT INTO admin_2fa_codes (user_id, code_hash, expires_at)
+     VALUES (?, ?, NOW() + INTERVAL ${TWOFA_TTL_MINUTES} MINUTE)`,
+    [userId, hash],
+  );
+  await transporter.sendMail({
+    from: `"Zatyshok" <${process.env.SMTP_USER}>`,
+    to: email,
+    subject: fr ? "Code de connexion · Zatyshok Admin" : "Sign-in code · Zatyshok Admin",
+    html: build2faEmail(fr, code),
+  });
+};
+
 router.post("/login", async (req: Request, res: Response) => {
   const key = clientKey(req);
   if (isLoginBlocked(key)) {
@@ -215,16 +266,127 @@ router.post("/login", async (req: Request, res: Response) => {
     }
 
     clearLoginFailures(key);
+    await send2faCode(user.id, user.email, isFrench(req));
+    const pending = jwt.sign(
+      { id: user.id, purpose: "2fa" },
+      process.env.JWT_SECRET as string,
+      { expiresIn: "10m" },
+    );
+    setPending2faCookie(res, pending);
+    await audit(user.id, "admin_2fa_sent", null, key);
+    res.json({ requires2FA: true });
+  } catch (err) {
+    console.error("[ADMIN LOGIN ERROR]", err);
+    res.status(500).json({ error: "server" });
+  }
+});
+
+router.post("/2fa/verify", async (req: Request, res: Response) => {
+  const key = clientKey(req);
+  if (isLoginBlocked(key)) {
+    return res.status(429).json({ error: "rate_limited" });
+  }
+
+  const pendingId = getPending2faId(req);
+  if (!pendingId) {
+    return res.status(401).json({ error: "expired" });
+  }
+
+  const code = String(req.body?.code || "").trim();
+  if (!code) {
+    return res.status(400).json({ error: "missing" });
+  }
+
+  try {
+    const [users]: any = await db.query(
+      "SELECT id, isApproved, is_admin FROM users WHERE id = ?",
+      [pendingId],
+    );
+    const user = users[0];
+    if (!user || user.isApproved !== 1 || user.is_admin !== 1) {
+      clearPending2faCookie(res);
+      return res.status(401).json({ error: "expired" });
+    }
+
+    const [codes]: any = await db.query(
+      `SELECT id, code_hash, attempts FROM admin_2fa_codes
+       WHERE user_id = ? AND used = 0 AND expires_at > NOW()
+       ORDER BY id DESC LIMIT 1`,
+      [pendingId],
+    );
+    const active = codes[0];
+    if (!active) {
+      return res.status(401).json({ error: "expired" });
+    }
+    if (active.attempts >= TWOFA_MAX_ATTEMPTS) {
+      await db.execute("DELETE FROM admin_2fa_codes WHERE user_id = ? AND used = 0", [pendingId]);
+      clearPending2faCookie(res);
+      return res.status(429).json({ error: "too_many" });
+    }
+
+    await db.execute("UPDATE admin_2fa_codes SET attempts = attempts + 1 WHERE id = ?", [
+      active.id,
+    ]);
+    const match = await bcrypt.compare(code, active.code_hash);
+    if (!match) {
+      recordLoginFailure(key);
+      return res.status(401).json({ error: "invalid" });
+    }
+
+    await db.execute("UPDATE admin_2fa_codes SET used = 1 WHERE id = ?", [active.id]);
+    await db.execute("DELETE FROM admin_2fa_codes WHERE user_id = ? AND used = 0", [pendingId]);
+    clearLoginFailures(key);
+    clearPending2faCookie(res);
     const token = jwt.sign(
-      { id: user.id },
+      { id: pendingId, purpose: "admin" },
       process.env.JWT_SECRET as string,
       { expiresIn: `${ADMIN_COOKIE_HOURS}h` },
     );
     setAdminCookie(res, token);
-    await audit(user.id, "admin_login", null, key);
+    await audit(pendingId, "admin_login", null, key);
     res.json({ ok: true });
   } catch (err) {
-    console.error("[ADMIN LOGIN ERROR]", err);
+    console.error("[ADMIN 2FA VERIFY ERROR]", err);
+    res.status(500).json({ error: "server" });
+  }
+});
+
+router.post("/2fa/resend", async (req: Request, res: Response) => {
+  const key = clientKey(req);
+  if (isLoginBlocked(key)) {
+    return res.status(429).json({ error: "rate_limited" });
+  }
+
+  const pendingId = getPending2faId(req);
+  if (!pendingId) {
+    return res.status(401).json({ error: "expired" });
+  }
+
+  try {
+    const [users]: any = await db.query(
+      "SELECT id, email, isApproved, is_admin FROM users WHERE id = ?",
+      [pendingId],
+    );
+    const user = users[0];
+    if (!user || user.isApproved !== 1 || user.is_admin !== 1) {
+      clearPending2faCookie(res);
+      return res.status(401).json({ error: "expired" });
+    }
+
+    const [recent]: any = await db.query(
+      `SELECT COUNT(*) AS recent FROM admin_2fa_codes
+       WHERE user_id = ? AND created_at > NOW() - INTERVAL ${TWOFA_RESEND_COOLDOWN_SECONDS} SECOND`,
+      [pendingId],
+    );
+    if (Number(recent[0].recent) > 0) {
+      return res.status(429).json({ error: "cooldown" });
+    }
+
+    await send2faCode(user.id, user.email, isFrench(req));
+    await audit(user.id, "admin_2fa_sent", null, key);
+    res.json({ ok: true });
+  } catch (err) {
+    console.error("[ADMIN 2FA RESEND ERROR]", err);
     res.status(500).json({ error: "server" });
   }
 });
@@ -233,6 +395,7 @@ router.post("/logout", async (req: Request, res: Response) => {
   const user = await getAdminUser(req);
   if (user) await audit(user.id, "admin_logout", null, clientKey(req));
   clearAdminCookie(res);
+  clearPending2faCookie(res);
   res.json({ ok: true });
 });
 
@@ -367,6 +530,16 @@ const getLoginHtml = (req: Request): string => {
         errorMissing: "Remplis tous les champs.",
         errorServer: "Erreur serveur. Réessaie.",
         hint: "Utilise les mêmes identifiants que l'application.",
+        codeHint: "Un code à 6 chiffres vient d'être envoyé par email.",
+        codeLabel: "Code de vérification",
+        codeSubmit: "Vérifier",
+        codeResend: "Renvoyer le code",
+        codeBack: "Retour",
+        codeSent: "Nouveau code envoyé.",
+        errorInvalidCode: "Code invalide ou expiré.",
+        errorExpired: "Session expirée. Recommence.",
+        errorTooMany: "Trop de tentatives de code. Recommence dans 15 minutes.",
+        errorCooldown: "Patiente quelques secondes avant de renvoyer un code.",
       }
     : {
         title: "Zatyshok · Admin",
@@ -379,6 +552,16 @@ const getLoginHtml = (req: Request): string => {
         errorMissing: "Please fill in all fields.",
         errorServer: "Server error. Please retry.",
         hint: "Use the same credentials as the application.",
+        codeHint: "A 6-digit code has been sent to your email.",
+        codeLabel: "Verification code",
+        codeSubmit: "Verify",
+        codeResend: "Resend code",
+        codeBack: "Back",
+        codeSent: "New code sent.",
+        errorInvalidCode: "Invalid or expired code.",
+        errorExpired: "Session expired. Please start over.",
+        errorTooMany: "Too many code attempts. Try again in 15 minutes.",
+        errorCooldown: "Wait a few seconds before requesting a new code.",
       };
 
   return `<!DOCTYPE html>
@@ -402,7 +585,11 @@ const getLoginHtml = (req: Request): string => {
     input:focus { border-color: var(--accent); }
     button { margin-top: 24px; width: 100%; padding: 13px; border: none; border-radius: 12px; background: var(--accent); color: #0a0a0f; font-family: inherit; font-weight: 700; font-size: 1rem; cursor: pointer; transition: transform 0.2s, filter 0.2s; }
     button:hover { transform: translateY(-2px); filter: brightness(1.1); }
+    button.linklike { background: transparent; color: var(--muted); font-size: 0.8rem; margin-top: 10px; padding: 6px; }
+    button.linklike:hover { color: var(--accent); transform: none; filter: none; }
     #error { color: #e74c3c; font-size: 0.9rem; min-height: 1.2em; margin-top: 14px; font-weight: 600; }
+    #info { color: var(--accent); font-size: 0.9rem; min-height: 1.2em; margin-top: 14px; font-weight: 600; }
+    #code { text-align: center; letter-spacing: 0.4em; font-size: 1.3rem; font-weight: 700; }
   </style>
 </head>
 <body>
@@ -417,7 +604,16 @@ const getLoginHtml = (req: Request): string => {
       <input id="password" name="password" type="password" autocomplete="current-password" required>
       <button type="submit">${t.submit}</button>
     </form>
+    <div id="twofa" style="display:none">
+      <p class="hint">${t.codeHint}</p>
+      <label for="code">${t.codeLabel}</label>
+      <input id="code" name="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" pattern="[0-9]{6}" required>
+      <button type="button" id="verifyBtn">${t.codeSubmit}</button>
+      <button type="button" id="resendBtn" class="linklike">${t.codeResend}</button>
+      <button type="button" id="backBtn" class="linklike">${t.codeBack}</button>
+    </div>
     <div id="error"></div>
+    <div id="info"></div>
   </div>
   <script>
     const MESSAGES = {
@@ -426,10 +622,26 @@ const getLoginHtml = (req: Request): string => {
       missing: ${JSON.stringify(t.errorMissing)},
       server: ${JSON.stringify(t.errorServer)}
     };
-    document.getElementById('form').addEventListener('submit', async (e) => {
+    const CODE_MESSAGES = {
+      invalid: ${JSON.stringify(t.errorInvalidCode)},
+      expired: ${JSON.stringify(t.errorExpired)},
+      too_many: ${JSON.stringify(t.errorTooMany)},
+      rate_limited: ${JSON.stringify(t.errorRate)},
+      cooldown: ${JSON.stringify(t.errorCooldown)},
+      missing: ${JSON.stringify(t.errorMissing)},
+      server: ${JSON.stringify(t.errorServer)}
+    };
+    const CODE_SENT = ${JSON.stringify(t.codeSent)};
+
+    const errorEl = document.getElementById('error');
+    const infoEl = document.getElementById('info');
+    const form = document.getElementById('form');
+    const twofa = document.getElementById('twofa');
+
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const errorEl = document.getElementById('error');
       errorEl.textContent = '';
+      infoEl.textContent = '';
       const body = {
         username: document.getElementById('username').value.trim(),
         password: document.getElementById('password').value
@@ -441,7 +653,11 @@ const getLoginHtml = (req: Request): string => {
           body: JSON.stringify(body)
         });
         const data = await res.json();
-        if (res.ok) {
+        if (res.ok && data.requires2FA) {
+          form.style.display = 'none';
+          twofa.style.display = 'block';
+          document.getElementById('code').focus();
+        } else if (res.ok) {
           window.location.href = '/admin';
         } else {
           errorEl.textContent = MESSAGES[data.error] || MESSAGES.server;
@@ -449,6 +665,64 @@ const getLoginHtml = (req: Request): string => {
       } catch (err) {
         errorEl.textContent = MESSAGES.server;
       }
+    });
+
+    const submitCode = async () => {
+      errorEl.textContent = '';
+      infoEl.textContent = '';
+      const code = document.getElementById('code').value.trim();
+      if (!code) { errorEl.textContent = CODE_MESSAGES.missing; return; }
+      try {
+        const res = await fetch('/admin/2fa/verify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code })
+        });
+        const data = await res.json();
+        if (res.ok) {
+          window.location.href = '/admin';
+        } else {
+          errorEl.textContent = CODE_MESSAGES[data.error] || CODE_MESSAGES.server;
+        }
+      } catch (err) {
+        errorEl.textContent = CODE_MESSAGES.server;
+      }
+    };
+
+    document.getElementById('verifyBtn').addEventListener('click', submitCode);
+    document.getElementById('code').addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') { e.preventDefault(); submitCode(); }
+    });
+
+    let resendTimer = null;
+    document.getElementById('resendBtn').addEventListener('click', async () => {
+      errorEl.textContent = '';
+      infoEl.textContent = '';
+      const btn = document.getElementById('resendBtn');
+      if (btn.disabled) return;
+      try {
+        const res = await fetch('/admin/2fa/resend', { method: 'POST' });
+        const data = await res.json();
+        if (res.ok) {
+          infoEl.textContent = CODE_SENT;
+          btn.disabled = true;
+          resendTimer = setTimeout(() => { btn.disabled = false; }, 60000);
+        } else {
+          errorEl.textContent = CODE_MESSAGES[data.error] || CODE_MESSAGES.server;
+        }
+      } catch (err) {
+        errorEl.textContent = CODE_MESSAGES.server;
+      }
+    });
+
+    document.getElementById('backBtn').addEventListener('click', () => {
+      errorEl.textContent = '';
+      infoEl.textContent = '';
+      document.getElementById('code').value = '';
+      twofa.style.display = 'none';
+      form.style.display = 'block';
+      document.getElementById('password').value = '';
+      document.getElementById('password').focus();
     });
   </script>
 </body>

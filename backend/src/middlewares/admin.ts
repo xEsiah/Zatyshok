@@ -4,7 +4,9 @@ import db from "../config/db.js";
 import { UserPayload } from "../types/index.js";
 
 const ADMIN_COOKIE = "zatyshok_admin";
+const PENDING_2FA_COOKIE = "zatyshok_admin_2fa";
 const ADMIN_SESSION_HOURS = 12;
+const PENDING_2FA_MINUTES = 10;
 const LOGIN_MAX_ATTEMPTS = 10;
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
 
@@ -57,21 +59,50 @@ export const parseCookies = (req: Request): Record<string, string> => {
   return cookies;
 };
 
+const appendCookie = (res: Response, cookie: string): void => {
+  res.append("Set-Cookie", cookie);
+};
+
 export const setAdminCookie = (res: Response, token: string): void => {
   const host = (res.req.headers.host || "").split(":")[0];
   const secure = host !== "localhost" && host !== "127.0.0.1";
   const maxAge = ADMIN_SESSION_HOURS * 3600;
-  res.setHeader(
-    "Set-Cookie",
+  appendCookie(
+    res,
     `${ADMIN_COOKIE}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge};${secure ? " Secure;" : ""}`,
   );
 };
 
 export const clearAdminCookie = (res: Response): void => {
-  res.setHeader(
-    "Set-Cookie",
-    `${ADMIN_COOKIE}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0;`,
+  appendCookie(res, `${ADMIN_COOKIE}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0;`);
+};
+
+export const setPending2faCookie = (res: Response, token: string): void => {
+  const host = (res.req.headers.host || "").split(":")[0];
+  const secure = host !== "localhost" && host !== "127.0.0.1";
+  const maxAge = PENDING_2FA_MINUTES * 60;
+  appendCookie(
+    res,
+    `${PENDING_2FA_COOKIE}=${encodeURIComponent(token)}; HttpOnly; SameSite=Lax; Path=/; Max-Age=${maxAge};${secure ? " Secure;" : ""}`,
   );
+};
+
+export const clearPending2faCookie = (res: Response): void => {
+  appendCookie(res, `${PENDING_2FA_COOKIE}=; HttpOnly; SameSite=Lax; Path=/; Max-Age=0;`);
+};
+
+export const getPending2faId = (req: Request): number | null => {
+  const token = parseCookies(req)[PENDING_2FA_COOKIE];
+  if (!token) return null;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
+      id: number;
+      purpose?: string;
+    };
+    return decoded.purpose === "2fa" ? decoded.id : null;
+  } catch {
+    return null;
+  }
 };
 
 export const getAdminUser = async (req: Request): Promise<UserPayload | null> => {
@@ -80,7 +111,9 @@ export const getAdminUser = async (req: Request): Promise<UserPayload | null> =>
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
       id: number;
+      purpose?: string;
     };
+    if (decoded.purpose !== "admin") return null;
     const [rows]: any = await db.execute("SELECT * FROM users WHERE id = ?", [
       decoded.id,
     ]);
