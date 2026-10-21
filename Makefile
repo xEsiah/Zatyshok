@@ -3,7 +3,7 @@ COMPOSE_PROD=docker compose -f docker-compose.prod.yml
 
 .PHONY: dev-up dev-down dev-build dev-logs dev-restart dev-backend dev-front
 .PHONY: prod-up prod-down prod-build prod-pull prod-logs prod-restart
-.PHONY: network clean ps seed db-shell reset-db release
+.PHONY: network clean ps seed db-shell reset-db release migrate prod-migrate
 
 export USER_ID := $(shell id -u)
 export GROUP_ID := $(shell id -g)
@@ -72,6 +72,19 @@ clean:
 seed:
 	docker exec -i zatyshok-db-dev mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < init.sql
 	(echo "SET FOREIGN_KEY_CHECKS=0;" && cat datas.sql && echo "SET FOREIGN_KEY_CHECKS=1;") | docker exec -i zatyshok-db-dev mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME)
+
+migrate:
+	@for f in migrations/*.sql; do \
+		echo "Applying $$f"; \
+		docker exec -i zatyshok-db-dev mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < $$f || exit 1; \
+	done
+
+prod-migrate:
+	@for f in migrations/*.sql; do \
+		echo "Applying $$f"; \
+		docker exec -i zatyshok-db mariadb -u $(DB_USER) -p$(DB_PASSWORD) $(DB_NAME) < $$f || exit 1; \
+	done
+
 db-shell:
 	docker exec -it zatyshok-db-dev mariadb -u root -p
 

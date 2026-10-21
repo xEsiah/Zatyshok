@@ -4,6 +4,41 @@ import db from "../config/db.js";
 import { UserPayload } from "../types/index.js";
 
 const MIN_SUPPORTED_VERSION = "1.1.0";
+const SEEN_THROTTLE_MS = 5 * 60 * 1000;
+
+const trackClientState = async (
+  user: UserPayload,
+  clientVersion: string,
+) => {
+  try {
+    if (user.app_version !== clientVersion) {
+      if (user.app_version) {
+        await db.execute(
+          "INSERT INTO app_updates (user_id, from_version, to_version) VALUES (?, ?, ?)",
+          [user.id, user.app_version, clientVersion],
+        );
+      }
+      await db.execute(
+        "UPDATE users SET app_version = ?, last_seen_at = NOW() WHERE id = ?",
+        [clientVersion, user.id],
+      );
+      user.app_version = clientVersion;
+      return;
+    }
+
+    const lastSeen = user.last_seen_at
+      ? new Date(user.last_seen_at).getTime()
+      : 0;
+    if (!lastSeen || Date.now() - lastSeen > SEEN_THROTTLE_MS) {
+      await db.execute(
+        "UPDATE users SET last_seen_at = NOW() WHERE id = ?",
+        [user.id],
+      );
+    }
+  } catch (err) {
+    console.error("[TRACKING ERROR]", err);
+  }
+};
 
 const authenticateToken = async (
   req: Request,
@@ -41,6 +76,7 @@ const authenticateToken = async (
     }
 
     req.user = rows[0] as UserPayload;
+    void trackClientState(req.user, clientVersion);
     next();
   } catch (err) {
     console.error("[AUTH ERROR]", err);

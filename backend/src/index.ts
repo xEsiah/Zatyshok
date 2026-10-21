@@ -12,6 +12,7 @@ import weatherRoutes from "./routes/weather.js";
 import spotifyRoutes from "./routes/spotify.js";
 import budgetRoutes from "./routes/budget.js";
 import userRoutes from "./routes/user.js";
+import adminRoutes from "./routes/admin.js";
 import {
   setupReleaseMonitoring,
   getLatestReleaseInfo,
@@ -26,6 +27,7 @@ app.use(
       if (
         !origin ||
         [
+          "http://localhost:3000",
           "http://localhost:5173",
           "http://localhost:5174",
           "https://api-zatyshok.esiah.dev",
@@ -65,6 +67,7 @@ app.use("/moods", moodRoutes);
 app.use("/weather", weatherRoutes);
 app.use("/spotify", spotifyRoutes);
 app.use("/budget", budgetRoutes);
+app.use("/admin", adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 
