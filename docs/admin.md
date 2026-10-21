@@ -31,6 +31,7 @@ sequenceDiagram
     actor A as Admin (navigateur)
     participant P as GET /admin
     participant L as POST /admin/login
+    participant V as POST /admin/2fa/verify
     participant API as /admin/api/*
     participant DB as MariaDB
 
@@ -38,8 +39,12 @@ sequenceDiagram
     P-->>A: 302 → /admin/login (pas de cookie)
     A->>L: username + mot de passe
     L->>DB: SELECT users, bcrypt.compare
-    L->>DB: INSERT admin_audit (admin_login)
-    L-->>A: Set-Cookie zatyshok_admin (JWT httpOnly, 12 h)
+    L->>DB: INSERT admin_2fa_codes (code hashé, TTL 5 min)
+    L-->>A: email du code + Set-Cookie zatyshok_admin_2fa (JWT purpose="2fa", 10 min)
+    A->>V: code à 6 chiffres
+    V->>DB: bcrypt.compare, attempts + 1 (max 5)
+    V->>DB: INSERT admin_audit (admin_login)
+    V-->>A: Set-Cookie zatyshok_admin (JWT purpose="admin", httpOnly, 12 h)
     A->>P: /admin (cookie)
     P-->>A: HTML du dashboard
     A->>API: fetch périodique (cookie)
@@ -50,11 +55,16 @@ sequenceDiagram
 - **Mêmes identifiants que l'application** (aucun secret séparé) — le compte
   doit avoir `users.is_admin = 1` (migré par `001_admin_monitoring.sql` pour
   `esiah.dev@gmail.com`).
-- Cookie : `HttpOnly`, `SameSite=Lax`, `Path=/`, `Secure` hors localhost,
-  expiration 12 h.
+- **2FA par email** (`002_admin_2fa.sql`) : après le mot de passe, un code à
+  6 chiffres (`crypto.randomInt`, hashé bcrypt) est envoyé par email. TTL
+  5 min, 5 tentatives max, renvoi avec cooldown 60 s. Le cookie temporaire
+  `zatyshok_admin_2fa` porte le claim `purpose="2fa"` ; `requireAdmin` exige
+  `purpose="admin"` sur le cookie final.
+- Cookies : `HttpOnly`, `SameSite=Lax`, `Path=/`, `Secure` hors localhost,
+  expiration 12 h (session) / 10 min (attente 2FA).
 - `is_admin` est **relu en base à chaque requête** : une rétrogradation prend
   effet immédiatement.
-- Throttle : 10 échecs → `429` pendant 15 min (clé IP).
+- Throttle : 10 échecs (mot de passe ou code) → `429` pendant 15 min (clé IP).
 
 ## Mécanisme de tracking (côté app, zéro changement client)
 
@@ -77,9 +87,9 @@ Le `POST /login` écrit `last_login_at` + une ligne `login_events` (IP =
 | --- | --- | --- | --- |
 | Approuver | `POST /admin/api/users/:id/approve` | `isApproved = 1`, purge du token | — |
 | Révoquer | `POST /admin/api/users/:id/revoke` | `isApproved = 0` (bloqué au login) | jamais soi-même |
-| Promouvoir | `POST /admin/api/users/:id/admin` | `is_admin = 1` | — |
+| Promouvoir | `POST /admin/api/users/:id/admin` | `is_admin = 1` | pas de bouton (curl only) |
 | Rétrograder | `POST /admin/api/users/:id/demote` | `is_admin = 0` | jamais soi-même |
-| Vérifier la release | `POST /admin/api/check-release` | fetch Gitea (sans email) | journalisé |
+| Vérifier la release | `POST /admin/api/check-release` | fetch GitHub (sans email) | journalisé |
 
 Toutes les actions sont tracées dans `admin_audit`.
 
@@ -87,25 +97,24 @@ Toutes les actions sont tracées dans `admin_audit`.
 
 | Rôle | Fichier |
 | --- | --- |
-| Routes, HTML, API | `backend/src/routes/admin.ts` |
+| Routes, HTML, API, 2FA | `backend/src/routes/admin.ts` |
 | Session cookie, throttle, `requireAdmin` | `backend/src/middlewares/admin.ts` |
 | Tracking des versions | `backend/src/middlewares/auth.ts` (`trackClientState`) |
 | Connexions | `backend/src/routes/auth.ts` (POST `/login`) |
-| Schéma | `migrations/001_admin_monitoring.sql`, `init.sql` |
+| Schéma | `migrations/001_admin_monitoring.sql`, `migrations/002_admin_2fa.sql`, `init.sql` |
 | Montage Express | `backend/src/index.ts` (`app.use("/admin", …)`) |
 
 ## Interface
 
-- Style doux Quicksand cohérent avec les pages serveur existantes (landing,
-  approbation) : cartes en neumorphismie, palette `#faf7f2 / #4e342e / #8d7d77`
-  exposée en variables CSS locales.
-- Bilingue **FR/EN** via `Accept-Language` (libellés du dashboard et messages
-  d'erreur du login).
+- Thème sombre type Batman : `#0a0a0f / #14141f`, accent jaune `#f5c518`,
+  police Quicksand, badges colorés, cartes de stats.
+- Bilingue **FR/EN** via `Accept-Language` (libellés du dashboard, du login et
+  du formulaire 2FA).
 - Aucune donnée utilisateur injectée non échappée (`esc()` côté JS embarqué).
 
 ## Dépendances
 
-- Schéma : migration `001` appliquée (dev : `make migrate`, prod : automatique
-  via `deploy.yml`).
-- Releases : affiche `—` tant qu'aucune release n'existe sur Gitea (bridage
-  v2.2.3 requis, voir [`deployment.md`](deployment.md)).
+- Schéma : migrations `001` + `002` appliquées (dev : `make migrate`, prod :
+  automatique via `deploy.yml`).
+- Releases : affiche la dernière release GitHub publique du dépôt
+  (`fetchLatestGitHubRelease`).
