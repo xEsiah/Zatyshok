@@ -73,12 +73,12 @@ flowchart LR
 ```mermaid
 flowchart LR
     db[db :3306<br/>127.0.0.1] --> backend[backend :3000]
-    backend --> tunnel[app-tunnel<br/>cloudflared token]
 ```
 
 - `db` (mariadb:10.11) : healthcheck `mysqladmin ping`, bind mount `../zatyshok-db-data`.
 - `backend` : image buildée (tsc en builder), `node dist/index.js`, `depends_on db healthy`.
-- `tunnel` : cloudflared managed (token) — `api-zatyshok.esiah.dev` → `backend:3000`.
+- Le tunnel Cloudflare est dans un stack indépendant (`/srv/apps/tunnel`) et
+  rejoint le réseau externe `zatyshok-prod_app-network`.
 - Déploiement : `deploy.yml` (runner self-hosted) → `git pull` + `make prod-migrate` +
   `make prod-build` + `make prod-up`.
 

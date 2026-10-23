@@ -13,19 +13,18 @@ API sur `http://localhost:3000`, base sur `localhost:3306`.
 
 ## Variables (`.env` à la racine, jamais versionné)
 
-| Variable | Rôle |
-| --- | --- |
-| `DB_HOST` / `DB_USER` / `DB_PASSWORD` / `DB_NAME` | base applicative (`db` = hôte Docker) |
-| `DB_ROOT_PASSWORD` | root MariaDB (healthcheck, sauvegardes) |
-| `API_TOKEN` | jeton applicatif (`X-App-Token`), aussi `VITE_API_TOKEN` côté front |
-| `API_URL` | URL publique de l'API (liens email : approbation, ouverture app) |
-| `JWT_SECRET` | signature des JWT (app **et** cookie admin) |
-| `ID_TUNNEL` / `TUNNEL_TOKEN` | tunnel cloudflared managé |
-| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS` | envoi d'emails |
-| `WEATHER_API_KEY` | météo |
-| `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` / `SPOTIFY_REDIRECT_URI` | Spotify OAuth |
-| `VITE_API_URL` / `VITE_API_TOKEN` | build front |
-| `GH_TOKEN` | workflows GitHub (`auto-pr`) |
+| Variable                                                               | Rôle                                                                |
+| ---------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `DB_HOST` / `DB_USER` / `DB_PASSWORD` / `DB_NAME`                      | base applicative (`db` = hôte Docker)                               |
+| `DB_ROOT_PASSWORD`                                                     | root MariaDB (healthcheck, sauvegardes)                             |
+| `API_TOKEN`                                                            | jeton applicatif (`X-App-Token`), aussi `VITE_API_TOKEN` côté front |
+| `API_URL`                                                              | URL publique de l'API (liens email : approbation, ouverture app)    |
+| `JWT_SECRET`                                                           | signature des JWT (app **et** cookie admin)                         |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_USER` / `SMTP_PASS`                  | envoi d'emails                                                      |
+| `WEATHER_API_KEY`                                                      | météo                                                               |
+| `SPOTIFY_CLIENT_ID` / `SPOTIFY_CLIENT_SECRET` / `SPOTIFY_REDIRECT_URI` | Spotify OAuth                                                       |
+| `VITE_API_URL` / `VITE_API_TOKEN`                                      | build front                                                         |
+| `GH_TOKEN`                                                             | workflows GitHub (`auto-pr`)                                        |
 
 > Le backend charge `.env` **depuis la racine du repo** (relatif à `dist/` ou
 > `src/`). Les variables déjà présentes dans l'environnement (ex. overrides de
@@ -33,13 +32,12 @@ API sur `http://localhost:3000`, base sur `localhost:3306`.
 
 ## Services
 
-| Compose | Service | Port | Rôle |
-| --- | --- | --- | --- |
-| dev | `db` | `3306:3306` | MariaDB 10.11, bind mount `./zatyshok-db-data` |
-| dev | `backend` | `3000:3000` | build local, `env_file: .env`, uploads montés |
-| prod | `db` | `127.0.0.1:3306` | idem, bind mount `../zatyshok-db-data` |
-| prod | `backend` | `3000:3000` | image `zatyshok-backend:latest` (multi-stage tsc) |
-| prod | `tunnel` | — | `cloudflared` managé (`TUNNEL_TOKEN`), dépend de `backend` |
+| Compose | Service   | Port             | Rôle                                              |
+| ------- | --------- | ---------------- | ------------------------------------------------- |
+| dev     | `db`      | `3306:3306`      | MariaDB 10.11, bind mount `./zatyshok-db-data`    |
+| dev     | `backend` | `3000:3000`      | build local, `env_file: .env`, uploads montés     |
+| prod    | `db`      | `127.0.0.1:3306` | idem, bind mount `../zatyshok-db-data`            |
+| prod    | `backend` | `3000:3000`      | image `zatyshok-backend:latest` (multi-stage tsc) |
 
 Le backend refuse de démarrer sans base saine (`depends_on: service_healthy`).
 
@@ -81,11 +79,11 @@ flowchart LR
     U[Client electron-updater] --> F
 ```
 
-| Workflow | Déclencheur | Rôle |
-| --- | --- | --- |
-| `release.yml` | tag `v*` | preflight (`GITEA_TOKEN` **obligatoire**, validé via API Gitea), builds, release pont GitHub + release Gitea + feed `update-feed` |
-| `deploy.yml` | push `main` (`backend/**`, `migrations/**`, compose, Makefile, workflow) ou manuel | runner self-hosted : `git pull` → `make prod-migrate` → `make prod-build` → `make prod-up` → prune |
-| `auto-pr.yml` | push hors `main` | ouverture automatique de PR |
+| Workflow      | Déclencheur                                                                        | Rôle                                                                                                                              |
+| ------------- | ---------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| `release.yml` | tag `v*`                                                                           | preflight (`GITEA_TOKEN` **obligatoire**, validé via API Gitea), builds, release pont GitHub + release Gitea + feed `update-feed` |
+| `deploy.yml`  | push `main` (`backend/**`, `migrations/**`, compose, Makefile, workflow) ou manuel | runner self-hosted : `git pull` → `make prod-migrate` → `make prod-build` → `make prod-up` → prune                                |
+| `auto-pr.yml` | push hors `main`                                                                   | ouverture automatique de PR                                                                                                       |
 
 ### Serveur d'application
 
@@ -99,9 +97,8 @@ flowchart LR
 
 ### Secrets GitHub
 
-| Secret | Workflow | Usage |
-| --- | --- | --- |
-| `GITEA_TOKEN` | `release.yml` | création de release + upload d'assets + commit de feed sur Gitea (portée `repo`) |
+| Secret     | Workflow      | Usage           |
+| ---------- | ------------- | --------------- |
 | `GH_TOKEN` | `auto-pr.yml` | API GitHub (PR) |
 
 > Ne jamais taguer sans `GITEA_TOKEN` : le job `preflight` échoue exprès et
@@ -109,10 +106,11 @@ flowchart LR
 
 ## Exposition — Cloudflare Tunnel
 
-- Tunnels managés par token : `docker-compose.prod.yml` lance
-  `cloudflared tunnel run` avec `TUNNEL_TOKEN` — l'ingress
-  (`api-zatyshok.esiah.dev` → `backend:3000`) se configure dans le dashboard
-  Cloudflare (Zero Trust → Tunnels).
+- Le tunnel est géré par un stack indépendant (`/srv/apps/tunnel`), pas par ce
+  compose. Il rejoint le réseau externe `zatyshok-prod_app-network`.
+- L'ingress (`api-zatyshok.esiah.dev` → `zatyshok-backend:3000`) se configure dans le
+  dashboard Cloudflare (Zero Trust → Tunnels).
+- `TUNNEL_TOKEN` vit uniquement dans le `.env` du stack tunnel, jamais ici.
 - L'API lit l'IP réelle via `CF-Connecting-IP` (CORS, throttle admin,
   `login_events`, météo) : indispensable de garder Cloudflare en frontal.
 - Le certificat TLS et le cache sont assurés par Cloudflare ; ne pas exposer
