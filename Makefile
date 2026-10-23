@@ -15,13 +15,13 @@ ifneq (,$(wildcard ./.env))
 endif
 
 network:
-	@docker network inspect shared-network >/dev/null 2>&1 || docker network create shared-network
+	@docker network inspect zatyshok-prod_app-network >/dev/null 2>&1 || docker network create zatyshok-prod_app-network
 
 # --- Dev ---
 dev-build:
 	$(COMPOSE_DEV) build
 
-dev-up: network dev-build
+dev-up: dev-build
 	$(COMPOSE_DEV) up -d
 	$(MAKE) -s dev-front &
 

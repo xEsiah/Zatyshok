@@ -47,20 +47,7 @@ services:
     networks:
       - app-network
 
-  tunnel:
-    image: cloudflare/cloudflared:latest
-    container_name: app-tunnel
-    restart: always
-    environment:
-      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
-    command: tunnel --no-autoupdate run
-    depends_on:
-      - backend
-    networks:
-      - app-network
-      - shared-network
-
 networks:
   app-network:
-  shared-network:
     external: true
+    name: zatyshok-prod_app-network
