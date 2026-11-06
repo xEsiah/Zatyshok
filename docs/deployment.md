@@ -137,3 +137,59 @@ supprime le dossier `zatyshok-db-data` (sudo requis) avant de repartir de
 3. Vérifier : sur le serveur,
    `docker exec -i zatyshok-db mariadb -u "$DB_USER" -p"$DB_PASSWORD" "$DB_NAME" -e "SHOW COLUMNS FROM users LIKE 'is_admin'"`.
 4. En dev : `make migrate` (déjà joué sur la base de test).
+
+## Dépannage production
+
+### `getaddrinfo EAI_AGAIN` (GitHub, Spotify, Weather…)
+
+Le conteneur backend n'arrive pas à résoudre les noms de domaine sortants.
+Ce n'est pas une erreur applicative ni CORS : toutes les API externes
+appelées **depuis le backend** échouent en même temps. Depuis le split du
+tunnel dans un stack séparé, le réseau externe
+`zatyshok-prod_app-network` peut ne plus offrir de sortie Internet ou de DNS
+exploitable.
+
+Diagnostic sur le serveur :
+
+```sh
+docker network inspect zatyshok-prod_app-network
+docker exec zatyshok-backend cat /etc/resolv.conf
+docker exec zatyshok-backend node -e "require('dns').lookup('api.github.com',(e,a)=>console.log(e||a))"
+docker exec zatyshok-backend node -e "fetch('https://api.github.com').then(r=>console.log(r.status)).catch(console.error)"
+```
+
+- `"Internal": true` dans le réseau → aucun accès sortant. Recréer le réseau
+  sans `internal`, ou attacher le backend à un second réseau avec sortie.
+- Résolveur injoignable (souvent `127.0.0.53` ou une IP LAN absente) → le
+  compose prod force désormais `1.1.1.1` / `8.8.8.8` pour le backend.
+
+```mermaid
+flowchart LR
+    B[backend] -->|app-network| T[tunnel cloudflared]
+    B -->|egress requis| I((Internet))
+    I --> GH[api.github.com]
+    I --> SP[api.spotify.com]
+    I --> W[api.weatherapi.com]
+    T --> CF[Cloudflare]
+```
+
+### `JsonWebTokenError: invalid signature`
+
+La signature du JWT ne correspond pas au `JWT_SECRET` courant. Ce n'est pas
+une expiration : le jeton a été signé par un autre secret (rotation de
+`.env`, jeton d'un autre environnement, plusieurs backends avec des secrets
+différents). Les clients doivent se reconnecter pour obtenir un nouveau
+jeton : supprimer `user_token` du store Electron ou relancer l'application.
+Garder un `JWT_SECRET` stable en production ; ne jamais le régénérer sans
+accepter de déconnecter toutes les sessions (durée 30 j).
+
+### Weather indisponible en production
+
+`/weather` est appelé **côté backend** vers `https://api.weatherapi.com` :
+le CORS du navigateur/Electron n'intervient donc pas. Vérifier dans l'ordre :
+
+1. `WEATHER_API_KEY` présent dans le `.env` du conteneur ;
+2. logs `[WEATHER ERROR]` (statut API, message WeatherAPI ou erreur réseau) ;
+3. DNS/egress du conteneur (même cause que `EAI_AGAIN` ci-dessus).
+
+La route applique un timeout de 8 s et journalise désormais les échecs.

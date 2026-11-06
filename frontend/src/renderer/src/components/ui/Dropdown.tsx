@@ -31,6 +31,7 @@ export function Dropdown({
   const [dropdownRect, setDropdownRect] = useState<DOMRect | null>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const buttonRef = useRef<HTMLDivElement>(null)
+  const contentRef = useRef<HTMLDivElement>(null)
 
   const isCompact = size === 'compact'
   const buttonPadding = isCompact ? 'px-2.5 py-1.5' : 'px-3.75 py-3'
@@ -40,9 +41,10 @@ export function Dropdown({
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent): void => {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target as Node)) {
-        setIsOpen(false)
-      }
+      const target = event.target as Node
+      if (wrapperRef.current?.contains(target)) return
+      if (contentRef.current?.contains(target)) return
+      setIsOpen(false)
     }
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
@@ -70,6 +72,7 @@ export function Dropdown({
 
   const dropdownContent = dropdownRect ? (
     <div
+      ref={contentRef}
       className="fixed z-1000 max-h-50 flex-col gap-1 overflow-y-auto rounded-2xl bg-card p-2.5 shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] w-50"
       style={{
         top: dropdownRect.bottom + window.scrollY,

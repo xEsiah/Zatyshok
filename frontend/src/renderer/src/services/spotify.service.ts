@@ -1,10 +1,11 @@
-import { API_URL, getHeaders } from './apiClient'
+import { API_URL, getHeaders, checkAuthError } from './apiClient'
 import { SpotifyTrack } from './types'
 
 export const getSpotify = async (): Promise<SpotifyTrack> => {
   try {
     const headers = await getHeaders()
     const res = await fetch(`${API_URL}/spotify/current`, { headers })
+    checkAuthError(res)
     if (!res.ok) return { isPlaying: false, message: 'Spotify error' }
     return res.json()
   } catch {
