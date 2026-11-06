@@ -17,6 +17,7 @@ const isPrivateIP = (ip: string) => {
 router.get("/", async (req: Request, res: Response) => {
   const apiKey = process.env.WEATHER_API_KEY;
   if (!apiKey) {
+    console.error("[WEATHER ERROR] WEATHER_API_KEY is not configured");
     return res
       .status(500)
       .json({ error: "Weather API key is not configured." });
@@ -24,18 +25,26 @@ router.get("/", async (req: Request, res: Response) => {
 
   const clientIp = (req.headers["cf-connecting-ip"] as string) || req.ip || "";
   const query = isPrivateIP(clientIp) ? "Paris" : clientIp;
-  const apiUrl = `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${encodeURIComponent(query)}&days=2&aqi=no`;
+  const apiUrl = `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${encodeURIComponent(query)}&days=2&aqi=no`;
 
   try {
-    const weatherResponse = await fetch(apiUrl);
+    const weatherResponse = await fetch(apiUrl, {
+      signal: AbortSignal.timeout(8000),
+    });
     const weatherData: any = await weatherResponse.json();
 
     if (weatherResponse.status !== 200) {
+      console.error(
+        "[WEATHER ERROR] API responded",
+        weatherResponse.status,
+        weatherData?.error?.message || weatherData,
+      );
       return res.status(weatherResponse.status).json(weatherData);
     }
 
     res.json(weatherData);
   } catch (err) {
+    console.error("[WEATHER ERROR] Fetch failed:", err);
     res.status(500).json({ error: "Failed to fetch weather" });
   }
 });

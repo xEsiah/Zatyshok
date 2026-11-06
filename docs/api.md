@@ -50,7 +50,7 @@ client les envoie (aucune vérification serveur). Réponses d'erreur : JSON
 | POST | `/calendar/upload-audio` | audio (multipart `audio`) |
 | PATCH/DELETE | `/calendar/:id` | modification / suppression |
 | GET/POST | `/moods` | humeur du jour (unique par user + date) |
-| GET | `/weather` | publique ; IP lue dans `CF-Connecting-IP`, refus des IP privées |
+| GET | `/weather` | publique ; IP lue dans `CF-Connecting-IP`, refus des IP privées ; appel sortant `https://api.weatherapi.com` (timeout 8 s) |
 | GET | `/spotify/login/:username` | publique, OAuth |
 | GET | `/spotify/callback` | publique, OAuth |
 | GET | `/spotify/current` | titre en cours |

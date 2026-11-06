@@ -7,14 +7,10 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
   {
-    version: '2.2.1',
-    date: '2026-09-25',
-    title: 'Notes vocales et changelogs',
-    features: [
-      '- Toutes les entrées du calendrier peuvent maintenant etre audios.',
-      '- Ajout de cette section "changelogs" pour offrir un résumé des changements',
-      '- Refactorisation du projet afin d\u0027offrir une meilleure cohérence visuelle dans l\u0027app'
-    ]
+    version: '2.2.3',
+    date: '06-10-2026',
+    title: 'Corrections de bugs',
+    features: ['- Correction sur la sélection du type d\u0027evenements et de la recurrence.']
   }
 ]
 
