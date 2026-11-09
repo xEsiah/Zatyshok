@@ -48,6 +48,8 @@ function AppContent(): JSX.Element {
   }, [setUserRole, setUserId, setProfilePicture, setCurrentUsername])
 
   useEffect(() => {
+    // Intentional session bootstrap: state is set after the async store reads resolve.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     loadSession()
   }, [loadSession])
 
