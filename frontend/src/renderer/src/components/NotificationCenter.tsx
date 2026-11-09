@@ -1,13 +1,14 @@
 import { JSX, useEffect, useState } from 'react'
 import { useUser } from './UserContext'
-import { PATCH_NOTES, isVersionNewer } from '../data/patchNotes'
+import { PATCH_NOTES, getPatchLanguage, isVersionNewer } from '../data/patchNotes'
 
 const LAST_SEEN_KEY = 'last_seen_version'
 
 export function NotificationCenter(): JSX.Element {
   const [isOpen, setIsOpen] = useState<boolean>(false)
   const [seenVersion, setSeenVersion] = useState<string>('')
-  const { t } = useUser()
+  const { t, userRole } = useUser()
+  const language = getPatchLanguage(userRole)
 
   useEffect(() => {
     window.api.getStoreValue(LAST_SEEN_KEY).then((value) => {
@@ -67,30 +68,34 @@ export function NotificationCenter(): JSX.Element {
               {PATCH_NOTES.length === 0 && (
                 <p className="py-5 text-center opacity-70">{t.notif.empty}</p>
               )}
-              {PATCH_NOTES.map((note) => (
-                <div
-                  key={note.version}
-                  className={`rounded-[14px] border bg-card p-3.5 ${
-                    isNewNote(note.version) ? 'border-lilas' : 'border-lilas-doux'
-                  }`}
-                >
-                  <div className="mb-1.5 flex items-center gap-2">
-                    <span className="font-bold text-lilas">v{note.version}</span>
-                    <span className="text-[0.8rem] opacity-70">{note.date}</span>
-                    {isNewNote(note.version) && (
-                      <span className="rounded-[10px] bg-lilas px-2 py-0.5 text-[0.65rem] font-bold tracking-[0.5px] text-white">
-                        {t.notif.new}
-                      </span>
-                    )}
+              {PATCH_NOTES.map((note) => {
+                const content = note.content[language]
+
+                return (
+                  <div
+                    key={note.version}
+                    className={`rounded-[14px] border bg-card p-3.5 ${
+                      isNewNote(note.version) ? 'border-lilas' : 'border-lilas-doux'
+                    }`}
+                  >
+                    <div className="mb-1.5 flex items-center gap-2">
+                      <span className="font-bold text-lilas">v{note.version}</span>
+                      <span className="text-[0.8rem] opacity-70">{note.date}</span>
+                      {isNewNote(note.version) && (
+                        <span className="rounded-[10px] bg-lilas px-2 py-0.5 text-[0.65rem] font-bold tracking-[0.5px] text-white">
+                          {t.notif.new}
+                        </span>
+                      )}
+                    </div>
+                    <h4 className="m-[4px_0_8px] text-profond">{content.title}</h4>
+                    <ul className="m-0 pl-4.5 leading-normal text-profond">
+                      {content.features.map((feature) => (
+                        <li key={feature}>{feature}</li>
+                      ))}
+                    </ul>
                   </div>
-                  <h4 className="m-[4px_0_8px] text-profond">{note.title}</h4>
-                  <ul className="m-0 pl-4.5 leading-normal text-profond">
-                    {note.features.map((feature) => (
-                      <li key={feature}>{feature}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
+                )
+              })}
             </div>
           </div>
         </div>
