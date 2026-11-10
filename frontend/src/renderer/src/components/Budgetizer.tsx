@@ -1,5 +1,7 @@
 import { useState, useEffect, JSX, useMemo, useCallback } from 'react'
+import { textOf } from '../data/localized'
 import { api, BudgetCategory, Expense } from '../services'
+import { T } from './T'
 import { useUser } from './UserContext'
 import { useModal } from './ModalContext'
 import { Dropdown } from './ui/Dropdown'
@@ -24,7 +26,7 @@ export function Budgetizer(): JSX.Element {
       setAllExpenses(allExps)
     } catch (error: unknown) {
       console.error('Failed to load budget data:', error)
-      const errorMessage = error instanceof Error ? error.message : t.budget.modalErrorLoad
+      const errorMessage = error instanceof Error ? error.message : textOf(t.budget.modalErrorLoad)
       showModal({
         title: t.login.modalErrorTitle,
         message: errorMessage,
@@ -59,7 +61,7 @@ export function Budgetizer(): JSX.Element {
       void loadData()
       showModal({ title: t.login.savedTitle, message: t.budget.categoryAdded, type: 'alert' })
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : t.budget.modalError
+      const errorMessage = error instanceof Error ? error.message : textOf(t.budget.modalError)
       if (errorMessage.includes('already exists')) {
         showModal({ title: t.login.modalOops, message: t.budget.categoryExists, type: 'alert' })
       } else {
@@ -97,7 +99,7 @@ export function Budgetizer(): JSX.Element {
       setCatId('')
       void loadData()
     } catch (error: unknown) {
-      const errorMessage = error instanceof Error ? error.message : t.budget.modalError
+      const errorMessage = error instanceof Error ? error.message : textOf(t.budget.modalError)
       showModal({ title: t.login.modalErrorTitle, message: errorMessage, type: 'alert' })
     }
   }
@@ -219,7 +221,9 @@ export function Budgetizer(): JSX.Element {
     <div className="grid grid-cols-[2fr_1fr] grid-rows-[1fr] gap-[2.5vw] w-[95%] h-full min-h-full pb-[2vh] box-border max-[1350px]:flex max-[1350px]:flex-col max-[1350px]:items-stretch max-[1350px]:grid-cols-1 max-[1350px]:grid-rows-[auto] max-[1350px]:h-auto max-[1350px]:min-h-0 max-[1350px]:w-[95%] max-[1350px]:shrink-0">
       <div className="bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 flex min-h-0 max-h-full min-w-0 flex-col p-[3vh_3vw] max-[1350px]:max-h-none">
         <div className="mb-[2vh] flex shrink-0 items-center justify-between max-[1350px]:flex-col max-[1350px]:items-start max-[1350px]:gap-3.75">
-          <h2 className="m-0 shrink-0">{t.budget.title}</h2>
+          <h2 className="m-0 shrink-0">
+            <T value={t.budget.title} />
+          </h2>
           <div className="flex gap-2.5">
             <button
               className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
@@ -232,7 +236,7 @@ export function Budgetizer(): JSX.Element {
                 setCatId('')
               }}
             >
-              {t.budget.outcome}
+              <T value={t.budget.outcome} />
             </button>
             <button
               className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
@@ -245,7 +249,7 @@ export function Budgetizer(): JSX.Element {
                 setCatId('')
               }}
             >
-              {t.budget.income}
+              <T value={t.budget.income} />
             </button>
           </div>
         </div>
@@ -309,7 +313,9 @@ export function Budgetizer(): JSX.Element {
 
         <div className="mt-[3vh] flex min-h-0 flex-1 flex-col border-t border-shadow-d pt-[2vh] max-[1350px]:flex-initial max-[1350px]:max-h-none">
           <div className="mb-3.75 flex shrink-0 flex-col gap-3.75">
-            <h3 className="m-0">{t.budget.historyTitle || t.budget.latestExpensesTitle}</h3>
+            <h3 className="m-0">
+              <T value={t.budget.historyTitle ?? t.budget.latestExpensesTitle} />
+            </h3>
             <div className="flex flex-wrap gap-2.5">
               {(['month', '3months', '6months', 'year'] as const).map((f) => (
                 <button
@@ -337,7 +343,7 @@ export function Budgetizer(): JSX.Element {
           <div className="flex min-h-0 flex-1 flex-col gap-2.5 overflow-y-auto p-2.5 max-[1350px]:flex-none max-[1350px]:h-75 max-[1350px]:overflow-y-auto max-[1350px]:min-h-0">
             {filteredExpenses.length === 0 ? (
               <p className="mt-5 text-center italic text-profond opacity-50 max-[1350px]:m-auto">
-                {t.budget.noRecentExpenses}
+                <T value={t.budget.noRecentExpenses} />
               </p>
             ) : (
               filteredExpenses.map((exp, index) => (
@@ -360,7 +366,7 @@ export function Budgetizer(): JSX.Element {
       <div className="flex min-w-0 flex-col justify-between">
         <div className="bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 flex h-full flex-col items-center p-[3vh_2vw] max-[1350px]:grid max-[1350px]:grid-cols-[1fr_2fr] max-[1350px]:items-stretch max-[1350px]:grid-rows-[auto_1fr_auto] max-[1350px]:gap-5 max-[1350px]:p-6.25 overflow-hidden max-[1350px]:h-auto">
           <h3 className="max-[1350px]:col-span-2 max-[1350px]:mb-0 max-[1350px]:text-center">
-            {t.budget.chart}
+            <T value={t.budget.chart} />
           </h3>
 
           {grandTotal > 0 ? (
@@ -395,16 +401,22 @@ export function Budgetizer(): JSX.Element {
 
           <div className="my-3.75 flex w-full flex-col gap-2.5 rounded-2xl bg-bg p-3.75 shadow-[inset_2px_2px_5px_var(--shadow-dark),inset_-2px_-2px_5px_var(--shadow-light)] max-[1350px]:col-start-1 max-[1350px]:m-0 max-[1350px]:max-w-[90%] max-[1350px]:row-start-3">
             <div className="flex justify-between text-[0.9rem] font-medium text-profond">
-              <span>{t.budget.outcome} :</span>
+              <span>
+                <T value={t.budget.outcome} /> :
+              </span>
               <b className="text-[#e74c3c]">-{totalExpensePeriod.toFixed(2)}€</b>
             </div>
             <div className="flex justify-between text-[0.9rem] font-medium text-profond">
-              <span>{t.budget.income} :</span>
+              <span>
+                <T value={t.budget.income} /> :
+              </span>
               <b className="text-[#2ecc71]">+{totalIncomePeriod.toFixed(2)}€</b>
             </div>
 
             <div className="mt-1.25 flex justify-between border-t border-dashed border-lilas-doux pt-2.5 text-[0.9rem] font-bold text-profond">
-              <span>{t.budget.balance || 'Balance'} :</span>
+              <span>
+                <T value={t.budget.balance ?? 'Balance'} /> :
+              </span>
               <b
                 className={
                   totalIncomePeriod - totalExpensePeriod >= 0 ? 'text-[#2ecc71]' : 'text-[#e74c3c]'

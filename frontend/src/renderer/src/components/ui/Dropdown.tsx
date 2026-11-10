@@ -1,9 +1,11 @@
 import { JSX, useRef, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Localized } from '../../data/localized'
+import { T } from '../T'
 
 interface DropdownOption {
   value: string
-  label: string
+  label: Localized
 }
 
 type DropdownSize = 'default' | 'compact'
@@ -35,7 +37,7 @@ export function Dropdown({
 
   const isCompact = size === 'compact'
   const buttonPadding = isCompact ? 'px-2.5 py-1.5' : 'px-3.75 py-3'
-  const buttonTextSize = isCompact ? 'text-[0.85rem]' : 'text-profund'
+  const buttonTextSize = isCompact ? 'text-[0.85rem]' : ''
   const itemPadding = isCompact ? 'px-3 py-1.5' : 'px-3.5 py-2.5'
   const itemTextSize = isCompact ? 'text-[0.8rem]' : 'font-medium'
 
@@ -83,7 +85,7 @@ export function Dropdown({
     >
       {placeholder && (
         <div
-          className={`cursor-pointer rounded-lg ${itemPadding} ${itemTextSize} text-profund transition-all duration-200 ease-in-out hover:bg-bg hover:text-lilas hover:shadow-[inset_4px_4px_8px_var(--shadow-dark),inset_-4px_-4px_8px_var(--shadow-light)]`}
+          className={`cursor-pointer rounded-lg ${itemPadding} ${itemTextSize} text-profond transition-all duration-200 ease-in-out hover:bg-bg hover:text-lilas hover:shadow-[inset_4px_4px_8px_var(--shadow-dark),inset_-4px_-4px_8px_var(--shadow-light)]`}
           onClick={() => {
             onChange('')
             setIsOpen(false)
@@ -95,13 +97,13 @@ export function Dropdown({
       {options.map((option) => (
         <div
           key={option.value}
-          className={`cursor-pointer rounded-lg ${itemPadding} ${itemTextSize} transition-all duration-200 ease-in-out hover:bg-bg hover:text-lilas hover:shadow-[inset_4px_4px_8px_var(--shadow-dark),inset_-4px_-4px_8px_var(--shadow-light)] ${value === option.value ? 'text-lilas bg-bg' : 'text-profund'}`}
+          className={`cursor-pointer rounded-lg ${itemPadding} ${itemTextSize} transition-all duration-200 ease-in-out hover:bg-bg hover:text-lilas hover:shadow-[inset_4px_4px_8px_var(--shadow-dark),inset_-4px_-4px_8px_var(--shadow-light)] ${value === option.value ? 'text-lilas bg-bg' : 'text-profond'}`}
           onClick={() => {
             onChange(option.value)
             setIsOpen(false)
           }}
         >
-          {option.label}
+          <T value={option.label} />
         </div>
       ))}
     </div>
@@ -111,7 +113,7 @@ export function Dropdown({
     <div className={`relative w-full ${className}`} ref={wrapperRef}>
       <div
         ref={buttonRef}
-        className={`w-full bg-(--field-bg) border-0 ${buttonPadding} rounded-xl ${buttonTextSize} shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border flex items-center justify-between cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
+        className={`w-full bg-(--field-bg) border-0 ${buttonPadding} rounded-xl text-profond ${buttonTextSize} shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border flex items-center justify-between cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed`}
         onClick={() => {
           if (!disabled) {
             updatePosition()
@@ -121,7 +123,9 @@ export function Dropdown({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >
-        <span className="truncate">{selectedOption?.label || placeholder || '--'}</span>
+        <span className="truncate">
+          <T value={selectedOption?.label ?? placeholder ?? '--'} />
+        </span>
         <svg
           className="size-4.5 shrink-0 text-lilas-doux"
           viewBox="0 0 24 24"

@@ -2,6 +2,7 @@ import { useState, JSX } from 'react'
 import { DailyView } from './DailyView'
 import { CalendarWidget } from './CalendarWidget'
 import { Card } from './layout/Card'
+import { Icon } from './Icon'
 
 export function BentoMainCard(): JSX.Element {
   const [mainView, setMainView] = useState<'daily' | 'calendar'>('daily')
@@ -13,7 +14,7 @@ export function BentoMainCard(): JSX.Element {
         onClick={() => setMainView(mainView === 'daily' ? 'calendar' : 'daily')}
         title={mainView === 'daily' ? 'Calendrier' : 'Liste'}
       >
-        {mainView === 'daily' ? '📆' : '📋'}
+        {mainView === 'daily' ? <Icon name="calendar" size={26} /> : <Icon name="list" size={26} />}
       </button>
       {mainView === 'daily' ? <DailyView /> : <CalendarWidget />}
     </Card>

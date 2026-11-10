@@ -1,5 +1,6 @@
 import { useState, useEffect, JSX, useCallback } from 'react'
 import { api, SpotifyTrack } from '../services'
+import { Icon } from './Icon'
 import { useUser } from './UserContext'
 import { Card } from './layout/Card'
 
@@ -7,7 +8,7 @@ export function ApiSlider(): JSX.Element {
   const [apiIndex, setApiIndex] = useState(0)
   const [weatherToday, setWeatherToday] = useState<string>('--°C')
   const [weatherTomorrow, setWeatherTomorrow] = useState<string>('--°C')
-  const [weatherIcon, setWeatherIcon] = useState<string>('⛅')
+  const [weatherIcon, setWeatherIcon] = useState<string>('partly-cloudy')
   const [spotifyData, setSpotifyData] = useState<SpotifyTrack>({
     isPlaying: false,
     title: 'Not playing',
@@ -26,7 +27,7 @@ export function ApiSlider(): JSX.Element {
       const data = await api.getWeather()
       if (data && data.current) {
         setWeatherToday(`${Math.round(data.current.temp_c)}°`)
-        setWeatherIcon(data.current.is_day ? '☀️' : '🌙')
+        setWeatherIcon(data.current.is_day ? 'sun' : 'crescent-moon')
         if (data.forecast && data.forecast.forecastday[1]) {
           const tmrw = data.forecast.forecastday[1].day
           setWeatherTomorrow(`${Math.round(tmrw.mintemp_c)}° / ${Math.round(tmrw.maxtemp_c)}°`)
@@ -60,18 +61,26 @@ export function ApiSlider(): JSX.Element {
   const apiWidgets = [
     {
       id: 'weather',
-      icon: <span className="relative z-2 text-[1.8rem]">🌍</span>,
+      icon: (
+        <span className="relative z-2 text-[1.8rem]">
+          <Icon name="globe" size={29} />
+        </span>
+      ),
       label: t.bento.weather,
       value: (
         <div className="flex justify-center items-center gap-5">
           <div className="text-center">
-            <div className="text-[1.2rem] mb-1.25">{weatherIcon}</div>
+            <div className="text-[1.2rem] mb-1.25">
+              <Icon name={weatherIcon} size={19} />
+            </div>
             <div className="text-[1rem] opacity-80">{t.bento.now}</div>
             <div className="font-bold">{weatherToday}</div>
           </div>
           <div className="w-px h-10 bg-lilas-doux opacity-30"></div>
           <div className="text-center">
-            <div className="text-[1.2rem] mb-1.25">📅</div>
+            <div className="text-[1.2rem] mb-1.25">
+              <Icon name="calendar" size={19} />
+            </div>
             <div className="text-[1rem] opacity-80">{t.bento.tmrw}</div>
             <div className="font-bold">{weatherTomorrow}</div>
           </div>
@@ -90,7 +99,7 @@ export function ApiSlider(): JSX.Element {
             />
           ) : (
             <span className="relative z-2 text-[1.8rem]">
-              {spotifyData.isPlaying ? '🎧' : '🎵'}
+              <Icon name={spotifyData.isPlaying ? 'headphones' : 'music-note'} size={29} />
             </span>
           )}
         </div>
@@ -121,19 +130,19 @@ export function ApiSlider(): JSX.Element {
                 onClick={() => handleSpotifyAction('prev')}
                 className="bg-none border-none text-[1.4rem] p-1.25 text-profond hover:scale-120 transition-transform duration-100"
               >
-                ⏮️
+                <Icon name="previous" size={20} />
               </button>
               <button
                 onClick={() => handleSpotifyAction(spotifyData.isPlaying ? 'pause' : 'play')}
                 className="bg-none border-none text-[1.4rem] p-1.25 text-profond hover:scale-120 transition-transform duration-100"
               >
-                {spotifyData.isPlaying ? '⏸️' : '▶️'}
+                <Icon name={spotifyData.isPlaying ? 'pause' : 'play'} size={20} />
               </button>
               <button
                 onClick={() => handleSpotifyAction('next')}
                 className="bg-none border-none text-[1.1rem] p-1.25 text-profond hover:scale-120 transition-transform duration-100"
               >
-                ⏭️
+                <Icon name="next" size={18} />
               </button>
             </div>
           )}

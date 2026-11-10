@@ -1,8 +1,11 @@
-import { JSX, useEffect, useState, useCallback } from 'react'
+import { JSX, useEffect, useState, useCallback, useRef } from 'react'
+import { iconOf, textOf } from '../data/localized'
 import { api, CalendarEntry } from '../services'
+import { AudioPlayer } from './AudioPlayer'
+import { Icon } from './Icon'
+import { T } from './T'
 import { useModal } from './ModalContext'
 import { useUser } from './UserContext'
-import { AudioPlayer } from './AudioPlayer'
 import { Dropdown } from './ui/Dropdown'
 
 export function DailyView(): JSX.Element {
@@ -20,6 +23,7 @@ export function DailyView(): JSX.Element {
 
   const { showModal } = useModal()
   const { t } = useUser()
+  const notesStripRef = useRef<HTMLDivElement>(null)
 
   const todayStr = new Date().toLocaleDateString('en-CA')
   const currentYear = new Date().getFullYear()
@@ -72,6 +76,33 @@ export function DailyView(): JSX.Element {
     loadData()
   }, [loadData])
 
+  // The post-its live in a horizontal strip: a vertical wheel over it scrolls
+  // the strip sideways instead of being swallowed by the page.
+  useEffect(() => {
+    const strip = notesStripRef.current
+    if (!strip) return
+
+    const handleWheel = (event: WheelEvent): void => {
+      if (strip.scrollWidth <= strip.clientWidth) return
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return
+
+      // A post-it with overflowing text scrolls its own content first.
+      const target = event.target as HTMLElement | null
+      const inner = target?.closest<HTMLElement>('[data-postit-scroll]')
+      if (inner && inner.scrollHeight > inner.clientHeight) {
+        const atTop = inner.scrollTop <= 0
+        const atBottom = inner.scrollTop + inner.clientHeight >= inner.scrollHeight - 1
+        if (!(event.deltaY < 0 ? atTop : atBottom)) return
+      }
+
+      event.preventDefault()
+      strip.scrollLeft += event.deltaY
+    }
+
+    strip.addEventListener('wheel', handleWheel, { passive: false })
+    return () => strip.removeEventListener('wheel', handleWheel)
+  }, [thoughts.length])
+
   const handleDeleteEntry = (id?: number): void => {
     if (!id) return
     showModal({
@@ -83,7 +114,7 @@ export function DailyView(): JSX.Element {
           await api.deleteCalendar(id)
           loadData()
         } catch {
-          console.error(t.daily.modalDeleteError)
+          console.error(textOf(t.daily.modalDeleteError))
         }
       }
     })
@@ -133,7 +164,9 @@ export function DailyView(): JSX.Element {
   return (
     <div className="flex h-full min-h-full flex-col">
       <div className="flex-1 min-h-0 flex flex-col">
-        <h2 className="m-0">{t.daily.upcoming}</h2>
+        <h2 className="m-0">
+          <T value={t.daily.upcoming} />
+        </h2>
         <small>
           {t.daily.todayIs} {prettyDate}
         </small>
@@ -141,11 +174,13 @@ export function DailyView(): JSX.Element {
         {loading ? (
           <p>{t.daily.loading}</p>
         ) : planning.length === 0 ? (
-          <p className="mt-5 text-center italic opacity-60">{t.daily.nothingPlanned}</p>
+          <p className="mt-5 text-center italic opacity-60">
+            <T value={t.daily.nothingPlanned} />
+          </p>
         ) : (
           <div className="flex flex-col gap-2 mt-2.5 min-h-0 flex-1 overflow-y-auto px-2.5 pb-6.25 pt-0">
             <small>
-              {t.daily.plannerTitle} ({planning.length})
+              <T value={t.daily.plannerTitle} /> ({planning.length})
             </small>
             {planning.map((entry) => {
               const entryDate = normalizeDate(entry.date)
@@ -154,9 +189,10 @@ export function DailyView(): JSX.Element {
                   key={entry.id}
                   className="group bg-card border border-(--card-border) rounded-2xl transition-transform duration-300 flex items-center gap-3 shrink-0 min-h-22.5 p-3.75 box-border shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] hover:scale-101"
                 >
-                  <span className="text-[1.2rem]">
-                    {entry.category === 'goal' ? t.daily.iconGoal : t.daily.iconEvent}
-                  </span>
+                  <Icon
+                    name={iconOf(entry.category === 'goal' ? t.daily.iconGoal : t.daily.iconEvent)}
+                    size={22}
+                  />
                   <div className="flex-1">
                     {editingId === entry.id ? (
                       <div className="flex flex-row items-center justify-around gap-3 font-bold text-[1.3rem] w-full">
@@ -174,9 +210,15 @@ export function DailyView(): JSX.Element {
                         <Dropdown
                           size="compact"
                           options={[
-                            { value: 'goal', label: `${t.daily.iconGoal} Goal` },
-                            { value: 'event', label: `${t.daily.iconEvent} Event` },
-                            { value: 'note', label: '📌 Note' }
+                            {
+                              value: 'goal',
+                              label: { text: 'Goal', icon: iconOf(t.daily.iconGoal) }
+                            },
+                            {
+                              value: 'event',
+                              label: { text: 'Event', icon: iconOf(t.daily.iconEvent) }
+                            },
+                            { value: 'note', label: { text: 'Note', icon: 'icons/pin.png' } }
                           ]}
                           value={editCategory}
                           onChange={(v) => setEditCategory(v as 'goal' | 'event' | 'note')}
@@ -233,13 +275,13 @@ export function DailyView(): JSX.Element {
                         className="not-italic text-profond text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
                         onClick={handleSaveEdit}
                       >
-                        ✔️
+                        <Icon name="check" size={18} />
                       </button>
                       <button
                         className="not-italic text-profond text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
                         onClick={() => setEditingId(null)}
                       >
-                        ✖️
+                        <Icon name="close" size={18} />
                       </button>
                     </div>
                   ) : (
@@ -248,7 +290,7 @@ export function DailyView(): JSX.Element {
                         className="not-italic text-profond text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
                         onClick={() => handleStartEdit(entry)}
                       >
-                        🖊️
+                        <Icon name="pen" size={18} />
                       </button>
                       <button
                         className="not-italic text-profond text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
@@ -258,7 +300,7 @@ export function DailyView(): JSX.Element {
                         }}
                         title={t.daily.deleteItem}
                       >
-                        🗑️
+                        <Icon name="trash" size={18} />
                       </button>
                     </div>
                   )}
@@ -271,9 +313,12 @@ export function DailyView(): JSX.Element {
         {thoughts.length > 0 && (
           <div className="flex-none mt-3.75 mb-3.75 border-t-2 border-dashed border-t-white/50 max-h-45 w-full">
             <small>
-              {t.daily.notesTitle} ({thoughts.length})
+              <T value={t.daily.notesTitle} /> ({thoughts.length})
             </small>
-            <div className="w-full overflow-x-auto scroll-smooth pt-10! -mt-7.5! [&::-webkit-scrollbar]:h-1">
+            <div
+              ref={notesStripRef}
+              className="w-full overflow-x-auto scroll-smooth pt-10! -mt-7.5! [&::-webkit-scrollbar]:h-1"
+            >
               <div className="flex flex-nowrap gap-1.25 w-full items-start pb-2.5 overflow-visible! h-auto! after:content-[''] after:flex-[0_0_1px] after:h-px">
                 {thoughts.map((note) => {
                   const isEditing = editingId === note.id
@@ -298,13 +343,13 @@ export function DailyView(): JSX.Element {
                       className="group relative flex flex-col w-35 min-w-35 h-30 p-2.5 ml-1.25 rounded-[2px_2px_15px_2px] shadow-[3px_3px_6px_rgba(0,0,0,0.2)] italic odd:rotate-[-0.5deg] odd:bg-(--postit-bg-odd) odd:text-(--postit-text-odd) even:rotate-[1.5deg] even:bg-(--postit-bg-even) even:text-(--postit-text-even) transition-transform duration-200 hover:scale-105 hover:z-10 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-3.75 after:bg-linear-to-b after:from-transparent after:to-black/36 after:pointer-events-none after:rounded-[2px_2px_15px_2px]"
                     >
                       <div className="absolute -translate-x-1/2 text-[1.5rem] group-odd:top-[-15%] group-odd:left-[60%] group-even:top-[-17%] group-even:left-[20%]">
-                        📍
+                        <Icon name="location" size={20} />
                       </div>
 
                       {isEditing ? (
                         <div className="flex flex-col gap-2.5 w-full h-full">
                           <input
-                            className="w-full h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profund shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
+                            className="w-full h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
                             value={editText}
                             onChange={(e) => setEditText(e.target.value)}
                           />
@@ -312,9 +357,15 @@ export function DailyView(): JSX.Element {
                             size="compact"
                             className="w-full"
                             options={[
-                              { value: 'goal', label: `${t.daily.iconGoal} Goal` },
-                              { value: 'event', label: `${t.daily.iconEvent} Event` },
-                              { value: 'note', label: '📌 Note' }
+                              {
+                                value: 'goal',
+                                label: { text: 'Goal', icon: iconOf(t.daily.iconGoal) }
+                              },
+                              {
+                                value: 'event',
+                                label: { text: 'Event', icon: iconOf(t.daily.iconEvent) }
+                              },
+                              { value: 'note', label: { text: 'Note', icon: 'icons/pin.png' } }
                             ]}
                             value={editCategory}
                             onChange={(v) => setEditCategory(v as 'goal' | 'event' | 'note')}
@@ -324,13 +375,13 @@ export function DailyView(): JSX.Element {
                               className="w-1/2 not-italic font-bold text-profond text-shadow-[0_0_1px_#00000078] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
                               onClick={handleSaveEdit}
                             >
-                              ✔️
+                              <Icon name="check" size={18} />
                             </button>
                             <button
                               className="w-1/2 not-italic font-bold text-profond text-shadow-[0_0_1px_#00000078] text-[1rem] transition-transform duration-200 bg-none border-none p-0 hover:scale-130"
                               onClick={() => setEditingId(null)}
                             >
-                              ✖️
+                              <Icon name="close" size={18} />
                             </button>
                           </div>
                         </div>
@@ -344,9 +395,10 @@ export function DailyView(): JSX.Element {
                             }}
                             title={t.daily.deleteNote}
                           >
-                            🗑️
+                            <Icon name="trash" size={16} />
                           </button>
                           <div
+                            data-postit-scroll
                             className={`flex-1 overflow-y-auto min-h-0 flex flex-col items-center justify-around text-center break-keep leading-[1.2] p-0.75 scroll-smooth [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-[10px] group-odd:[&::-webkit-scrollbar-thumb]:bg-lilas-doux group-even:[&::-webkit-scrollbar-thumb]:bg-rose ${dynamicFontCls}`}
                           >
                             <span>{note.text}</span>
@@ -358,7 +410,7 @@ export function DailyView(): JSX.Element {
                               title="Modifier"
                               className="invisible group-hover:visible absolute bottom-0.5 bg-none border-none font-bold text-[1rem] p-0 right-px not-italic text-shadow-[0_0_1px_#00000078] transition-transform duration-200 hover:scale-130"
                             >
-                              🖊️
+                              <Icon name="pen" size={16} />
                             </button>
                           </div>
                         </>

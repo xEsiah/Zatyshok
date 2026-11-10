@@ -1,57 +1,143 @@
 {
   "greetings": [
-    "Prêt à composer aujourd'hui, {username} ?",
-    "Chaque note compte, {username}.",
-    "Bienvenue au studio, {username} !",
-    "Un nouveau hit en vue, {username} ?"
+    {
+      "text": "Prêt à composer aujourd'hui, {username} ?"
+    },
+    {
+      "text": "Chaque note compte, {username}."
+    },
+    {
+      "text": "Bienvenue au studio, {username} !"
+    },
+    {
+      "text": "Un nouveau hit en vue, {username} ?"
+    }
   ],
   "login": {
-    "title": "STUDIO 🎵",
+    "title": {
+      "text": "STUDIO",
+      "icon": "icons/music-note.png"
+    },
     "requestAccess": "Demander un pass backstage",
     "welcomeHome": "Bienvenue",
-    "username": "Nom de scène 🎵",
+    "username": {
+      "text": "Nom de scène",
+      "icon": "icons/music-note.png"
+    },
     "usernamePlaceholder": "Ton alias...",
-    "password": "Mot de passe 🔑",
+    "password": {
+      "text": "Mot de passe",
+      "icon": "icons/key.png"
+    },
     "passwordPlaceholder": "••••••••",
-    "badPassordConfirmation": "Les mots de passe ne correspondent pas.",
+    "badPassordConfirmation": {
+      "text": "Les mots de passe ne correspondent pas."
+    },
     "processing": "Accordage...",
     "join": "Rejoindre",
     "unlock": "Jouer",
     "toggleToLogin": "Retourner sur scène",
     "toggleToRegister": "Demander une audition",
-    "modalWaitTitle": "File d'attente",
+    "modalWaitTitle": {
+      "text": "File d'attente"
+    },
     "modalWaitMsg": "Demande d'audition envoyée ! Attendez la validation.",
     "modalOops": "Oups...",
-    "modalErrorTitle": "Larsen ⚠️",
-    "modalErrorUnreachable": "Studio injoignable 🌐",
-    "modalErrorUnexpected": "Bruit inattendu 🛑",
-    "modalErrorInvalidData": "Rythme invalide 🛑",
-    "errorUsernameTaken": "Ce nom de scène est déjà pris. 🎵",
-    "errorEmailTaken": "Email déjà sur la liste des invités. ✉️",
-    "errorPending": "Ta demande de pass est en cours d'examen. ⏳",
-    "errorInvalidCredentials": "Fausses notes. Accès refusé. 🎸",
-    "savedTitle": "Enregistré ! ✨",
-    "forgotPassword": "Mot de passe oublié ? 🎵",
-    "resetTitle": "Réinitialisation 🎧",
-    "resetCode": "Code de vérification 🔑",
-    "newPassword": "Nouveau mot de passe 🔒",
-    "confirmNewPassword": "Confirmation 🔒",
-    "sendCode": "Envoyer le code ✉️",
-    "resetBtn": "Remixer 🎧"
+    "modalErrorTitle": {
+      "text": "Larsen",
+      "icon": "icons/warning.png"
+    },
+    "modalErrorUnreachable": {
+      "text": "Studio injoignable",
+      "icon": "icons/globe.png"
+    },
+    "modalErrorUnexpected": {
+      "text": "Bruit inattendu",
+      "icon": "icons/stop-sign.png"
+    },
+    "modalErrorInvalidData": {
+      "text": "Rythme invalide",
+      "icon": "icons/stop-sign.png"
+    },
+    "errorUsernameTaken": {
+      "text": "Ce nom de scène est déjà pris.",
+      "icon": "icons/music-note.png"
+    },
+    "errorEmailTaken": {
+      "text": "Email déjà sur la liste des invités.",
+      "icon": "icons/envelope.png"
+    },
+    "errorPending": {
+      "text": "Ta demande de pass est en cours d'examen.",
+      "icon": "icons/hourglass.png"
+    },
+    "errorInvalidCredentials": {
+      "text": "Fausses notes. Accès refusé.",
+      "icon": "icons/guitar.png"
+    },
+    "savedTitle": {
+      "text": "Enregistré !",
+      "icon": "icons/sparkles.png"
+    },
+    "forgotPassword": {
+      "text": "Mot de passe oublié ?",
+      "icon": "icons/music-note.png"
+    },
+    "resetTitle": {
+      "text": "Réinitialisation",
+      "icon": "icons/headphones.png"
+    },
+    "resetCode": {
+      "text": "Code de vérification",
+      "icon": "icons/key.png"
+    },
+    "newPassword": {
+      "text": "Nouveau mot de passe",
+      "icon": "icons/lock.png"
+    },
+    "confirmNewPassword": {
+      "text": "Confirmation",
+      "icon": "icons/lock.png"
+    },
+    "sendCode": {
+      "text": "Envoyer le code",
+      "icon": "icons/envelope.png"
+    },
+    "resetBtn": {
+      "text": "Remixer",
+      "icon": "icons/headphones.png"
+    }
   },
   "daily": {
-    "upcoming": "Setlist 📝",
+    "upcoming": {
+      "text": "Setlist",
+      "icon": "icons/memo.png"
+    },
     "todayIs": "Date d'enregistrement :",
     "loading": "Branchement des amplis...",
-    "nothingPlanned": "Aucune piste aujourd'hui. Session acoustique.",
+    "nothingPlanned": {
+      "text": "Aucune piste aujourd'hui. Session acoustique."
+    },
     "for": "Prévu pour",
     "deleteItem": "Couper la piste",
     "deleteNote": "Effacer l'enregistrement",
-    "plannerTitle": "Planning 🎵",
-    "notesTitle": "Notes ✍️",
-    "iconGoal": "🎯",
-    "iconEvent": "📅",
-    "modalDeleteTitle": "Suppression",
+    "plannerTitle": {
+      "text": "Planning",
+      "icon": "icons/music-note.png"
+    },
+    "notesTitle": {
+      "text": "Notes",
+      "icon": "icons/writing-hand.png"
+    },
+    "iconGoal": {
+      "icon": "icons/target.png"
+    },
+    "iconEvent": {
+      "icon": "icons/calendar.png"
+    },
+    "modalDeleteTitle": {
+      "text": "Suppression"
+    },
     "modalDeleteMsg": "Es-tu sûr de vouloir couper cette piste ?",
     "modalDeleteError": "Échec de la suppression.",
     "recurring": "Récurrent",
@@ -63,8 +149,12 @@
   "mood": {
     "back": "Studio",
     "history": "Discographie",
-    "historyTitle": "Archives Musicales",
-    "feelingTitle": "Quel est ton tempo aujourd'hui ?",
+    "historyTitle": {
+      "text": "Archives Musicales"
+    },
+    "feelingTitle": {
+      "text": "Quel est ton tempo aujourd'hui ?"
+    },
     "noHistory": "Aucune piste sortie pour le moment.",
     "yesterday": "Piste précédente :",
     "today": "Vibe actuelle :",
@@ -72,35 +162,70 @@
     "placeholderNew": "Freestyle rapide...",
     "btnUpdate": "Masteriser",
     "btnSubmit": "Sortir la piste",
-    "savedTitle": "Sorti",
+    "savedTitle": {
+      "text": "Sorti"
+    },
     "savedMsg": "Piste sauvegardée.",
     "errorTitle": "Oups...",
     "errorMsg": "Erreur lors de l'enregistrement de la piste.",
     "seeMore": "Voir plus",
     "types": {
-      "great": "🎧",
-      "ok": "🎵",
-      "meh": "📻",
-      "bad": "🔇"
+      "great": {
+        "icon": "icons/headphones.png"
+      },
+      "ok": {
+        "icon": "icons/music-note.png"
+      },
+      "meh": {
+        "icon": "icons/radio.png"
+      },
+      "bad": {
+        "icon": "icons/muted-speaker.png"
+      }
     }
   },
   "write": {
-    "tabGoal": "🎯 Objectif",
-    "tabEvent": "📅 Session",
-    "tabThought": "💭 Note",
+    "tabGoal": {
+      "text": "Objectif",
+      "icon": "icons/target.png"
+    },
+    "tabEvent": {
+      "text": "Session",
+      "icon": "icons/calendar.png"
+    },
+    "tabThought": {
+      "text": "Note",
+      "icon": "icons/thought-bubble.png"
+    },
     "lblDate": "Date de sortie :",
     "lblTime": "Heure du show :",
     "placeholder": "Enregistre tes idées ici...",
     "btnCancel": "Stop",
-    "btnSave": "Enregistrer",
-    "savedTitle": "Dans la boîte ! ✨",
+    "btnSave": {
+      "text": "Enregistrer"
+    },
+    "savedTitle": {
+      "text": "Dans la boîte !",
+      "icon": "icons/sparkles.png"
+    },
     "savedMsg": "Ta piste a été ajoutée à l'album.",
     "errorTitle": "Erreur micro",
     "errorMsg": "Échec de l'enregistrement de la piste.",
-    "audioRecord": "🎙️ Enregistrer une prise",
-    "audioStop": "⏹ Couper",
-    "audioRemove": "✖ Effacer la prise",
-    "audioErrorTitle": "Micro mort",
+    "audioRecord": {
+      "text": "Enregistrer une prise",
+      "icon": "icons/microphone.png"
+    },
+    "audioStop": {
+      "text": "Couper",
+      "icon": "icons/stop-button.png"
+    },
+    "audioRemove": {
+      "text": "Effacer la prise",
+      "icon": "icons/close.png"
+    },
+    "audioErrorTitle": {
+      "text": "Micro mort"
+    },
     "audioErrorMsg": "Micro introuvable sur cette console.",
     "audioUploading": "Masterisation de la prise..."
   },
@@ -118,16 +243,32 @@
     "ok": "Compris"
   },
   "app": {
-    "loading": "Chauffe des lampes... 🎸",
+    "loading": {
+      "text": "Chauffe des lampes...",
+      "icon": "icons/guitar.png"
+    },
     "logout": "Quitter le Studio",
-    "btnWrite": "Nouvelle Piste",
-    "btnDashboard": "Table de Mixage",
-    "btnBudget": "Royalties"
+    "btnWrite": {
+      "text": "Nouvelle Piste"
+    },
+    "btnDashboard": {
+      "text": "Table de Mixage"
+    },
+    "btnBudget": {
+      "text": "Royalties"
+    }
   },
   "budget": {
-    "title": "Gestion des Royalties 💰",
-    "income": "Ventes d'albums",
-    "outcome": "Frais de production",
+    "title": {
+      "text": "Gestion des Royalties",
+      "icon": "icons/money-bag.png"
+    },
+    "income": {
+      "text": "Ventes d'albums"
+    },
+    "outcome": {
+      "text": "Frais de production"
+    },
     "addIncome": "Enregistrer une vente",
     "addIncomeCategory": "Nouveau Label",
     "addCategory": "Nouveau Genre",
@@ -138,51 +279,126 @@
     "category": "Catégorie",
     "save": "Encaisser",
     "chart": "Répartition des Revenus",
-    "modalSaved": "Les royalties ont été mises à jour ✨",
-    "categoryAdded": "Nouveau genre ajouté au catalogue ! 🎵",
-    "modalError": "Échec de la transaction musicale...",
-    "modalErrorLoad": "Échec du chargement des royalties.",
-    "categoryNameRequired": "Le nom du genre est requis.",
-    "categoryExists": "Un genre avec ce nom existe déjà.",
-    "invalidAmount": "Veuillez entrer un montant valide (nombre positif).",
-    "categoryRequired": "Veuillez sélectionner une catégorie.",
-    "descriptionRequired": "Une description est requise pour la dépense.",
-    "historyTitle": "Archives Financières",
-    "balance": "Économies possibles ✨",
+    "modalSaved": {
+      "text": "Les royalties ont été mises à jour",
+      "icon": "icons/sparkles.png"
+    },
+    "categoryAdded": {
+      "text": "Nouveau genre ajouté au catalogue !",
+      "icon": "icons/music-note.png"
+    },
+    "modalError": {
+      "text": "Échec de la transaction musicale..."
+    },
+    "modalErrorLoad": {
+      "text": "Échec du chargement des royalties."
+    },
+    "categoryNameRequired": {
+      "text": "Le nom du genre est requis."
+    },
+    "categoryExists": {
+      "text": "Un genre avec ce nom existe déjà."
+    },
+    "invalidAmount": {
+      "text": "Veuillez entrer un montant valide (nombre positif)."
+    },
+    "categoryRequired": {
+      "text": "Veuillez sélectionner une catégorie."
+    },
+    "descriptionRequired": {
+      "text": "Une description est requise pour la dépense."
+    },
+    "historyTitle": {
+      "text": "Archives Financières"
+    },
+    "balance": {
+      "text": "Économies possibles",
+      "icon": "icons/sparkles.png"
+    },
     "latestExpensesTitle": "Derniers Investissements",
-    "noRecentExpenses": "Aucun investissement récent à afficher.",
+    "noRecentExpenses": {
+      "text": "Aucun investissement récent à afficher."
+    },
     "filterMonth": "Ce mois",
     "filter3months": "3 mois",
     "filter6months": "6 mois",
     "filterYear": "Année"
   },
   "profile": {
-    "title": "Profil Artiste 🎵",
-    "statsMoods": "Vibes",
-    "statsGoals": "Objectifs 🎯",
-    "statsEvents": "Sessions 📅",
-    "statsNotes": "Notes 💭",
+    "title": {
+      "text": "Profil Artiste",
+      "icon": "icons/music-note.png"
+    },
+    "statsMoods": {
+      "text": "Vibes"
+    },
+    "statsGoals": {
+      "text": "Objectifs",
+      "icon": "icons/target.png"
+    },
+    "statsEvents": {
+      "text": "Sessions",
+      "icon": "icons/calendar.png"
+    },
+    "statsNotes": {
+      "text": "Notes",
+      "icon": "icons/thought-bubble.png"
+    },
     "btnBack": "Retour au Studio",
-    "errorEmail": "Format invalide. Email incorrect. 🎸",
+    "errorEmail": {
+      "text": "Format invalide. Email incorrect.",
+      "icon": "icons/guitar.png"
+    },
     "errorUsername": "Nom de scène trop court.",
-    "errorAvatar": "Échec du chargement de la cover.",
-    "errorPasswordStrength": "Le mot de passe est trop faible. 16+ caractères, une majuscule et un caractère spécial requis. 🎵",
-    "errorPasswordOld": "Le mot de passe actuel est incorrect. 🔑",
-    "errorPasswordSame": "Le nouveau mot de passe doit être différent du précédent. 🎸",
-    "errorUpdate": "La mise à jour a échoué. 🎭",
-    "changePasswordTitle": "Modifier le mot de passe 🎸",
-    "oldPassword": "Code actuel 🔑",
-    "passwordSuccess": "Mot de passe mis à jour ! 🎵",
+    "errorAvatar": {
+      "text": "Échec du chargement de la cover."
+    },
+    "errorPasswordStrength": {
+      "text": "Le mot de passe est trop faible. 16+ caractères, une majuscule et un caractère spécial requis.",
+      "icon": "icons/music-note.png"
+    },
+    "errorPasswordOld": {
+      "text": "Le mot de passe actuel est incorrect.",
+      "icon": "icons/key.png"
+    },
+    "errorPasswordSame": {
+      "text": "Le nouveau mot de passe doit être différent du précédent.",
+      "icon": "icons/guitar.png"
+    },
+    "errorUpdate": {
+      "text": "La mise à jour a échoué.",
+      "icon": "icons/theater-masks.png"
+    },
+    "changePasswordTitle": {
+      "text": "Modifier le mot de passe",
+      "icon": "icons/guitar.png"
+    },
+    "oldPassword": {
+      "text": "Code actuel",
+      "icon": "icons/key.png"
+    },
+    "passwordSuccess": {
+      "text": "Mot de passe mis à jour !",
+      "icon": "icons/music-note.png"
+    },
     "passwordMismatch": "Les codes ne correspondent pas.",
-    "micPermissionTitle": "Accès micro",
+    "micPermissionTitle": {
+      "text": "Accès micro"
+    },
     "micPermissionHint": "Choisis comment la console gère l’accès au micro. Ton choix est mémorisé.",
-    "micAsk": "Demander à chaque prise",
+    "micAsk": {
+      "text": "Demander à chaque prise"
+    },
     "micAllow": "Ouvrir",
     "micDeny": "Muter"
   },
   "notif": {
-    "title": "Notes de sortie",
-    "new": "NOUVEAU",
+    "title": {
+      "text": "Notes de sortie"
+    },
+    "new": {
+      "text": "NOUVEAU"
+    },
     "empty": "Aucune piste sortie pour le moment."
   }
 }

@@ -1,5 +1,7 @@
 import { useState, useEffect, JSX, useCallback } from 'react'
+import { iconOf } from '../data/localized'
 import { api, CalendarEntry } from '../services'
+import { Icon } from './Icon'
 import { useUser } from './UserContext'
 
 export function CalendarWidget(): JSX.Element {
@@ -91,9 +93,11 @@ export function CalendarWidget(): JSX.Element {
                 className={`block text-[0.65rem] font-semibold w-full pointer-events-none mb-0.5 ${detailColor}`}
                 title={e.text}
               >
-                <span className="mr-0.75">
-                  {e.category === 'goal' ? t.daily.iconGoal : t.daily.iconEvent}
-                </span>
+                <Icon
+                  className="mr-0.75"
+                  name={iconOf(e.category === 'goal' ? t.daily.iconGoal : t.daily.iconEvent)}
+                  size={14}
+                />
                 <span className="leading-[1.1] whitespace-normal overflow-hidden text-ellipsis">
                   {e.text}
                 </span>

@@ -1,59 +1,159 @@
 {
   "greetings": [
-    "Hey cutie pie !! 🍰",
-    "Bonjour ma chérie ! ❤️",
-    "What's up baby ? ✨",
-    "Bello i love you 🥰",
-    "привіт, моя кохана 🌻",
-    "Hiii, you're in your spring 🌸"
+    {
+      "text": "Hey cutie pie !!",
+      "icon": "icons/cake.png"
+    },
+    {
+      "text": "Bonjour ma chérie !",
+      "icon": "icons/heart.png"
+    },
+    {
+      "text": "What's up baby ?",
+      "icon": "icons/sparkles.png"
+    },
+    {
+      "text": "Bello i love you",
+      "icon": "icons/smiling-heart.png"
+    },
+    {
+      "text": "привіт, моя кохана",
+      "icon": "icons/sunflower.png"
+    },
+    {
+      "text": "Hiii, you're in your spring",
+      "icon": "icons/blossom.png"
+    }
   ],
   "login": {
-    "title": "Затишок 💌",
+    "title": {
+      "text": "Затишок",
+      "icon": "icons/love-letter.png"
+    },
     "requestAccess": "Demander l'accès",
     "welcomeHome": "Bienvenue",
-    "username": "Pseudo 🎀",
+    "username": {
+      "text": "Pseudo",
+      "icon": "icons/ribbon.png"
+    },
     "usernamePlaceholder": "Ton joli nom",
-    "password": "Mot de passe 🔑",
+    "password": {
+      "text": "Mot de passe",
+      "icon": "icons/key.png"
+    },
     "passwordPlaceholder": "••••••••",
-    "badPassordConfirmation": "Passwords do not match. 🥺",
+    "badPassordConfirmation": {
+      "text": "Passwords do not match.",
+      "icon": "icons/pleading-face.png"
+    },
     "processing": "Connexion en cours...",
     "join": "Rejoindre",
     "unlock": "Déverrouiller",
     "toggleToLogin": "Already have an account? Login",
     "toggleToRegister": "Need access? Register",
-    "modalWaitTitle": "Welcome! 💌",
+    "modalWaitTitle": {
+      "text": "Welcome!",
+      "icon": "icons/love-letter.png"
+    },
     "modalWaitMsg": "Request sent! Wait for manual validation.",
     "modalOops": "Oops...",
-    "modalErrorTitle": "Erreur ⚠️",
-    "modalErrorUnreachable": "Serveur injoignable 🥺",
-    "modalErrorUnexpected": "Une erreur inattendue est survenue 🐛",
-    "modalErrorInvalidData": "Données invalides 🛑",
-    "errorUsernameTaken": "Ce pseudo est déjà pris, ma belle. 🎀",
-    "errorEmailTaken": "Cet email est déjà utilisé. 💌",
-    "errorPending": "Ton compte attend encore d'être validé... ⏳",
-    "errorInvalidCredentials": "Identifiants incorrects. 🥺",
-    "savedTitle": "Succès ! ✨",
-    "forgotPassword": "Mot de passe oublié ? 🥺",
-    "resetTitle": "Réinitialisation 🎀",
-    "resetCode": "Code de vérification 🔑",
-    "newPassword": "Nouveau mot de passe 🔒",
-    "confirmNewPassword": "Confirmation 🔒",
-    "sendCode": "Envoyer l'email 💌",
-    "resetBtn": "Réinitialiser 🎀"
+    "modalErrorTitle": {
+      "text": "Erreur",
+      "icon": "icons/warning.png"
+    },
+    "modalErrorUnreachable": {
+      "text": "Serveur injoignable",
+      "icon": "icons/pleading-face.png"
+    },
+    "modalErrorUnexpected": {
+      "text": "Une erreur inattendue est survenue",
+      "icon": "icons/bug.png"
+    },
+    "modalErrorInvalidData": {
+      "text": "Données invalides",
+      "icon": "icons/stop-sign.png"
+    },
+    "errorUsernameTaken": {
+      "text": "Ce pseudo est déjà pris, ma belle.",
+      "icon": "icons/ribbon.png"
+    },
+    "errorEmailTaken": {
+      "text": "Cet email est déjà utilisé.",
+      "icon": "icons/love-letter.png"
+    },
+    "errorPending": {
+      "text": "Ton compte attend encore d'être validé...",
+      "icon": "icons/hourglass.png"
+    },
+    "errorInvalidCredentials": {
+      "text": "Identifiants incorrects.",
+      "icon": "icons/pleading-face.png"
+    },
+    "savedTitle": {
+      "text": "Succès !",
+      "icon": "icons/sparkles.png"
+    },
+    "forgotPassword": {
+      "text": "Mot de passe oublié ?",
+      "icon": "icons/pleading-face.png"
+    },
+    "resetTitle": {
+      "text": "Réinitialisation",
+      "icon": "icons/ribbon.png"
+    },
+    "resetCode": {
+      "text": "Code de vérification",
+      "icon": "icons/key.png"
+    },
+    "newPassword": {
+      "text": "Nouveau mot de passe",
+      "icon": "icons/lock.png"
+    },
+    "confirmNewPassword": {
+      "text": "Confirmation",
+      "icon": "icons/lock.png"
+    },
+    "sendCode": {
+      "text": "Envoyer l'email",
+      "icon": "icons/love-letter.png"
+    },
+    "resetBtn": {
+      "text": "Réinitialiser",
+      "icon": "icons/ribbon.png"
+    }
   },
   "daily": {
-    "upcoming": "Upcoming Schedule ✨",
+    "upcoming": {
+      "text": "Upcoming Schedule",
+      "icon": "icons/sparkles.png"
+    },
     "todayIs": "Today is",
     "loading": "Checking the stars...",
-    "nothingPlanned": "Nothing planned today, time to relax! 🍂",
+    "nothingPlanned": {
+      "text": "Nothing planned today, time to relax!",
+      "icon": "icons/fallen-leaf.png"
+    },
     "for": "For",
     "deleteItem": "Delete item",
     "deleteNote": "Delete note",
-    "plannerTitle": "Your lovely day 🌸",
-    "notesTitle": "Notes & Thoughts 🍃",
-    "iconGoal": "🎯",
-    "iconEvent": "📅",
-    "modalDeleteTitle": "Are you sure? 🥺",
+    "plannerTitle": {
+      "text": "Your lovely day",
+      "icon": "icons/blossom.png"
+    },
+    "notesTitle": {
+      "text": "Notes & Thoughts",
+      "icon": "icons/leaf.png"
+    },
+    "iconGoal": {
+      "icon": "icons/target.png"
+    },
+    "iconEvent": {
+      "icon": "icons/calendar.png"
+    },
+    "modalDeleteTitle": {
+      "text": "Are you sure?",
+      "icon": "icons/pleading-face.png"
+    },
     "modalDeleteMsg": "Do you really want to remove this?",
     "modalDeleteError": "Couldn't delete it.",
     "recurring": "Recurring",
@@ -65,8 +165,14 @@
   "mood": {
     "back": "Back",
     "history": "History",
-    "historyTitle": "Mood History 📖",
-    "feelingTitle": "How are you feeling today? 🎀",
+    "historyTitle": {
+      "text": "Mood History",
+      "icon": "icons/open-book.png"
+    },
+    "feelingTitle": {
+      "text": "How are you feeling today?",
+      "icon": "icons/ribbon.png"
+    },
     "noHistory": "No history yet...",
     "yesterday": "Yesterday:",
     "today": "Today:",
@@ -74,35 +180,73 @@
     "placeholderNew": "A small note...",
     "btnUpdate": "Update",
     "btnSubmit": "Save",
-    "savedTitle": "Noted! 💌",
+    "savedTitle": {
+      "text": "Noted!",
+      "icon": "icons/love-letter.png"
+    },
     "savedMsg": "Your mood has been securely saved.",
     "errorTitle": "Oops...",
     "errorMsg": "Error saving mood. Please try again.",
     "types": {
-      "great": "✨",
-      "ok": "🖖🏻",
-      "meh": "💭",
-      "bad": "😿"
+      "great": {
+        "icon": "icons/sparkles.png"
+      },
+      "ok": {
+        "icon": "icons/vulcan-salute.png"
+      },
+      "meh": {
+        "icon": "icons/thought-bubble.png"
+      },
+      "bad": {
+        "icon": "icons/crying-cat.png"
+      }
     },
     "seeMore": "See more"
   },
   "write": {
-    "tabGoal": "🎯 Dreams",
-    "tabEvent": "📅 Moments",
-    "tabThought": "💭 Thought",
+    "tabGoal": {
+      "text": "Dreams",
+      "icon": "icons/target.png"
+    },
+    "tabEvent": {
+      "text": "Moments",
+      "icon": "icons/calendar.png"
+    },
+    "tabThought": {
+      "text": "Thought",
+      "icon": "icons/thought-bubble.png"
+    },
     "lblDate": "Date:",
     "lblTime": "Time:",
     "placeholder": "Describe your goal or thought...",
     "btnCancel": "Cancel",
-    "btnSave": "Save ✨",
-    "savedTitle": "Got it! 💌",
+    "btnSave": {
+      "text": "Save",
+      "icon": "icons/sparkles.png"
+    },
+    "savedTitle": {
+      "text": "Got it!",
+      "icon": "icons/love-letter.png"
+    },
     "savedMsg": "Safely tucked away in the little drawer.",
     "errorTitle": "Oh no!",
     "errorMsg": "Failed to save your note.",
-    "audioRecord": "🎙️ Record a sweet memo",
-    "audioStop": "⏹ Stop",
-    "audioRemove": "✖ Effacer l'enregistrement",
-    "audioErrorTitle": "Microphone... 🎀",
+    "audioRecord": {
+      "text": "Record a sweet memo",
+      "icon": "icons/microphone.png"
+    },
+    "audioStop": {
+      "text": "Stop",
+      "icon": "icons/stop-button.png"
+    },
+    "audioRemove": {
+      "text": "Effacer l'enregistrement",
+      "icon": "icons/close.png"
+    },
+    "audioErrorTitle": {
+      "text": "Microphone...",
+      "icon": "icons/ribbon.png"
+    },
     "audioErrorMsg": "Le micro n'a pas voulu s'ouvrir. Réessaie, ma belle ?",
     "audioUploading": "Envoi de ton message..."
   },
@@ -120,16 +264,37 @@
     "ok": "OK"
   },
   "app": {
-    "loading": "Opening your cozy space... 💌",
+    "loading": {
+      "text": "Opening your cozy space...",
+      "icon": "icons/love-letter.png"
+    },
     "logout": "Logout",
-    "btnWrite": "Write 🖌️",
-    "btnDashboard": "Dashboard 📅",
-    "btnBudget": "Piggy Bank 🐖"
+    "btnWrite": {
+      "text": "Write",
+      "icon": "icons/paintbrush.png"
+    },
+    "btnDashboard": {
+      "text": "Dashboard",
+      "icon": "icons/calendar.png"
+    },
+    "btnBudget": {
+      "text": "Piggy Bank",
+      "icon": "icons/pig.png"
+    }
   },
   "budget": {
-    "title": "My Little Treasure 💰",
-    "income": "Big girl money 👛",
-    "outcome": "Investissments 🎁",
+    "title": {
+      "text": "My Little Treasure",
+      "icon": "icons/money-bag.png"
+    },
+    "income": {
+      "text": "Big girl money",
+      "icon": "icons/purse.png"
+    },
+    "outcome": {
+      "text": "Investissments",
+      "icon": "icons/gift.png"
+    },
     "addIncome": "Add sweet money",
     "addIncomeCategory": "New treasure source",
     "addCategory": "New investissment source",
@@ -140,51 +305,137 @@
     "category": "Category",
     "save": "Keep it",
     "chart": "Money distribution",
-    "modalSaved": "Treasure updated! ✨",
-    "categoryAdded": "New investissment source added to the piggy bank! 🎀",
-    "modalError": "A little problem with the coins... 🥺",
-    "modalErrorLoad": "Couldn't find the treasure map... 🗺️",
-    "categoryNameRequired": "A name for the investissment source is needed, sweetie.",
-    "categoryExists": "A investissment source with this name already exists. 🎀",
-    "invalidAmount": "Please enter a valid amount (a positive number).",
-    "categoryRequired": "Please pick a category, sweetie.",
-    "descriptionRequired": "What was this for, my love?",
-    "historyTitle": "My Spending History 🎀",
-    "balance": "Potential savings ✨",
+    "modalSaved": {
+      "text": "Treasure updated!",
+      "icon": "icons/sparkles.png"
+    },
+    "categoryAdded": {
+      "text": "New investissment source added to the piggy bank!",
+      "icon": "icons/ribbon.png"
+    },
+    "modalError": {
+      "text": "A little problem with the coins...",
+      "icon": "icons/pleading-face.png"
+    },
+    "modalErrorLoad": {
+      "text": "Couldn't find the treasure map...",
+      "icon": "icons/map.png"
+    },
+    "categoryNameRequired": {
+      "text": "A name for the investissment source is needed, sweetie."
+    },
+    "categoryExists": {
+      "text": "A investissment source with this name already exists.",
+      "icon": "icons/ribbon.png"
+    },
+    "invalidAmount": {
+      "text": "Please enter a valid amount (a positive number)."
+    },
+    "categoryRequired": {
+      "text": "Please pick a category, sweetie."
+    },
+    "descriptionRequired": {
+      "text": "What was this for, my love?"
+    },
+    "historyTitle": {
+      "text": "My Spending History",
+      "icon": "icons/ribbon.png"
+    },
+    "balance": {
+      "text": "Potential savings",
+      "icon": "icons/sparkles.png"
+    },
     "latestExpensesTitle": "Latest Little Spends",
-    "noRecentExpenses": "No recent little spends to show. 💖",
+    "noRecentExpenses": {
+      "text": "No recent little spends to show.",
+      "icon": "icons/sparkling-heart.png"
+    },
     "filterMonth": "Ce mois",
     "filter3months": "3 mois",
     "filter6months": "6 mois",
     "filterYear": "Année"
   },
   "profile": {
-    "title": "My Little Corner ✨",
-    "statsMoods": "Feelings 🎀",
-    "statsGoals": "Dreams ☁️",
-    "statsEvents": "Moments 📅",
-    "statsNotes": "Thoughts 💭",
+    "title": {
+      "text": "My Little Corner",
+      "icon": "icons/sparkles.png"
+    },
+    "statsMoods": {
+      "text": "Feelings",
+      "icon": "icons/ribbon.png"
+    },
+    "statsGoals": {
+      "text": "Dreams",
+      "icon": "icons/cloud.png"
+    },
+    "statsEvents": {
+      "text": "Moments",
+      "icon": "icons/calendar.png"
+    },
+    "statsNotes": {
+      "text": "Thoughts",
+      "icon": "icons/thought-bubble.png"
+    },
     "btnBack": "Go back",
-    "errorEmail": "Oops! That doesn't look like a real email... 🥺",
+    "errorEmail": {
+      "text": "Oops! That doesn't look like a real email...",
+      "icon": "icons/pleading-face.png"
+    },
     "errorUsername": "Your name is a bit too short, sweetie!",
-    "errorAvatar": "The picture didn't want to save... Try again? ✨",
-    "errorPasswordStrength": "Your password needs to be a bit stronger, sweetie! 16+ letters, one uppercase and a special spark! ✨",
-    "errorPasswordOld": "Ton mot de passe actuel n'est pas le bon. 🔑",
-    "errorPasswordSame": "Tu ne peux pas utiliser le même mot de passe, voyons ! 🎀",
-    "errorUpdate": "A tiny error stopped the update. 🌸",
-    "changePasswordTitle": "Changer le mot de passe 🎀",
-    "oldPassword": "Mot de passe actuel 🔑",
-    "passwordSuccess": "Key changed! 🎀",
+    "errorAvatar": {
+      "text": "The picture didn't want to save... Try again?",
+      "icon": "icons/sparkles.png"
+    },
+    "errorPasswordStrength": {
+      "text": "Your password needs to be a bit stronger, sweetie! 16+ letters, one uppercase and a special spark!",
+      "icon": "icons/sparkles.png"
+    },
+    "errorPasswordOld": {
+      "text": "Ton mot de passe actuel n'est pas le bon.",
+      "icon": "icons/key.png"
+    },
+    "errorPasswordSame": {
+      "text": "Tu ne peux pas utiliser le même mot de passe, voyons !",
+      "icon": "icons/ribbon.png"
+    },
+    "errorUpdate": {
+      "text": "A tiny error stopped the update.",
+      "icon": "icons/blossom.png"
+    },
+    "changePasswordTitle": {
+      "text": "Changer le mot de passe",
+      "icon": "icons/ribbon.png"
+    },
+    "oldPassword": {
+      "text": "Mot de passe actuel",
+      "icon": "icons/key.png"
+    },
+    "passwordSuccess": {
+      "text": "Key changed!",
+      "icon": "icons/ribbon.png"
+    },
     "passwordMismatch": "Keys don't match, sweetie!",
-    "micPermissionTitle": "Le petit micro 🎀",
+    "micPermissionTitle": {
+      "text": "Le petit micro",
+      "icon": "icons/ribbon.png"
+    },
     "micPermissionHint": "Dis-moi si le micro peut s’ouvrir tout seul, ma belle. Ton choix est mémorisé.",
-    "micAsk": "Me demander 🥺",
+    "micAsk": {
+      "text": "Me demander",
+      "icon": "icons/pleading-face.png"
+    },
     "micAllow": "Autoriser",
     "micDeny": "Refuser"
   },
   "notif": {
-    "title": "News for you 💌",
-    "new": "NEW 🎀",
+    "title": {
+      "text": "News for you",
+      "icon": "icons/love-letter.png"
+    },
+    "new": {
+      "text": "NEW",
+      "icon": "icons/ribbon.png"
+    },
     "empty": "No news from the stars yet..."
   }
 }

@@ -1,5 +1,7 @@
 import { JSX, useState } from 'react'
+import { Localized, textOf } from '../data/localized'
 import { api } from '../services'
+import { T } from './T'
 import { useModal } from './ModalContext'
 import { Role, useUser } from './UserContext'
 
@@ -36,8 +38,8 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
           showModal({ title: t.login.savedTitle, message: res.message || '', type: 'alert' })
           setResetStep(2)
         } else {
-          if (password !== confirmPassword) throw new Error(t.login.badPassordConfirmation)
-          if (!isPasswordValid(password)) throw new Error(t.profile.errorPasswordStrength)
+          if (password !== confirmPassword) throw new Error(textOf(t.login.badPassordConfirmation))
+          if (!isPasswordValid(password)) throw new Error(textOf(t.profile.errorPasswordStrength))
           const res = await api.resetPassword({ email, token: resetToken, newPassword: password })
           if (res.error) throw new Error(res.error)
           showModal({ title: t.login.savedTitle, message: res.message || '', type: 'alert' })
@@ -57,10 +59,10 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
           setLoading(false)
           return
         }
-        if (!isPasswordValid(password)) throw new Error(t.profile.errorPasswordStrength)
+        if (!isPasswordValid(password)) throw new Error(textOf(t.profile.errorPasswordStrength))
         const res = await api.register(username, email, password)
         if (res.error) {
-          let msg = res.error
+          let msg: Localized = res.error
           if (res.error.includes('Username')) msg = t.login.errorUsernameTaken
           else if (res.error.includes('Email')) msg = t.login.errorEmailTaken
 
@@ -91,14 +93,15 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
 
           onLoginSuccess()
         } else {
-          throw new Error(t.login.modalErrorInvalidData)
+          throw new Error(textOf(t.login.modalErrorInvalidData))
         }
       }
     } catch (err: unknown) {
-      let errorMsg = err instanceof Error ? err.message : t.login.modalErrorUnexpected
+      const rawMessage = err instanceof Error ? err.message : textOf(t.login.modalErrorUnexpected)
+      let errorMsg: Localized = rawMessage
 
-      if (errorMsg.includes('Invalid credentials')) errorMsg = t.login.errorInvalidCredentials
-      if (errorMsg.includes('pending approval')) errorMsg = t.login.errorPending
+      if (rawMessage.includes('Invalid credentials')) errorMsg = t.login.errorInvalidCredentials
+      if (rawMessage.includes('pending approval')) errorMsg = t.login.errorPending
 
       showModal({
         title: t.login.modalErrorTitle,
@@ -114,19 +117,27 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
     <div className="w-full h-screen flex justify-center items-center bg-bg">
       <div className="bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 w-[90vw] max-w-130 aspect-square p-[5vh_5vw] flex flex-col justify-evenly text-center font-quicksand">
         <div className="flex flex-col items-center gap-1.5">
-          <h1 className="m-0 text-[2rem] text-profund">{t.login.title}</h1>
+          <h1 className="m-0 text-[2rem] text-profond">
+            <T value={t.login.title} />
+          </h1>
           <p className="text-lilas-doux font-medium mb-7.5">
             {isRegister ? t.login.requestAccess : t.login.welcomeHome}
           </p>
-          {isForgot && <h2 className="text-[1.2rem] text-lilas mb-5">{t.login.resetTitle}</h2>}
+          {isForgot && (
+            <h2 className="text-[1.2rem] text-lilas mb-5">
+              <T value={t.login.resetTitle} />
+            </h2>
+          )}
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5 w-full flex-1 justify-center">
           {!isForgot && (
             <div className="text-left w-full">
-              <small>{isRegister ? t.login.username : 'Nom d\u00b4utilisateur ou Email'}</small>
+              <small>
+                <T value={isRegister ? t.login.username : 'Nom d\u00b4utilisateur ou Email'} />
+              </small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -140,7 +151,7 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
             <div className="text-left w-full">
               <small>Email</small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -152,9 +163,11 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
 
           {isForgot && resetStep === 2 && (
             <div className="text-left w-full">
-              <small>{t.login.resetCode}</small>
+              <small>
+                <T value={t.login.resetCode} />
+              </small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="text"
                 value={resetToken}
                 onChange={(e) => setResetToken(e.target.value)}
@@ -166,9 +179,11 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
 
           {(!isForgot || resetStep === 2) && (
             <div className="text-left w-full">
-              <small>{isForgot ? t.login.newPassword : t.login.password}</small>
+              <small>
+                <T value={isForgot ? t.login.newPassword : t.login.password} />
+              </small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -180,9 +195,11 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
 
           {(isRegister || (isForgot && resetStep === 2)) && (
             <div className="text-left w-full">
-              <small>{isForgot ? t.login.confirmNewPassword : 'Confirmer le mot de passe'}</small>
+              <small>
+                <T value={isForgot ? t.login.confirmNewPassword : 'Confirmer le mot de passe'} />
+              </small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
@@ -197,15 +214,19 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
             className="border-0 rounded-xl px-5 py-3.5 font-semibold cursor-pointer bg-lilas text-white! shadow-[inset_4px_4px_8px_rgba(0,0,0,0.15)] scale-96 hover:brightness-115 hover:shadow-[inset_6px_6px_12px_rgba(0,0,0,0.25)] w-full mt-2.5 text-[1rem]"
             disabled={loading}
           >
-            {loading
-              ? t.login.processing
-              : isForgot
-                ? resetStep === 1
-                  ? t.login.sendCode
-                  : t.login.resetBtn
-                : isRegister
-                  ? t.login.join
-                  : t.login.unlock}
+            <T
+              value={
+                loading
+                  ? t.login.processing
+                  : isForgot
+                    ? resetStep === 1
+                      ? t.login.sendCode
+                      : t.login.resetBtn
+                    : isRegister
+                      ? t.login.join
+                      : t.login.unlock
+              }
+            />
           </button>
         </form>
 
@@ -215,7 +236,7 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
               onClick={() => setIsForgot(true)}
               className="cursor-pointer text-[0.85rem] opacity-70"
             >
-              {t.login.forgotPassword}
+              <T value={t.login.forgotPassword} />
             </p>
           )}
 

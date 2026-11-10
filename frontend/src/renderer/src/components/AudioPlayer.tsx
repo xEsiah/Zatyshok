@@ -1,5 +1,6 @@
 import { JSX, useEffect, useRef, useState } from 'react'
 import { API_URL } from '../services/apiClient'
+import { Icon } from './Icon'
 
 interface AudioPlayerProps {
   src: string
@@ -63,7 +64,7 @@ export function AudioPlayer({ src, compact = false }: AudioPlayerProps): JSX.Ele
         className="shrink-0 border-none bg-none text-[0.9rem] leading-none rounded-lg cursor-pointer text-profond transition-transform duration-200 hover:scale-115"
         onClick={togglePlay}
       >
-        {playing ? '⏸' : '▶'}
+        <Icon name={playing ? 'pause' : 'play'} size={16} />
       </button>
       <input
         className="flex-1 min-w-0 h-1 cursor-pointer accent-lilas"

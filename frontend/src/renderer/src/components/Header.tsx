@@ -1,7 +1,9 @@
 import { useEffect, useState, JSX } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
+import { Localized } from '../data/localized'
 import { NotificationCenter } from './NotificationCenter'
 import { ProfileManager } from './ProfileManager'
+import { T } from './T'
 import { useUser } from './UserContext'
 
 interface HeaderProps {
@@ -9,7 +11,7 @@ interface HeaderProps {
 }
 
 export function Header({ onLogout }: HeaderProps): JSX.Element {
-  const [greeting, setGreeting] = useState('')
+  const [greeting, setGreeting] = useState<Localized>('')
   const { t } = useUser()
   const navigate = useNavigate()
 
@@ -25,7 +27,7 @@ export function Header({ onLogout }: HeaderProps): JSX.Element {
     <>
       <div className="h-[4vh] w-full [-webkit-app-region:drag] flex items-center text-[0.8rem] text-lilas-doux">
         <h1 className="m-0 pl-[1%] text-[2rem] font-quicksand font-bold">
-          {t.login?.title || 'Zatyshok'}
+          <T value={t.login?.title ?? 'Zatyshok'} />
         </h1>
         <button
           onClick={onLogout}
@@ -53,7 +55,9 @@ export function Header({ onLogout }: HeaderProps): JSX.Element {
       </div>
 
       <header className="text-left w-[90%] text-[1.4rem] flex flex-col justify-around items-start min-h-[15%]">
-        <h2 className="m-0">{greeting}</h2>
+        <h2 className="m-0">
+          <T value={greeting} />
+        </h2>
         <div className="flex justify-between items-center w-full">
           <div className="flex items-center gap-2.5">
             <NavLink
@@ -66,7 +70,7 @@ export function Header({ onLogout }: HeaderProps): JSX.Element {
                 }`
               }
             >
-              {t.app.btnDashboard}
+              <T value={t.app.btnDashboard} />
             </NavLink>
             <NavLink
               to="/write"
@@ -78,7 +82,7 @@ export function Header({ onLogout }: HeaderProps): JSX.Element {
                 }`
               }
             >
-              {t.app.btnWrite}
+              <T value={t.app.btnWrite} />
             </NavLink>
             <NavLink
               to="/budget"
@@ -90,7 +94,7 @@ export function Header({ onLogout }: HeaderProps): JSX.Element {
                 }`
               }
             >
-              {t.app.btnBudget}
+              <T value={t.app.btnBudget} />
             </NavLink>
           </div>
           <div className="flex items-center gap-2.5">
