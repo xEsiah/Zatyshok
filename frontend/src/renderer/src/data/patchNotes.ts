@@ -21,10 +21,8 @@ export const PATCH_NOTES: PatchNote[] = [
         features: [
           '- Les emojis sont remplacés par des icônes Liquid Glass d\u0027Icons8, embarquées dans l\u0027application (aucun chargement externe).',
           '- Icônes colorées, agrandies et entourées d\u0027un léger contour adapté au thème pour rester lisibles partout.',
-          '- Bulle de pensée et salut Vulcain : icônes dédiées plus fidèles.',
           '- Texte des post-its lisible en mode édition sur les thèmes sombres.',
-          '- La molette de la souris fait défiler la bande de post-its horizontalement.',
-          '- Mises à jour automatiques de TypeScript 7 et ESLint 10 ignorées en attendant leur compatibilité.'
+          '- La molette de la souris fait défiler la bande de post-its horizontalement.'
         ]
       },
       en: {
@@ -32,10 +30,8 @@ export const PATCH_NOTES: PatchNote[] = [
         features: [
           '- Every emoji is now a bundled Icons8 Liquid Glass icon shipped with the app (no external loading).',
           '- Icons are colored, slightly larger and outlined per theme so they stay legible everywhere.',
-          '- Dedicated, more accurate thought bubble and Vulcan salute icons.',
           '- Post-it text stays readable while editing on dark themes.',
-          '- The mouse wheel now scrolls the post-it strip horizontally.',
-          '- Automatic updates to TypeScript 7 and ESLint 10 are ignored until they are compatible.'
+          '- The mouse wheel now scrolls the post-it strip horizontally.'
         ]
       }
     }
@@ -76,6 +72,28 @@ export const PATCH_NOTES: PatchNote[] = [
         features: [
           '- Fixed the selection of the event type and recurrence.',
           '- Updated the application dependencies'
+        ]
+      }
+    }
+  },
+  {
+    version: '2.2.1',
+    date: '25-09-2026',
+    content: {
+      fr: {
+        title: 'Notes vocales et changelogs',
+        features: [
+          '- Toutes les entrées du calendrier peuvent maintenant être audio.',
+          '- Ajout de cette section « changelogs » pour offrir un résumé des changements.',
+          '- Refactorisation du projet afin d\u0027offrir une meilleure cohérence visuelle dans l\u0027application.'
+        ]
+      },
+      en: {
+        title: 'Voice notes and changelogs',
+        features: [
+          '- Every calendar entry can now be an audio recording.',
+          '- Added this changelog section to summarize changes.',
+          '- Refactored the project for a more consistent visual experience in the app.'
         ]
       }
     }
