@@ -18,6 +18,7 @@ import {
   getLatestReleaseInfo,
   checkAndNotifyNewRelease,
 } from "./services/releaseService.js";
+import pool from "./config/db.js";
 
 const app = express();
 
@@ -109,3 +110,12 @@ app.listen(PORT, () => {
   console.log(`Serveur started on port: ${PORT}`);
   setupReleaseMonitoring();
 });
+
+// Fermer proprement le pool MySQL lors d'un arrêt ou d'un redéploiement,
+// sinon MariaDB journalise des "Aborted connection" à chaque restart.
+const shutdown = (): void => {
+  pool.end();
+  process.exit(0);
+};
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);
