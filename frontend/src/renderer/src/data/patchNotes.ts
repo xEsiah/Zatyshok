@@ -13,6 +13,34 @@ export interface PatchNote {
 
 export const PATCH_NOTES: PatchNote[] = [
   {
+    version: '2.3.0',
+    date: '10-11-2026',
+    content: {
+      fr: {
+        title: 'Icônes Liquid Glass et corrections des post-its',
+        features: [
+          '- Les emojis sont remplacés par des icônes Liquid Glass d\u0027Icons8, embarquées dans l\u0027application (aucun chargement externe).',
+          '- Icônes colorées, agrandies et entourées d\u0027un léger contour adapté au thème pour rester lisibles partout.',
+          '- Bulle de pensée et salut Vulcain : icônes dédiées plus fidèles.',
+          '- Texte des post-its lisible en mode édition sur les thèmes sombres.',
+          '- La molette de la souris fait défiler la bande de post-its horizontalement.',
+          '- Mises à jour automatiques de TypeScript 7 et ESLint 10 ignorées en attendant leur compatibilité.'
+        ]
+      },
+      en: {
+        title: 'Liquid Glass icons and post-it fixes',
+        features: [
+          '- Every emoji is now a bundled Icons8 Liquid Glass icon shipped with the app (no external loading).',
+          '- Icons are colored, slightly larger and outlined per theme so they stay legible everywhere.',
+          '- Dedicated, more accurate thought bubble and Vulcan salute icons.',
+          '- Post-it text stays readable while editing on dark themes.',
+          '- The mouse wheel now scrolls the post-it strip horizontally.',
+          '- Automatic updates to TypeScript 7 and ESLint 10 are ignored until they are compatible.'
+        ]
+      }
+    }
+  },
+  {
     version: '2.2.4',
     date: '09-11-2026',
     content: {
