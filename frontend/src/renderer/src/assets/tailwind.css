@@ -37,6 +37,9 @@
     --field-bg: var(--bg-color);
     --shadow-light: #ffffff;
     --shadow-dark: #e0d8cf;
+    /* Fine outline that keeps colored icons legible on light surfaces. */
+    --icon-shadow: drop-shadow(0 0 0.9px rgba(0, 0, 0, 0.45))
+      drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.22));
     --radius-bento: 24px;
 
     --postit-bg-odd: var(--color-rose-poudre);
@@ -58,6 +61,8 @@
     --field-bg: var(--bg-color);
     --shadow-light: #ffffff;
     --shadow-dark: #c4bccb;
+    --icon-shadow: drop-shadow(0 0 0.9px rgba(0, 0, 0, 0.45))
+      drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.22));
 
     --postit-bg-odd: var(--color-rose-poudre);
     --postit-text-odd: #351e4a;
@@ -78,6 +83,9 @@
     --field-bg: var(--bg-color);
     --shadow-light: #1a1e26;
     --shadow-dark: #000000;
+    /* Dark theme: a pale halo separates the icons from the black background. */
+    --icon-shadow: drop-shadow(0 0 0.9px rgba(255, 255, 255, 0.5))
+      drop-shadow(0 1px 2px rgba(0, 0, 0, 0.65));
     --radius-bento: 12px;
     --font-dev: 'Fira Code', monospace;
 
@@ -103,6 +111,8 @@
     --field-bg: #ebe0c8;
     --shadow-light: #fdfaf3;
     --shadow-dark: #d8cdb8;
+    --icon-shadow: drop-shadow(0 0 0.9px rgba(0, 0, 0, 0.45))
+      drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.22));
     --radius-bento: 18px;
     --font-art: 'Quicksand', sans-serif;
 
@@ -128,6 +138,8 @@
     --field-bg: #e4e9f0;
     --shadow-light: #ffffff;
     --shadow-dark: #c8d0d8;
+    --icon-shadow: drop-shadow(0 0 0.9px rgba(0, 0, 0, 0.45))
+      drop-shadow(0 1px 1.5px rgba(0, 0, 0, 0.22));
     --radius-bento: 20px;
     --font-music: 'Quicksand', sans-serif;
 
@@ -188,6 +200,11 @@
    Dans @layer components pour que les utilities Tailwind puissent les surcharger.
    ========================================================================== */
 @layer components {
+  /* --- Icônes Icons8 (contour léger adapté au thème, défini par --icon-shadow) --- */
+  .icon-glass {
+    filter: var(--icon-shadow, drop-shadow(0 0 0.9px rgba(0, 0, 0, 0.45)));
+  }
+
   /* --- Thème polices --- */
   [data-theme='him'] body,
   [data-theme='him'] button,

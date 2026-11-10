@@ -12,7 +12,7 @@ interface TProps {
  * Renders a localized value, prefixing its icon when one is defined.
  * Plain strings render exactly like before.
  */
-export function T({ value, iconSize = '1em', className = '' }: TProps): JSX.Element {
+export function T({ value, iconSize = '1.2em', className = '' }: TProps): JSX.Element {
   const text = textOf(value)
   const icon = iconOf(value)
 

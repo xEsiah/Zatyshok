@@ -117,7 +117,7 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
     <div className="w-full h-screen flex justify-center items-center bg-bg">
       <div className="bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 w-[90vw] max-w-130 aspect-square p-[5vh_5vw] flex flex-col justify-evenly text-center font-quicksand">
         <div className="flex flex-col items-center gap-1.5">
-          <h1 className="m-0 text-[2rem] text-profund">
+          <h1 className="m-0 text-[2rem] text-profond">
             <T value={t.login.title} />
           </h1>
           <p className="text-lilas-doux font-medium mb-7.5">
@@ -137,7 +137,7 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
                 <T value={isRegister ? t.login.username : 'Nom d\u00b4utilisateur ou Email'} />
               </small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
@@ -151,7 +151,7 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
             <div className="text-left w-full">
               <small>Email</small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
@@ -167,7 +167,7 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
                 <T value={t.login.resetCode} />
               </small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="text"
                 value={resetToken}
                 onChange={(e) => setResetToken(e.target.value)}
@@ -183,7 +183,7 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
                 <T value={isForgot ? t.login.newPassword : t.login.password} />
               </small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
@@ -199,7 +199,7 @@ export function Login({ onLoginSuccess }: LoginProps): JSX.Element {
                 <T value={isForgot ? t.login.confirmNewPassword : 'Confirmer le mot de passe'} />
               </small>
               <input
-                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profund shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
+                className="w-full bg-(--field-bg) border-0 px-3.75 py-3 rounded-xl text-profond shadow-[inset_3px_3px_6px_var(--shadow-dark),inset_-3px_-3px_6px_var(--shadow-light)] outline-hidden box-border"
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}

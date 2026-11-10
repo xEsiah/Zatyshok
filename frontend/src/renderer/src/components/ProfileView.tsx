@@ -238,14 +238,14 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
             <div className="flex gap-5 items-start">
               <div className="flex flex-col gap-2.5 flex-1 min-w-0">
                 <input
-                  className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profund shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
+                  className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
                   value={editForm.username}
                   onChange={(e) => setEditForm({ ...editForm, username: e.target.value })}
                   disabled={isSaving}
                   placeholder={t.login.usernamePlaceholder}
                 />
                 <input
-                  className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profund shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
+                  className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
                   value={editForm.email}
                   onChange={(e) => setEditForm({ ...editForm, email: e.target.value })}
                   disabled={isSaving}

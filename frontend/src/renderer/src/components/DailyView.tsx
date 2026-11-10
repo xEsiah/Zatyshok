@@ -1,4 +1,4 @@
-import { JSX, useEffect, useState, useCallback } from 'react'
+import { JSX, useEffect, useState, useCallback, useRef } from 'react'
 import { iconOf, textOf } from '../data/localized'
 import { api, CalendarEntry } from '../services'
 import { AudioPlayer } from './AudioPlayer'
@@ -23,6 +23,7 @@ export function DailyView(): JSX.Element {
 
   const { showModal } = useModal()
   const { t } = useUser()
+  const notesStripRef = useRef<HTMLDivElement>(null)
 
   const todayStr = new Date().toLocaleDateString('en-CA')
   const currentYear = new Date().getFullYear()
@@ -74,6 +75,33 @@ export function DailyView(): JSX.Element {
   useEffect(() => {
     loadData()
   }, [loadData])
+
+  // The post-its live in a horizontal strip: a vertical wheel over it scrolls
+  // the strip sideways instead of being swallowed by the page.
+  useEffect(() => {
+    const strip = notesStripRef.current
+    if (!strip) return
+
+    const handleWheel = (event: WheelEvent): void => {
+      if (strip.scrollWidth <= strip.clientWidth) return
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return
+
+      // A post-it with overflowing text scrolls its own content first.
+      const target = event.target as HTMLElement | null
+      const inner = target?.closest<HTMLElement>('[data-postit-scroll]')
+      if (inner && inner.scrollHeight > inner.clientHeight) {
+        const atTop = inner.scrollTop <= 0
+        const atBottom = inner.scrollTop + inner.clientHeight >= inner.scrollHeight - 1
+        if (!(event.deltaY < 0 ? atTop : atBottom)) return
+      }
+
+      event.preventDefault()
+      strip.scrollLeft += event.deltaY
+    }
+
+    strip.addEventListener('wheel', handleWheel, { passive: false })
+    return () => strip.removeEventListener('wheel', handleWheel)
+  }, [thoughts.length])
 
   const handleDeleteEntry = (id?: number): void => {
     if (!id) return
@@ -287,7 +315,10 @@ export function DailyView(): JSX.Element {
             <small>
               <T value={t.daily.notesTitle} /> ({thoughts.length})
             </small>
-            <div className="w-full overflow-x-auto scroll-smooth pt-10! -mt-7.5! [&::-webkit-scrollbar]:h-1">
+            <div
+              ref={notesStripRef}
+              className="w-full overflow-x-auto scroll-smooth pt-10! -mt-7.5! [&::-webkit-scrollbar]:h-1"
+            >
               <div className="flex flex-nowrap gap-1.25 w-full items-start pb-2.5 overflow-visible! h-auto! after:content-[''] after:flex-[0_0_1px] after:h-px">
                 {thoughts.map((note) => {
                   const isEditing = editingId === note.id
@@ -318,7 +349,7 @@ export function DailyView(): JSX.Element {
                       {isEditing ? (
                         <div className="flex flex-col gap-2.5 w-full h-full">
                           <input
-                            className="w-full h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profund shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
+                            className="w-full h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border"
                             value={editText}
                             onChange={(e) => setEditText(e.target.value)}
                           />
@@ -367,6 +398,7 @@ export function DailyView(): JSX.Element {
                             <Icon name="trash" size={16} />
                           </button>
                           <div
+                            data-postit-scroll
                             className={`flex-1 overflow-y-auto min-h-0 flex flex-col items-center justify-around text-center break-keep leading-[1.2] p-0.75 scroll-smooth [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:rounded-[10px] group-odd:[&::-webkit-scrollbar-thumb]:bg-lilas-doux group-even:[&::-webkit-scrollbar-thumb]:bg-rose ${dynamicFontCls}`}
                           >
                             <span>{note.text}</span>
