@@ -1,9 +1,11 @@
 import { JSX, useRef, useEffect, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { Localized } from '../../data/localized'
+import { T } from '../T'
 
 interface DropdownOption {
   value: string
-  label: string
+  label: Localized
 }
 
 type DropdownSize = 'default' | 'compact'
@@ -101,7 +103,7 @@ export function Dropdown({
             setIsOpen(false)
           }}
         >
-          {option.label}
+          <T value={option.label} />
         </div>
       ))}
     </div>
@@ -121,7 +123,9 @@ export function Dropdown({
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >
-        <span className="truncate">{selectedOption?.label || placeholder || '--'}</span>
+        <span className="truncate">
+          <T value={selectedOption?.label ?? placeholder ?? '--'} />
+        </span>
         <svg
           className="size-4.5 shrink-0 text-lilas-doux"
           viewBox="0 0 24 24"

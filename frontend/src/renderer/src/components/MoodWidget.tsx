@@ -1,9 +1,19 @@
 import { useState, useEffect, useCallback, JSX } from 'react'
+import { iconOf } from '../data/localized'
 import { api, MoodEntry } from '../services'
+import { Icon } from './Icon'
+import { T } from './T'
 import { useModal } from './ModalContext'
 import { useUser } from './UserContext'
 
 type MoodType = 'great' | 'ok' | 'meh' | 'bad'
+
+const MOOD_FALLBACKS: Record<MoodType, string> = {
+  great: 'sun',
+  ok: 'partly-cloudy',
+  meh: 'cloud',
+  bad: 'rain'
+}
 
 const normalizeDate = (dateString?: string): string => {
   if (!dateString) return ''
@@ -21,25 +31,10 @@ export function MoodWidget(): JSX.Element {
   const { showModal } = useModal()
   const { t } = useUser()
 
-  const getMoodEmoji = (mood?: string): string => {
-    if (!mood) return '?'
-
-    if (t?.mood?.types && t.mood.types[mood as MoodType]) {
-      return t.mood.types[mood as MoodType]
-    }
-
-    switch (mood) {
-      case 'great':
-        return '✨'
-      case 'ok':
-        return '🙂'
-      case 'meh':
-        return '☁️'
-      case 'bad':
-        return '🌧️'
-      default:
-        return '?'
-    }
+  const getMoodIcon = (mood?: string): string | undefined => {
+    if (!mood) return undefined
+    const type = mood as MoodType
+    return iconOf(t?.mood?.types?.[type]) ?? MOOD_FALLBACKS[type]
   }
 
   const todayStr = new Date().toLocaleDateString('en-CA')
@@ -98,7 +93,7 @@ export function MoodWidget(): JSX.Element {
       className={`flex-1 w-full max-[1350px]:flex-none max-[1350px]:h-[max(26vh,350px)] bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 px-5 py-6.25 flex flex-col ${isHistoryView ? 'min-h-0' : 'justify-between'} max-[1350px]:h-[max(26vh,350px)] ${isHistoryView ? '' : 'has-[.mood-list-container]:justify-start'}`}
     >
       <h3 className="sidebar-title relative">
-        {isHistoryView ? t.mood.historyTitle : t.mood.feelingTitle}
+        <T value={isHistoryView ? t.mood.historyTitle : t.mood.feelingTitle} />
         <button
           className="[-webkit-app-region:no-drag] absolute top-0.5 right-[3%] bg-transparent border border-lilas-doux text-lilas-doux rounded-lg text-[0.7rem] px-3 py-1 hover:scale-110 transition-transform"
           onClick={() => setIsHistoryView(!isHistoryView)}
@@ -124,7 +119,9 @@ export function MoodWidget(): JSX.Element {
                       month: 'short'
                     })}
                   </small>
-                  <span className="mx-2.5 text-[1.1rem]">{getMoodEmoji(m.mood)}</span>
+                  <span className="mx-2.5 text-[1.1rem]">
+                    <Icon name={getMoodIcon(m.mood)} size={22} />
+                  </span>
                   <span className="italic opacity-70 text-[0.8rem] text-profond whitespace-normal">
                     {m.note}
                   </span>
@@ -147,7 +144,7 @@ export function MoodWidget(): JSX.Element {
             <div className="flex gap-2.5 items-center">
               <span className="font-bold text-lilas-doux">{t.mood.yesterday}</span>
               <span className="text-[1.1rem]">
-                {yesterdayEntry ? getMoodEmoji(yesterdayEntry.mood) : '-'}
+                {yesterdayEntry ? <Icon name={getMoodIcon(yesterdayEntry.mood)} size={22} /> : '-'}
               </span>
               <span className="italic opacity-70 text-[0.8rem] whitespace-nowrap overflow-hidden text-ellipsis text-profond pr-[0.5vw]">
                 {yesterdayEntry?.note || ''}
@@ -156,7 +153,7 @@ export function MoodWidget(): JSX.Element {
             <div className="flex gap-2.5 items-center">
               <span className="font-bold text-lilas-doux">{t.mood.today}</span>
               <span className="text-[1.1rem]">
-                {todayEntry ? getMoodEmoji(todayEntry.mood) : '-'}
+                {todayEntry ? <Icon name={getMoodIcon(todayEntry.mood)} size={22} /> : '-'}
               </span>
               <span className="italic opacity-70 text-[0.8rem] whitespace-nowrap overflow-hidden text-ellipsis text-profond pr-[0.5vw]">
                 {todayEntry?.note || ''}
@@ -175,7 +172,7 @@ export function MoodWidget(): JSX.Element {
                     : 'bg-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) hover:bg-rose hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5'
                 }`}
               >
-                {getMoodEmoji(m)}
+                <Icon name={getMoodIcon(m)} size={28} />
               </button>
             ))}
           </div>

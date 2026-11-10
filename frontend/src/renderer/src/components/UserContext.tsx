@@ -7,8 +7,24 @@ import artData from '../locales/art.json'
 import artDataFR from '../locales/artFR.json'
 import musicData from '../locales/music.json'
 import musicDataFR from '../locales/musicFR.json'
+import { Localized, textOf } from '../data/localized'
 
-type Translation = typeof defaultData
+/**
+ * Locale JSON stores decorated entries as `{ text, icon }` and plain entries
+ * as strings. The icon is optional because a theme can decorate a key that
+ * another theme leaves plain, so the shared shape is normalised here.
+ */
+type RelaxIcons<T> = T extends string
+  ? string
+  : T extends readonly (infer U)[]
+    ? RelaxIcons<U>[]
+    : T extends { text: string }
+      ? { text: string; icon?: string }
+      : T extends object
+        ? { [K in keyof T]: RelaxIcons<T[K]> }
+        : T
+
+export type Translation = RelaxIcons<typeof defaultData>
 export type Role = 'him' | 'her' | 'default' | 'art' | 'artFR' | 'music' | 'musicFR'
 
 interface UserContextType {
@@ -62,8 +78,15 @@ export function UserProvider({ children }: { children: ReactNode }): JSX.Element
 
     return {
       ...base,
-      greetings: base.greetings.map((msg) => msg.replace('{username}', currentUsername))
-    }
+      greetings: (base.greetings as unknown as unknown[]).map((value) => {
+        const msg = value as Localized
+        if (typeof msg === 'string') return msg.replace('{username}', currentUsername)
+        return {
+          ...msg,
+          text: textOf(msg).replace('{username}', currentUsername)
+        }
+      })
+    } as Translation
   }, [userRole, currentUsername])
 
   return (

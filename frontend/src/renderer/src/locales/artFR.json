@@ -1,57 +1,143 @@
 {
   "greetings": [
-    "Prête à ajouter de la couleur aujourd'hui {username} ?",
-    "Chaque coup de pinceau compte {username}.",
-    "Bienvenue à la galerie, {username}.",
-    "Un nouveau chef-d'œuvre en vue, {username} ?"
+    {
+      "text": "Prête à ajouter de la couleur aujourd'hui {username} ?"
+    },
+    {
+      "text": "Chaque coup de pinceau compte {username}."
+    },
+    {
+      "text": "Bienvenue à la galerie, {username}."
+    },
+    {
+      "text": "Un nouveau chef-d'œuvre en vue, {username} ?"
+    }
   ],
   "login": {
-    "title": "ATELIER 🎨",
+    "title": {
+      "text": "ATELIER",
+      "icon": "icons/palette.png"
+    },
     "requestAccess": "Demander l'accès",
     "welcomeHome": "Bienvenue",
-    "username": "Nom d'utilisateur 🎨",
+    "username": {
+      "text": "Nom d'utilisateur",
+      "icon": "icons/palette.png"
+    },
     "usernamePlaceholder": "Ton nom...",
-    "password": "Mot de passe 🔑",
+    "password": {
+      "text": "Mot de passe",
+      "icon": "icons/key.png"
+    },
     "passwordPlaceholder": "••••••••",
-    "badPassordConfirmation": "Les mots de passe ne correspondent pas.",
+    "badPassordConfirmation": {
+      "text": "Les mots de passe ne correspondent pas."
+    },
     "processing": "Chargement...",
     "join": "Rejoindre",
     "unlock": "Connexion",
     "toggleToLogin": "Retourner à l'Exposition",
     "toggleToRegister": "Demander une palette",
-    "modalWaitTitle": "Bienvenue !",
+    "modalWaitTitle": {
+      "text": "Bienvenue !"
+    },
     "modalWaitMsg": "Demande envoyée ! Attendez la validation manuelle.",
     "modalOops": "Oups...",
-    "modalErrorTitle": "Erreur ⚠️",
-    "modalErrorUnreachable": "Serveur injoignable 🌐",
-    "modalErrorUnexpected": "Erreur inattendue 🛑",
-    "modalErrorInvalidData": "Données invalides 🛑",
-    "errorUsernameTaken": "Ce pseudo est déjà utilisé. 🎨",
-    "errorEmailTaken": "Email déjà enregistré dans la galerie. ✉️",
-    "errorPending": "Ta demande d'exposition est en cours d'examen. ⏳",
-    "errorInvalidCredentials": "Identifiants incorrects. Accès refusé. 🖌️",
-    "savedTitle": "Enregistré ! ✨",
-    "forgotPassword": "Mot de passe oublié ? 🎨",
-    "resetTitle": "Réinitialisation 🖼️",
-    "resetCode": "Code de vérification 🔑",
-    "newPassword": "Nouveau mot de passe 🔒",
-    "confirmNewPassword": "Confirmation 🔒",
-    "sendCode": "Envoyer le code ✉️",
-    "resetBtn": "Réinitialiser 🖌️"
+    "modalErrorTitle": {
+      "text": "Erreur",
+      "icon": "icons/warning.png"
+    },
+    "modalErrorUnreachable": {
+      "text": "Serveur injoignable",
+      "icon": "icons/globe.png"
+    },
+    "modalErrorUnexpected": {
+      "text": "Erreur inattendue",
+      "icon": "icons/stop-sign.png"
+    },
+    "modalErrorInvalidData": {
+      "text": "Données invalides",
+      "icon": "icons/stop-sign.png"
+    },
+    "errorUsernameTaken": {
+      "text": "Ce pseudo est déjà utilisé.",
+      "icon": "icons/palette.png"
+    },
+    "errorEmailTaken": {
+      "text": "Email déjà enregistré dans la galerie.",
+      "icon": "icons/envelope.png"
+    },
+    "errorPending": {
+      "text": "Ta demande d'exposition est en cours d'examen.",
+      "icon": "icons/hourglass.png"
+    },
+    "errorInvalidCredentials": {
+      "text": "Identifiants incorrects. Accès refusé.",
+      "icon": "icons/paintbrush.png"
+    },
+    "savedTitle": {
+      "text": "Enregistré !",
+      "icon": "icons/sparkles.png"
+    },
+    "forgotPassword": {
+      "text": "Mot de passe oublié ?",
+      "icon": "icons/palette.png"
+    },
+    "resetTitle": {
+      "text": "Réinitialisation",
+      "icon": "icons/picture.png"
+    },
+    "resetCode": {
+      "text": "Code de vérification",
+      "icon": "icons/key.png"
+    },
+    "newPassword": {
+      "text": "Nouveau mot de passe",
+      "icon": "icons/lock.png"
+    },
+    "confirmNewPassword": {
+      "text": "Confirmation",
+      "icon": "icons/lock.png"
+    },
+    "sendCode": {
+      "text": "Envoyer le code",
+      "icon": "icons/envelope.png"
+    },
+    "resetBtn": {
+      "text": "Réinitialiser",
+      "icon": "icons/paintbrush.png"
+    }
   },
   "daily": {
-    "upcoming": "Programme de l'Exposition 🖼️",
+    "upcoming": {
+      "text": "Programme de l'Exposition",
+      "icon": "icons/picture.png"
+    },
     "todayIs": "Date de composition :",
     "loading": "Préparation du chevalet...",
-    "nothingPlanned": "Aucun croquis aujourd'hui. Pure inspiration.",
+    "nothingPlanned": {
+      "text": "Aucun croquis aujourd'hui. Pure inspiration."
+    },
     "for": "Prévu pour",
     "deleteItem": "Biffer",
     "deleteNote": "Brûler le croquis",
-    "plannerTitle": "Plan du Chef-d'œuvre 🎨",
-    "notesTitle": "Recherches Visuelles ✍️",
-    "iconGoal": "🎯",
-    "iconEvent": "📅",
-    "modalDeleteTitle": "Suppression",
+    "plannerTitle": {
+      "text": "Plan du Chef-d'œuvre",
+      "icon": "icons/palette.png"
+    },
+    "notesTitle": {
+      "text": "Recherches Visuelles",
+      "icon": "icons/writing-hand.png"
+    },
+    "iconGoal": {
+      "icon": "icons/target.png"
+    },
+    "iconEvent": {
+      "icon": "icons/calendar.png"
+    },
+    "modalDeleteTitle": {
+      "text": "Suppression"
+    },
     "modalDeleteMsg": "Es-tu sûre de vouloir retirer cet élément ?",
     "modalDeleteError": "Échec de la suppression.",
     "recurring": "Récurrent",
@@ -63,8 +149,12 @@
   "mood": {
     "back": "Galerie",
     "history": "Collection",
-    "historyTitle": "Archives Esthétiques",
-    "feelingTitle": "Quelle est ta palette aujourd'hui ?",
+    "historyTitle": {
+      "text": "Archives Esthétiques"
+    },
+    "feelingTitle": {
+      "text": "Quelle est ta palette aujourd'hui ?"
+    },
     "noHistory": "Aucun chef-d'œuvre répertorié.",
     "yesterday": "Travail précédent :",
     "today": "Ton actuel :",
@@ -72,35 +162,70 @@
     "placeholderNew": "Croquis rapide au fusain...",
     "btnUpdate": "Vernir",
     "btnSubmit": "Signer la toile",
-    "savedTitle": "Enregistré",
+    "savedTitle": {
+      "text": "Enregistré"
+    },
     "savedMsg": "Croquis sauvegardé.",
     "errorTitle": "Oups...",
     "errorMsg": "Erreur lors de l'enregistrement.",
     "types": {
-      "great": "🎆",
-      "ok": "😺",
-      "meh": "💭",
-      "bad": "😿"
+      "great": {
+        "icon": "icons/fireworks.png"
+      },
+      "ok": {
+        "icon": "icons/happy-cat.png"
+      },
+      "meh": {
+        "icon": "icons/thought-bubble.png"
+      },
+      "bad": {
+        "icon": "icons/crying-cat.png"
+      }
     },
     "seeMore": "Voir plus"
   },
   "write": {
-    "tabGoal": "🎯 Perspective",
-    "tabEvent": "📅 Vernissage",
-    "tabThought": "💭 Inspiration",
+    "tabGoal": {
+      "text": "Perspective",
+      "icon": "icons/target.png"
+    },
+    "tabEvent": {
+      "text": "Vernissage",
+      "icon": "icons/calendar.png"
+    },
+    "tabThought": {
+      "text": "Inspiration",
+      "icon": "icons/thought-bubble.png"
+    },
     "lblDate": "Date de création :",
     "lblTime": "Heure dorée :",
     "placeholder": "Esquissez vos pensées ici...",
     "btnCancel": "Abandonner",
-    "btnSave": "Vernir",
-    "savedTitle": "Encadré ! ✨",
+    "btnSave": {
+      "text": "Vernir"
+    },
+    "savedTitle": {
+      "text": "Encadré !",
+      "icon": "icons/sparkles.png"
+    },
     "savedMsg": "Votre œuvre a été ajoutée à la galerie.",
     "errorTitle": "Erreur de pinceau",
     "errorMsg": "Échec de l'enregistrement du chef-d'œuvre.",
-    "audioRecord": "🎙️ Capturer un son",
-    "audioStop": "⏹ Stop",
-    "audioRemove": "✖ Effacer l'enregistrement",
-    "audioErrorTitle": "Bruit dans l'atelier",
+    "audioRecord": {
+      "text": "Capturer un son",
+      "icon": "icons/microphone.png"
+    },
+    "audioStop": {
+      "text": "Stop",
+      "icon": "icons/stop-button.png"
+    },
+    "audioRemove": {
+      "text": "Effacer l'enregistrement",
+      "icon": "icons/close.png"
+    },
+    "audioErrorTitle": {
+      "text": "Bruit dans l'atelier"
+    },
     "audioErrorMsg": "Impossible d'accéder au micro.",
     "audioUploading": "Développement de l'enregistrement..."
   },
@@ -118,16 +243,32 @@
     "ok": "Compris"
   },
   "app": {
-    "loading": "Installation du chevalet... 🎨",
+    "loading": {
+      "text": "Installation du chevalet...",
+      "icon": "icons/palette.png"
+    },
     "logout": "Quitter l'Atelier",
-    "btnWrite": "Nouveau Croquis",
-    "btnDashboard": "Galerie",
-    "btnBudget": "Finances"
+    "btnWrite": {
+      "text": "Nouveau Croquis"
+    },
+    "btnDashboard": {
+      "text": "Galerie"
+    },
+    "btnBudget": {
+      "text": "Finances"
+    }
   },
   "budget": {
-    "title": "Gestion du Trésor 💰",
-    "income": "Mécénat",
-    "outcome": "Investissements",
+    "title": {
+      "text": "Gestion du Trésor",
+      "icon": "icons/money-bag.png"
+    },
+    "income": {
+      "text": "Mécénat"
+    },
+    "outcome": {
+      "text": "Investissements"
+    },
     "addIncome": "Enregistrer une vente",
     "addIncomeCategory": "Nouvelle Source de Mécénat",
     "addCategory": "Nouvelle Gamme",
@@ -138,51 +279,126 @@
     "category": "Catégorie",
     "save": "Encaisser",
     "chart": "Répartition de la Palette",
-    "modalSaved": "Le trésor a été mis à jour ✨",
-    "categoryAdded": "Nouvelle gamme ajoutée à la palette ! 🎨",
-    "modalError": "Échec de la transaction artistique...",
-    "modalErrorLoad": "Échec du chargement des finances.",
-    "categoryNameRequired": "Le nom de la gamme est requis.",
-    "categoryExists": "Une gamme avec ce nom existe déjà.",
-    "invalidAmount": "Veuillez entrer un montant valide (nombre positif).",
-    "categoryRequired": "Veuillez sélectionner une catégorie.",
-    "descriptionRequired": "Une description est requise pour la dépense.",
-    "historyTitle": "Registre du Trésor",
-    "balance": "Economies possibles ✨",
+    "modalSaved": {
+      "text": "Le trésor a été mis à jour",
+      "icon": "icons/sparkles.png"
+    },
+    "categoryAdded": {
+      "text": "Nouvelle gamme ajoutée à la palette !",
+      "icon": "icons/palette.png"
+    },
+    "modalError": {
+      "text": "Échec de la transaction artistique..."
+    },
+    "modalErrorLoad": {
+      "text": "Échec du chargement des finances."
+    },
+    "categoryNameRequired": {
+      "text": "Le nom de la gamme est requis."
+    },
+    "categoryExists": {
+      "text": "Une gamme avec ce nom existe déjà."
+    },
+    "invalidAmount": {
+      "text": "Veuillez entrer un montant valide (nombre positif)."
+    },
+    "categoryRequired": {
+      "text": "Veuillez sélectionner une catégorie."
+    },
+    "descriptionRequired": {
+      "text": "Une description est requise pour la dépense."
+    },
+    "historyTitle": {
+      "text": "Registre du Trésor"
+    },
+    "balance": {
+      "text": "Economies possibles",
+      "icon": "icons/sparkles.png"
+    },
     "latestExpensesTitle": "Derniers Coups de Pinceau",
-    "noRecentExpenses": "Aucun coup de pinceau récent à afficher.",
+    "noRecentExpenses": {
+      "text": "Aucun coup de pinceau récent à afficher."
+    },
     "filterMonth": "Ce mois",
     "filter3months": "3 mois",
     "filter6months": "6 mois",
     "filterYear": "Année"
   },
   "profile": {
-    "title": "Autoportrait 🎨",
-    "statsMoods": "Palettes",
-    "statsGoals": "Perspectives 🎯",
-    "statsEvents": "Vernissages 📅",
-    "statsNotes": "Inspiration 💭",
+    "title": {
+      "text": "Autoportrait",
+      "icon": "icons/palette.png"
+    },
+    "statsMoods": {
+      "text": "Palettes"
+    },
+    "statsGoals": {
+      "text": "Perspectives",
+      "icon": "icons/target.png"
+    },
+    "statsEvents": {
+      "text": "Vernissages",
+      "icon": "icons/calendar.png"
+    },
+    "statsNotes": {
+      "text": "Inspiration",
+      "icon": "icons/thought-bubble.png"
+    },
     "btnBack": "Retour au Studio",
-    "errorEmail": "Signature invalide. Format email incorrect. 🖌️",
+    "errorEmail": {
+      "text": "Signature invalide. Format email incorrect.",
+      "icon": "icons/paintbrush.png"
+    },
     "errorUsername": "Alias trop court pour la toile.",
-    "errorAvatar": "Échec du chargement du canevas.",
-    "errorPasswordStrength": "Le trait est trop fin. 16+ caractères, une majuscule et une texture spéciale requises. 🎨",
-    "errorPasswordOld": "Le code de palette actuel est incorrect. 🔑",
-    "errorPasswordSame": "Le nouveau pigment doit être différent du précédent. 🖌️",
-    "errorUpdate": "Le vernis n'a pas séché. Mise à jour échouée. 🎭",
-    "changePasswordTitle": "Modifier le mot de passe 🖌️",
-    "oldPassword": "Code actuel 🔑",
-    "passwordSuccess": "Palette mise à jour ! 🎨",
+    "errorAvatar": {
+      "text": "Échec du chargement du canevas."
+    },
+    "errorPasswordStrength": {
+      "text": "Le trait est trop fin. 16+ caractères, une majuscule et une texture spéciale requises.",
+      "icon": "icons/palette.png"
+    },
+    "errorPasswordOld": {
+      "text": "Le code de palette actuel est incorrect.",
+      "icon": "icons/key.png"
+    },
+    "errorPasswordSame": {
+      "text": "Le nouveau pigment doit être différent du précédent.",
+      "icon": "icons/paintbrush.png"
+    },
+    "errorUpdate": {
+      "text": "Le vernis n'a pas séché. Mise à jour échouée.",
+      "icon": "icons/theater-masks.png"
+    },
+    "changePasswordTitle": {
+      "text": "Modifier le mot de passe",
+      "icon": "icons/paintbrush.png"
+    },
+    "oldPassword": {
+      "text": "Code actuel",
+      "icon": "icons/key.png"
+    },
+    "passwordSuccess": {
+      "text": "Palette mise à jour !",
+      "icon": "icons/palette.png"
+    },
     "passwordMismatch": "Les codes ne correspondent pas.",
-    "micPermissionTitle": "Accès au micro",
+    "micPermissionTitle": {
+      "text": "Accès au micro"
+    },
     "micPermissionHint": "Choisis comment l’atelier gère l’accès au micro. Ton choix est mémorisé.",
-    "micAsk": "Demander à chaque fois",
+    "micAsk": {
+      "text": "Demander à chaque fois"
+    },
     "micAllow": "Autoriser",
     "micDeny": "Refuser"
   },
   "notif": {
-    "title": "Nouveautés",
-    "new": "NOUVEAU",
+    "title": {
+      "text": "Nouveautés"
+    },
+    "new": {
+      "text": "NOUVEAU"
+    },
     "empty": "Pas de nouveautés pour l’instant."
   }
 }

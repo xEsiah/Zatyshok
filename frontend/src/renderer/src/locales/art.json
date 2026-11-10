@@ -1,57 +1,143 @@
 {
   "greetings": [
-    "Ready to add some color today, {username}?",
-    "Every brushstroke counts {username}.",
-    "Welcome to the gallery {username} !",
-    "Hey {username}, a new masterpiece in sight?"
+    {
+      "text": "Ready to add some color today, {username}?"
+    },
+    {
+      "text": "Every brushstroke counts {username}."
+    },
+    {
+      "text": "Welcome to the gallery {username} !"
+    },
+    {
+      "text": "Hey {username}, a new masterpiece in sight?"
+    }
   ],
   "login": {
-    "title": "STUDIO 🎨",
+    "title": {
+      "text": "STUDIO",
+      "icon": "icons/palette.png"
+    },
     "requestAccess": "Request an access",
     "welcomeHome": "Welcome",
-    "username": "Username 🎨",
+    "username": {
+      "text": "Username",
+      "icon": "icons/palette.png"
+    },
     "usernamePlaceholder": "Your name...",
-    "password": "Password 🔑",
+    "password": {
+      "text": "Password",
+      "icon": "icons/key.png"
+    },
     "passwordPlaceholder": "••••••••",
-    "badPassordConfirmation": "Passwords do not match.",
+    "badPassordConfirmation": {
+      "text": "Passwords do not match."
+    },
     "processing": "Loading...",
     "join": "Join",
     "unlock": "Login",
     "toggleToLogin": "Return to the Exhibition",
     "toggleToRegister": "Request a palette",
-    "modalWaitTitle": "Queueing",
+    "modalWaitTitle": {
+      "text": "Queueing"
+    },
     "modalWaitMsg": "Access request added to the manual firewall queue.",
     "modalOops": "Warning",
-    "modalErrorTitle": "Error ⚠️",
-    "modalErrorUnreachable": "Server unreachable 🌐",
-    "modalErrorUnexpected": "Unexpected error 🛑",
-    "modalErrorInvalidData": "Invalid data 🛑",
-    "errorUsernameTaken": "This signature is already in use. 🎨",
-    "errorEmailTaken": "Email already registered in the gallery. ✉️",
-    "errorPending": "Your exhibition request is being reviewed. ⏳",
-    "errorInvalidCredentials": "Incorrect pigments. Access denied. 🖌️",
-    "savedTitle": "Success! ✨",
-    "forgotPassword": "Forgot password? 🎨",
-    "resetTitle": "Reset Password 🖼️",
-    "resetCode": "Reset Code 🔑",
-    "newPassword": "New Password 🔒",
-    "confirmNewPassword": "Confirmation 🔒",
-    "sendCode": "Send Code ✉️",
-    "resetBtn": "Reset 🖌️"
+    "modalErrorTitle": {
+      "text": "Error",
+      "icon": "icons/warning.png"
+    },
+    "modalErrorUnreachable": {
+      "text": "Server unreachable",
+      "icon": "icons/globe.png"
+    },
+    "modalErrorUnexpected": {
+      "text": "Unexpected error",
+      "icon": "icons/stop-sign.png"
+    },
+    "modalErrorInvalidData": {
+      "text": "Invalid data",
+      "icon": "icons/stop-sign.png"
+    },
+    "errorUsernameTaken": {
+      "text": "This signature is already in use.",
+      "icon": "icons/palette.png"
+    },
+    "errorEmailTaken": {
+      "text": "Email already registered in the gallery.",
+      "icon": "icons/envelope.png"
+    },
+    "errorPending": {
+      "text": "Your exhibition request is being reviewed.",
+      "icon": "icons/hourglass.png"
+    },
+    "errorInvalidCredentials": {
+      "text": "Incorrect pigments. Access denied.",
+      "icon": "icons/paintbrush.png"
+    },
+    "savedTitle": {
+      "text": "Success!",
+      "icon": "icons/sparkles.png"
+    },
+    "forgotPassword": {
+      "text": "Forgot password?",
+      "icon": "icons/palette.png"
+    },
+    "resetTitle": {
+      "text": "Reset Password",
+      "icon": "icons/picture.png"
+    },
+    "resetCode": {
+      "text": "Reset Code",
+      "icon": "icons/key.png"
+    },
+    "newPassword": {
+      "text": "New Password",
+      "icon": "icons/lock.png"
+    },
+    "confirmNewPassword": {
+      "text": "Confirmation",
+      "icon": "icons/lock.png"
+    },
+    "sendCode": {
+      "text": "Send Code",
+      "icon": "icons/envelope.png"
+    },
+    "resetBtn": {
+      "text": "Reset",
+      "icon": "icons/paintbrush.png"
+    }
   },
   "daily": {
-    "upcoming": "Exhibition Program 🖼️",
+    "upcoming": {
+      "text": "Exhibition Program",
+      "icon": "icons/picture.png"
+    },
     "todayIs": "Composition date:",
     "loading": "Preparing the easel...",
-    "nothingPlanned": "No sketches today. Pure inspiration.",
+    "nothingPlanned": {
+      "text": "No sketches today. Pure inspiration."
+    },
     "for": "Scheduled for",
     "deleteItem": "Cross out",
     "deleteNote": "Burn the sketch",
-    "plannerTitle": "Masterpiece Plan 🎨",
-    "notesTitle": "Visual Research ✍️",
-    "iconGoal": "🎯",
-    "iconEvent": "📅",
-    "modalDeleteTitle": "Deletion",
+    "plannerTitle": {
+      "text": "Masterpiece Plan",
+      "icon": "icons/palette.png"
+    },
+    "notesTitle": {
+      "text": "Visual Research",
+      "icon": "icons/writing-hand.png"
+    },
+    "iconGoal": {
+      "icon": "icons/target.png"
+    },
+    "iconEvent": {
+      "icon": "icons/calendar.png"
+    },
+    "modalDeleteTitle": {
+      "text": "Deletion"
+    },
     "modalDeleteMsg": "Are you sure you want to remove this item?",
     "modalDeleteError": "Failed to delete item.",
     "recurring": "Recurring",
@@ -63,8 +149,12 @@
   "mood": {
     "back": "Gallery",
     "history": "Collection",
-    "historyTitle": "Aesthetic Records",
-    "feelingTitle": "What is your palette today?",
+    "historyTitle": {
+      "text": "Aesthetic Records"
+    },
+    "feelingTitle": {
+      "text": "What is your palette today?"
+    },
     "noHistory": "No masterpieces cataloged.",
     "yesterday": "Previous work:",
     "today": "Current tone:",
@@ -72,35 +162,70 @@
     "placeholderNew": "Quick charcoal sketch...",
     "btnUpdate": "Varnish",
     "btnSubmit": "Sign the canvas",
-    "savedTitle": "Saved",
+    "savedTitle": {
+      "text": "Saved"
+    },
     "savedMsg": "Sketch saved.",
     "errorTitle": "Oops...",
     "errorMsg": "Error saving mood. Please try again.",
     "types": {
-      "great": "💡",
-      "ok": "💭",
-      "meh": "🍂",
-      "bad": "🗑️"
+      "great": {
+        "icon": "icons/lightbulb.png"
+      },
+      "ok": {
+        "icon": "icons/thought-bubble.png"
+      },
+      "meh": {
+        "icon": "icons/fallen-leaf.png"
+      },
+      "bad": {
+        "icon": "icons/trash.png"
+      }
     },
     "seeMore": "See more"
   },
   "write": {
-    "tabGoal": "🎯 Perspective",
-    "tabEvent": "📅 Opening Night",
-    "tabThought": "💭 Inspiration",
+    "tabGoal": {
+      "text": "Perspective",
+      "icon": "icons/target.png"
+    },
+    "tabEvent": {
+      "text": "Opening Night",
+      "icon": "icons/calendar.png"
+    },
+    "tabThought": {
+      "text": "Inspiration",
+      "icon": "icons/thought-bubble.png"
+    },
     "lblDate": "Creation date:",
     "lblTime": "Golden Hour:",
     "placeholder": "Sketch your thoughts here...",
     "btnCancel": "Abandon",
-    "btnSave": "Varnish",
-    "savedTitle": "Framed! ✨",
+    "btnSave": {
+      "text": "Varnish"
+    },
+    "savedTitle": {
+      "text": "Framed!",
+      "icon": "icons/sparkles.png"
+    },
     "savedMsg": "Your work has been added to the gallery.",
     "errorTitle": "Brush error",
     "errorMsg": "Failed to save the masterpiece.",
-    "audioRecord": "🎙️ Capture a sound",
-    "audioStop": "⏹ Stop",
-    "audioRemove": "✖ Discard the recording",
-    "audioErrorTitle": "Noise in the studio",
+    "audioRecord": {
+      "text": "Capture a sound",
+      "icon": "icons/microphone.png"
+    },
+    "audioStop": {
+      "text": "Stop",
+      "icon": "icons/stop-button.png"
+    },
+    "audioRemove": {
+      "text": "Discard the recording",
+      "icon": "icons/close.png"
+    },
+    "audioErrorTitle": {
+      "text": "Noise in the studio"
+    },
     "audioErrorMsg": "The microphone is unavailable.",
     "audioUploading": "Fixing the recording..."
   },
@@ -118,16 +243,32 @@
     "ok": "Understood"
   },
   "app": {
-    "loading": "Setting up the easel... 🎨",
+    "loading": {
+      "text": "Setting up the easel...",
+      "icon": "icons/palette.png"
+    },
     "logout": "Leave the Studio",
-    "btnWrite": "New Canvas",
-    "btnDashboard": "Gallery View",
-    "btnBudget": "Treasury"
+    "btnWrite": {
+      "text": "New Canvas"
+    },
+    "btnDashboard": {
+      "text": "Gallery View"
+    },
+    "btnBudget": {
+      "text": "Treasury"
+    }
   },
   "budget": {
-    "title": "Treasury Management 💰",
-    "outcome": "Investissments",
-    "income": "Commissions",
+    "title": {
+      "text": "Treasury Management",
+      "icon": "icons/money-bag.png"
+    },
+    "outcome": {
+      "text": "Investissments"
+    },
+    "income": {
+      "text": "Commissions"
+    },
     "addIncome": "Record a sale",
     "addIncomeCategory": "New Patronage",
     "addCategory": "New Range",
@@ -138,51 +279,126 @@
     "category": "Category",
     "save": "Collect",
     "chart": "Palette Distribution",
-    "modalSaved": "The treasury has been updated ✨",
-    "categoryAdded": "New range added to the palette! 🎨",
-    "modalError": "Artistic transaction failed...",
-    "modalErrorLoad": "Failed to load treasury data.",
-    "categoryNameRequired": "Range name is required.",
-    "categoryExists": "A range with this name already exists.",
-    "invalidAmount": "Please enter a valid amount (positive number).",
-    "categoryRequired": "Please select a category.",
-    "descriptionRequired": "A description is required for the expense.",
-    "historyTitle": "Financial Archives",
-    "balance": "Potential savings ✨",
+    "modalSaved": {
+      "text": "The treasury has been updated",
+      "icon": "icons/sparkles.png"
+    },
+    "categoryAdded": {
+      "text": "New range added to the palette!",
+      "icon": "icons/palette.png"
+    },
+    "modalError": {
+      "text": "Artistic transaction failed..."
+    },
+    "modalErrorLoad": {
+      "text": "Failed to load treasury data."
+    },
+    "categoryNameRequired": {
+      "text": "Range name is required."
+    },
+    "categoryExists": {
+      "text": "A range with this name already exists."
+    },
+    "invalidAmount": {
+      "text": "Please enter a valid amount (positive number)."
+    },
+    "categoryRequired": {
+      "text": "Please select a category."
+    },
+    "descriptionRequired": {
+      "text": "A description is required for the expense."
+    },
+    "historyTitle": {
+      "text": "Financial Archives"
+    },
+    "balance": {
+      "text": "Potential savings",
+      "icon": "icons/sparkles.png"
+    },
     "latestExpensesTitle": "Latest Brushstrokes",
-    "noRecentExpenses": "No recent brushstrokes to display.",
+    "noRecentExpenses": {
+      "text": "No recent brushstrokes to display."
+    },
     "filterMonth": "This month",
     "filter3months": "3 months",
     "filter6months": "6 months",
     "filterYear": "Year"
   },
   "profile": {
-    "title": "Self-Portrait 🎨",
-    "statsMoods": "Palettes",
-    "statsGoals": "Perspectives 🖼️",
-    "statsEvents": "Openings 📅",
-    "statsNotes": "Inspiration 💭",
+    "title": {
+      "text": "Self-Portrait",
+      "icon": "icons/palette.png"
+    },
+    "statsMoods": {
+      "text": "Palettes"
+    },
+    "statsGoals": {
+      "text": "Perspectives",
+      "icon": "icons/picture.png"
+    },
+    "statsEvents": {
+      "text": "Openings",
+      "icon": "icons/calendar.png"
+    },
+    "statsNotes": {
+      "text": "Inspiration",
+      "icon": "icons/thought-bubble.png"
+    },
     "btnBack": "Back to Studio",
-    "errorEmail": "Invalid signature. Incorrect email format. 🖌️",
+    "errorEmail": {
+      "text": "Invalid signature. Incorrect email format.",
+      "icon": "icons/paintbrush.png"
+    },
     "errorUsername": "Alias too short for the canvas.",
-    "errorAvatar": "Failed to load the canvas.",
-    "errorPasswordStrength": "The stroke is too thin. 16+ characters, one uppercase pigment, and a special texture required. 🎨",
-    "errorPasswordOld": "The current palette code is incorrect. 🔑",
-    "errorPasswordSame": "The new pigment must differ from the previous one. 🖌️",
-    "errorUpdate": "The varnish hasn't dried. Update failed. 🎭",
-    "changePasswordTitle": "Change Password 🖌️",
-    "oldPassword": "Current Password 🔑",
-    "passwordSuccess": "Palette updated! 🎨",
+    "errorAvatar": {
+      "text": "Failed to load the canvas."
+    },
+    "errorPasswordStrength": {
+      "text": "The stroke is too thin. 16+ characters, one uppercase pigment, and a special texture required.",
+      "icon": "icons/palette.png"
+    },
+    "errorPasswordOld": {
+      "text": "The current palette code is incorrect.",
+      "icon": "icons/key.png"
+    },
+    "errorPasswordSame": {
+      "text": "The new pigment must differ from the previous one.",
+      "icon": "icons/paintbrush.png"
+    },
+    "errorUpdate": {
+      "text": "The varnish hasn't dried. Update failed.",
+      "icon": "icons/theater-masks.png"
+    },
+    "changePasswordTitle": {
+      "text": "Change Password",
+      "icon": "icons/paintbrush.png"
+    },
+    "oldPassword": {
+      "text": "Current Password",
+      "icon": "icons/key.png"
+    },
+    "passwordSuccess": {
+      "text": "Palette updated!",
+      "icon": "icons/palette.png"
+    },
     "passwordMismatch": "Passwords do not match.",
-    "micPermissionTitle": "Artist's Microphone",
+    "micPermissionTitle": {
+      "text": "Artist's Microphone"
+    },
     "micPermissionHint": "Choose how the studio handles microphone access. Your choice is kept in the sketchbook.",
-    "micAsk": "Ask each time",
+    "micAsk": {
+      "text": "Ask each time"
+    },
     "micAllow": "Allow",
     "micDeny": "Deny"
   },
   "notif": {
-    "title": "Exhibition News",
-    "new": "NEW",
+    "title": {
+      "text": "Exhibition News"
+    },
+    "new": {
+      "text": "NEW"
+    },
     "empty": "No movements in the gallery."
   }
 }

@@ -1,9 +1,10 @@
 import { createContext, useContext, useState, JSX, ReactNode } from 'react'
+import { Localized } from '../data/localized'
 import { Modal } from './Modal'
 
 interface ModalOptions {
-  title: string
-  message: string
+  title: Localized
+  message: Localized
   type?: 'alert' | 'confirm'
   onConfirm?: () => void
   onCancel?: () => void

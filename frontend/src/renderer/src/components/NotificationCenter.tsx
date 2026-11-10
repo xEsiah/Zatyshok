@@ -1,6 +1,9 @@
 import { JSX, useEffect, useState } from 'react'
-import { useUser } from './UserContext'
+import { textOf } from '../data/localized'
 import { PATCH_NOTES, getPatchLanguage, isVersionNewer } from '../data/patchNotes'
+import { Icon } from './Icon'
+import { T } from './T'
+import { useUser } from './UserContext'
 
 const LAST_SEEN_KEY = 'last_seen_version'
 
@@ -39,9 +42,9 @@ export function NotificationCenter(): JSX.Element {
       <button
         className="relative cursor-pointer rounded-[10px] border-none bg-transparent p-[6px_10px] text-[1.3rem] transition-transform duration-200 ease-out hover:-translate-y-px"
         onClick={handleOpen}
-        title={t.notif.title}
+        title={textOf(t.notif.title)}
       >
-        🔔
+        <Icon name="bell" size="1.3rem" />
         {hasUnread && (
           <span className="absolute right-1.5 top-1 h-2.25 w-2.25 rounded-full border-2 border-bg bg-[#e53935]" />
         )}
@@ -56,12 +59,14 @@ export function NotificationCenter(): JSX.Element {
             onClick={(e) => e.stopPropagation()}
           >
             <div className="mb-3.5 flex items-center justify-between">
-              <h3 className="m-0 text-lilas">{t.notif.title}</h3>
+              <h3 className="m-0 text-lilas">
+                <T value={t.notif.title} />
+              </h3>
               <button
                 className="flex h-8.75 w-8.75 cursor-pointer items-center justify-center rounded-lg border-none bg-transparent shadow-[3px_3px_6px_var(--shadow-dark),-3px_-3px_6px_var(--shadow-light)] hover:-translate-y-px hover:text-profond hover:shadow-[6px_6px_12px_var(--shadow-dark)]"
                 onClick={handleClose}
               >
-                ✖
+                <Icon name="close" size={18} />
               </button>
             </div>
             <div className="flex flex-col gap-3 overflow-y-auto">
@@ -83,7 +88,7 @@ export function NotificationCenter(): JSX.Element {
                       <span className="text-[0.8rem] opacity-70">{note.date}</span>
                       {isNewNote(note.version) && (
                         <span className="rounded-[10px] bg-lilas px-2 py-0.5 text-[0.65rem] font-bold tracking-[0.5px] text-white">
-                          {t.notif.new}
+                          <T value={t.notif.new} iconSize={11} />
                         </span>
                       )}
                     </div>

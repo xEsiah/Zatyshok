@@ -1,52 +1,122 @@
 {
-  "greetings": ["Welcome!", "Have a great day!", "Hello there."],
+  "greetings": [
+    {
+      "text": "Welcome!"
+    },
+    {
+      "text": "Have a great day!"
+    },
+    {
+      "text": "Hello there."
+    }
+  ],
   "login": {
-    "title": "Затишок",
+    "title": {
+      "text": "Затишок"
+    },
     "requestAccess": "Request Access",
     "welcomeHome": "Welcome",
-    "username": "Username",
+    "username": {
+      "text": "Username"
+    },
     "usernamePlaceholder": "Your name",
-    "password": "Password",
+    "password": {
+      "text": "Password"
+    },
     "passwordPlaceholder": "••••••••",
-    "badPassordConfirmation": "Passwords do not match.",
+    "badPassordConfirmation": {
+      "text": "Passwords do not match."
+    },
     "processing": "Processing...",
     "join": "Join",
     "unlock": "Login",
     "toggleToLogin": "Already have an account? Login",
     "toggleToRegister": "Need access? Register",
-    "modalWaitTitle": "Welcome!",
+    "modalWaitTitle": {
+      "text": "Welcome!"
+    },
     "modalWaitMsg": "Request sent! Wait for manual validation.",
     "modalOops": "Oops...",
-    "modalErrorTitle": "Error",
-    "modalErrorUnreachable": "Server unreachable",
-    "modalErrorUnexpected": "An unexpected error occurred",
-    "modalErrorInvalidData": "Invalid connection data returned by the server.",
-    "errorUsernameTaken": "Username already taken. 👤",
-    "errorEmailTaken": "Email already taken. 📧",
-    "errorPending": "Account pending approval. ⏳",
-    "errorInvalidCredentials": "Invalid credentials. ❌",
-    "savedTitle": "Success",
-    "forgotPassword": "Forgot password?",
-    "resetTitle": "Reset password",
-    "resetCode": "Reset code",
-    "newPassword": "New password",
-    "confirmNewPassword": "Confirm new password",
-    "sendCode": "Send code",
-    "resetBtn": "Reset"
+    "modalErrorTitle": {
+      "text": "Error"
+    },
+    "modalErrorUnreachable": {
+      "text": "Server unreachable"
+    },
+    "modalErrorUnexpected": {
+      "text": "An unexpected error occurred"
+    },
+    "modalErrorInvalidData": {
+      "text": "Invalid connection data returned by the server."
+    },
+    "errorUsernameTaken": {
+      "text": "Username already taken.",
+      "icon": "icons/user.png"
+    },
+    "errorEmailTaken": {
+      "text": "Email already taken.",
+      "icon": "icons/email.png"
+    },
+    "errorPending": {
+      "text": "Account pending approval.",
+      "icon": "icons/hourglass.png"
+    },
+    "errorInvalidCredentials": {
+      "text": "Invalid credentials.",
+      "icon": "icons/cross-mark.png"
+    },
+    "savedTitle": {
+      "text": "Success"
+    },
+    "forgotPassword": {
+      "text": "Forgot password?"
+    },
+    "resetTitle": {
+      "text": "Reset password"
+    },
+    "resetCode": {
+      "text": "Reset code"
+    },
+    "newPassword": {
+      "text": "New password"
+    },
+    "confirmNewPassword": {
+      "text": "Confirm new password"
+    },
+    "sendCode": {
+      "text": "Send code"
+    },
+    "resetBtn": {
+      "text": "Reset"
+    }
   },
   "daily": {
-    "upcoming": "Upcoming Schedule",
+    "upcoming": {
+      "text": "Upcoming Schedule"
+    },
     "todayIs": "Today is",
     "loading": "Loading...",
-    "nothingPlanned": "Nothing planned yet.",
+    "nothingPlanned": {
+      "text": "Nothing planned yet."
+    },
     "for": "For",
     "deleteItem": "Delete item",
     "deleteNote": "Delete note",
-    "plannerTitle": "Daily Planner",
-    "notesTitle": "Notes",
-    "iconGoal": "🎯",
-    "iconEvent": "📅",
-    "modalDeleteTitle": "Deletion",
+    "plannerTitle": {
+      "text": "Daily Planner"
+    },
+    "notesTitle": {
+      "text": "Notes"
+    },
+    "iconGoal": {
+      "icon": "icons/target.png"
+    },
+    "iconEvent": {
+      "icon": "icons/calendar.png"
+    },
+    "modalDeleteTitle": {
+      "text": "Deletion"
+    },
     "modalDeleteMsg": "Are you sure you want to remove this item?",
     "modalDeleteError": "Failed to delete item.",
     "recurring": "Recurring",
@@ -58,8 +128,12 @@
   "mood": {
     "back": "Back",
     "history": "History",
-    "historyTitle": "Mood History",
-    "feelingTitle": "How are you feeling?",
+    "historyTitle": {
+      "text": "Mood History"
+    },
+    "feelingTitle": {
+      "text": "How are you feeling?"
+    },
     "noHistory": "No history yet...",
     "yesterday": "Yesterday:",
     "today": "Today:",
@@ -67,35 +141,70 @@
     "placeholderNew": "Add a note...",
     "btnUpdate": "Update",
     "btnSubmit": "Submit",
-    "savedTitle": "Saved",
+    "savedTitle": {
+      "text": "Saved"
+    },
     "savedMsg": "Mood saved.",
     "errorTitle": "Oops...",
     "errorMsg": "Error saving mood. Please try again.",
     "types": {
-      "great": "☀️",
-      "ok": "🌤️",
-      "meh": "🌥️",
-      "bad": "🌧️"
+      "great": {
+        "icon": "icons/sun.png"
+      },
+      "ok": {
+        "icon": "icons/partly-cloudy.png"
+      },
+      "meh": {
+        "icon": "icons/cloud.png"
+      },
+      "bad": {
+        "icon": "icons/rain.png"
+      }
     },
     "seeMore": "See more"
   },
   "write": {
-    "tabGoal": "🎯 Goal",
-    "tabEvent": "📅 Event",
-    "tabThought": "💭 Thought",
+    "tabGoal": {
+      "text": "Goal",
+      "icon": "icons/target.png"
+    },
+    "tabEvent": {
+      "text": "Event",
+      "icon": "icons/calendar.png"
+    },
+    "tabThought": {
+      "text": "Thought",
+      "icon": "icons/thought-bubble.png"
+    },
     "lblDate": "Date:",
     "lblTime": "Time:",
     "placeholder": "Describe your goal or thought...",
     "btnCancel": "Cancel",
-    "btnSave": "Save ✨",
-    "savedTitle": "Success",
+    "btnSave": {
+      "text": "Save",
+      "icon": "icons/sparkles.png"
+    },
+    "savedTitle": {
+      "text": "Success"
+    },
     "savedMsg": "Entry saved successfully.",
     "errorTitle": "Error",
     "errorMsg": "Failed to save entry",
-    "audioRecord": "🎙️ Record",
-    "audioStop": "⏹ Stop",
-    "audioRemove": "✖ Discard recording",
-    "audioErrorTitle": "Mic error",
+    "audioRecord": {
+      "text": "Record",
+      "icon": "icons/microphone.png"
+    },
+    "audioStop": {
+      "text": "Stop",
+      "icon": "icons/stop-button.png"
+    },
+    "audioRemove": {
+      "text": "Discard recording",
+      "icon": "icons/close.png"
+    },
+    "audioErrorTitle": {
+      "text": "Mic error"
+    },
     "audioErrorMsg": "Could not access the microphone.",
     "audioUploading": "Uploading recording..."
   },
@@ -113,16 +222,31 @@
     "ok": "OK"
   },
   "app": {
-    "loading": "Loading... ",
+    "loading": {
+      "text": "Loading... "
+    },
     "logout": "Logout",
-    "btnWrite": "Write",
-    "btnDashboard": "Dashboard",
-    "btnBudget": "Budget"
+    "btnWrite": {
+      "text": "Write"
+    },
+    "btnDashboard": {
+      "text": "Dashboard"
+    },
+    "btnBudget": {
+      "text": "Budget"
+    }
   },
   "budget": {
-    "title": "Budget Management 💰",
-    "income": "Income",
-    "outcome": "Spendings",
+    "title": {
+      "text": "Budget Management",
+      "icon": "icons/money-bag.png"
+    },
+    "income": {
+      "text": "Income"
+    },
+    "outcome": {
+      "text": "Spendings"
+    },
     "addIncome": "Add income",
     "addIncomeCategory": "New Income Source",
     "addCategory": "New Category",
@@ -133,51 +257,123 @@
     "category": "Category",
     "save": "Save",
     "chart": "Expenses Chart",
-    "modalSaved": "Budget saved ✨",
-    "categoryAdded": "New category added successfully! ✨",
-    "modalError": "Failed to save budget...",
-    "modalErrorLoad": "Failed to load budget data.",
-    "categoryNameRequired": "Category name is required.",
-    "categoryExists": "A category with this name already exists.",
-    "invalidAmount": "Please enter a valid amount (positive number).",
-    "categoryRequired": "Please select a category.",
-    "descriptionRequired": "A description is required for the expense.",
-    "historyTitle": "Transaction History",
-    "balance": "Balance",
+    "modalSaved": {
+      "text": "Budget saved",
+      "icon": "icons/sparkles.png"
+    },
+    "categoryAdded": {
+      "text": "New category added successfully!",
+      "icon": "icons/sparkles.png"
+    },
+    "modalError": {
+      "text": "Failed to save budget..."
+    },
+    "modalErrorLoad": {
+      "text": "Failed to load budget data."
+    },
+    "categoryNameRequired": {
+      "text": "Category name is required."
+    },
+    "categoryExists": {
+      "text": "A category with this name already exists."
+    },
+    "invalidAmount": {
+      "text": "Please enter a valid amount (positive number)."
+    },
+    "categoryRequired": {
+      "text": "Please select a category."
+    },
+    "descriptionRequired": {
+      "text": "A description is required for the expense."
+    },
+    "historyTitle": {
+      "text": "Transaction History"
+    },
+    "balance": {
+      "text": "Balance"
+    },
     "latestExpensesTitle": "Latest Expenses",
-    "noRecentExpenses": "No recent expenses to display.",
+    "noRecentExpenses": {
+      "text": "No recent expenses to display."
+    },
     "filterMonth": "This month",
     "filter3months": "3 months",
     "filter6months": "6 months",
     "filterYear": "Year"
   },
   "profile": {
-    "title": "Profile 👤",
-    "statsMoods": "Moods",
-    "statsGoals": "Goals 🎯",
-    "statsEvents": "Events 📅",
-    "statsNotes": "Notes 📝",
+    "title": {
+      "text": "Profile",
+      "icon": "icons/user.png"
+    },
+    "statsMoods": {
+      "text": "Moods"
+    },
+    "statsGoals": {
+      "text": "Goals",
+      "icon": "icons/target.png"
+    },
+    "statsEvents": {
+      "text": "Events",
+      "icon": "icons/calendar.png"
+    },
+    "statsNotes": {
+      "text": "Notes",
+      "icon": "icons/memo.png"
+    },
     "btnBack": "Back",
-    "errorEmail": "The email address is invalid. ❌",
+    "errorEmail": {
+      "text": "The email address is invalid.",
+      "icon": "icons/cross-mark.png"
+    },
     "errorUsername": "Username must be at least 3 characters.",
-    "errorAvatar": "Failed to upload profile picture. 🖼️",
-    "errorPasswordStrength": "Password must be at least 16 characters long, contain one uppercase letter and one special character. 🔐",
-    "errorPasswordOld": "Incorrect current password. 🔑",
-    "errorPasswordSame": "New password must be different from the current one. 🛑",
-    "errorUpdate": "An error occurred while updating.",
-    "changePasswordTitle": "Change Password",
-    "oldPassword": "Old password",
-    "passwordSuccess": "Password updated successfully! 🚀",
+    "errorAvatar": {
+      "text": "Failed to upload profile picture.",
+      "icon": "icons/picture.png"
+    },
+    "errorPasswordStrength": {
+      "text": "Password must be at least 16 characters long, contain one uppercase letter and one special character.",
+      "icon": "icons/shield-lock.png"
+    },
+    "errorPasswordOld": {
+      "text": "Incorrect current password.",
+      "icon": "icons/key.png"
+    },
+    "errorPasswordSame": {
+      "text": "New password must be different from the current one.",
+      "icon": "icons/stop-sign.png"
+    },
+    "errorUpdate": {
+      "text": "An error occurred while updating."
+    },
+    "changePasswordTitle": {
+      "text": "Change Password"
+    },
+    "oldPassword": {
+      "text": "Old password"
+    },
+    "passwordSuccess": {
+      "text": "Password updated successfully!",
+      "icon": "icons/rocket.png"
+    },
     "passwordMismatch": "Passwords do not match.",
-    "micPermissionTitle": "Microphone access",
+    "micPermissionTitle": {
+      "text": "Microphone access"
+    },
     "micPermissionHint": "Choose how Zatyshok handles microphone access. Your choice is remembered between sessions.",
-    "micAsk": "Ask each time",
+    "micAsk": {
+      "text": "Ask each time"
+    },
     "micAllow": "Allow",
     "micDeny": "Deny"
   },
   "notif": {
-    "title": "What's New",
-    "new": "NEW",
+    "title": {
+      "text": "What's New"
+    },
+    "new": {
+      "text": "NEW"
+    },
     "empty": "No news yet."
   }
 }

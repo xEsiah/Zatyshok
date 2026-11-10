@@ -1,8 +1,11 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useUser, Role } from './UserContext'
 import { useRef, JSX, useState, useEffect, useCallback } from 'react'
+import { Localized, textOf } from '../data/localized'
 import { API_URL } from '../services/apiClient'
 import { api } from '../services'
+import { Icon } from './Icon'
+import { T } from './T'
 import { useModal } from './ModalContext'
 import { Card } from './layout/Card'
 import { Dropdown } from './ui/Dropdown'
@@ -120,10 +123,11 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
       await fetchFullProfile()
       window.api.setStoreValue('username', cleanUsername)
     } catch (err: unknown) {
-      let errorMessage = err instanceof Error ? err.message : t.profile.errorUpdate
-      if (errorMessage.includes('Username already taken')) {
+      const rawMessage = err instanceof Error ? err.message : textOf(t.profile.errorUpdate)
+      let errorMessage: Localized = rawMessage
+      if (rawMessage.includes('Username already taken')) {
         errorMessage = t.login.errorUsernameTaken
-      } else if (errorMessage.includes('Email already taken')) {
+      } else if (rawMessage.includes('Email already taken')) {
         errorMessage = t.login.errorEmailTaken
       }
       showModal({
@@ -173,10 +177,11 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
       showModal({ title: t.login.savedTitle, message: t.profile.passwordSuccess, type: 'alert' })
       setPassForm({ old: '', newP: '', confirm: '' })
     } catch (err: unknown) {
-      let msg = err instanceof Error ? err.message : t.profile.errorUpdate
-      if (msg.includes('Ancien mot de passe')) msg = t.profile.errorPasswordOld
-      if (msg.includes("différent de l'ancien")) msg = t.profile.errorPasswordSame
-      if (msg.includes('16 caractères')) msg = t.profile.errorPasswordStrength
+      const rawMessage = err instanceof Error ? err.message : textOf(t.profile.errorUpdate)
+      let msg: Localized = rawMessage
+      if (rawMessage.includes('Ancien mot de passe')) msg = t.profile.errorPasswordOld
+      if (rawMessage.includes("différent de l'ancien")) msg = t.profile.errorPasswordSame
+      if (rawMessage.includes('16 caractères')) msg = t.profile.errorPasswordStrength
 
       showModal({ title: t.login.modalOops, message: msg, type: 'alert' })
     }
@@ -190,7 +195,7 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
     <Card className="w-full flex-1 min-h-0 flex flex-col p-[3vh_4vw] box-border text-lilas-doux">
       <div className="flex items-center justify-between border-b border-shadow-d pb-3">
         <h2 className="m-0 text-[0.85rem] uppercase tracking-[2px] text-lilas">
-          {t.profile.title}
+          <T value={t.profile.title} />
         </h2>
         <button
           onClick={onBack}
@@ -208,7 +213,7 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
         >
           <img src={currentImg} alt="Profile" className="h-full w-full object-cover" />
           <div className="absolute inset-0 flex items-center justify-center bg-black/40 text-[1.5rem] text-white opacity-0 transition-opacity duration-300 hover:opacity-100">
-            <span>🖊️</span>
+            <Icon name="pen" size={24} />
           </div>
         </div>
 
@@ -217,14 +222,14 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
             <>
               <div className="flex items-center gap-3.75">
                 <h1 className="m-0 text-[2.2rem] text-profond">
-                  {profileData?.username || t.app.loading}
+                  {profileData?.username || textOf(t.app.loading)}
                 </h1>
                 <button
                   title="Edit username, password & email"
                   className="border-none bg-transparent text-[1.2rem] text-lilas-doux opacity-60 transition-opacity duration-200 hover:opacity-100"
                   onClick={() => setIsEditing(true)}
                 >
-                  🖊️
+                  <Icon name="pen" size={18} />
                 </button>
               </div>
               <p>{profileData?.email}</p>
@@ -253,14 +258,14 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
                   onClick={saveInfo}
                   disabled={isSaving}
                 >
-                  {isSaving ? '...' : '✔️'}
+                  {isSaving ? '...' : <Icon name="check" size={18} />}
                 </button>
                 <button
                   className="h-8.75 w-8.75 flex items-center justify-center cursor-pointer rounded-lg border-none bg-rose text-white shadow-[3px_3px_6px_var(--shadow-dark),-3px_-3px_6px_var(--shadow-light)] transition-all duration-200 ease-in-out hover:-translate-y-px hover:shadow-[6px_6px_12px_var(--shadow-dark)]"
                   onClick={() => setIsEditing(false)}
                   disabled={isSaving}
                 >
-                  ✖️
+                  <Icon name="close" size={18} />
                 </button>
               </div>
             </div>
@@ -293,7 +298,9 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
             className="bg-card rounded-(--radius-bento) shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 p-3.75 text-center"
           >
             <span className="block text-2xl font-bold text-lilas">{stat.value ?? 0}</span>
-            <span className="text-[0.75rem] opacity-70">{stat.label}</span>
+            <span className="text-[0.75rem] opacity-70">
+              <T value={stat.label} />
+            </span>
           </div>
         ))}
       </div>
@@ -301,13 +308,13 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
       <div className="grid grid-cols-2 gap-[2.5vw] mt-[2.5vh] flex-1 min-h-0">
         <Card className="p-6.25 flex flex-col justify-center text-center">
           <h3 className="mb-3.75 mt-0 border-b border-shadow-d pb-2.5 text-[0.85rem] uppercase tracking-[1.5px] text-lilas opacity-90">
-            {t.profile.changePasswordTitle}
+            <T value={t.profile.changePasswordTitle} />
           </h3>
           <div className="flex flex-col items-stretch gap-3">
             <input
               type="password"
               className="h-[4vh] px-2 py-1 border-0 rounded-md bg-(--field-bg) text-profond shadow-[inset_2px_2px_4px_var(--shadow-dark),inset_-2px_-2px_4px_var(--shadow-light)] outline-hidden text-[0.85rem] box-border w-full"
-              placeholder={t.profile.oldPassword}
+              placeholder={textOf(t.profile.oldPassword)}
               value={passForm.old}
               onChange={(e) => setPassForm({ ...passForm, old: e.target.value })}
             />
@@ -336,7 +343,7 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
 
         <Card className="p-6.25 flex flex-col justify-center text-center">
           <h3 className="mb-3.75 mt-0 border-b border-shadow-d pb-2.5 text-[0.85rem] uppercase tracking-[1.5px] text-lilas opacity-90">
-            {t.profile.micPermissionTitle}
+            <T value={t.profile.micPermissionTitle} />
           </h3>
           <div className="flex flex-col items-stretch gap-3">
             <button
@@ -347,7 +354,7 @@ export function ProfileView({ onBack }: { onBack: () => void }): JSX.Element {
               }`}
               onClick={() => applyMicPermission('ask')}
             >
-              {t.profile.micAsk}
+              <T value={t.profile.micAsk} />
             </button>
             <button
               className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 w-full ${

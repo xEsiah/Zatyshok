@@ -4,6 +4,7 @@ import { Login } from './components/Login'
 import { ModalProvider } from './components/ModalContext'
 import { UserProvider, useUser, Role } from './components/UserContext'
 import { AppShell } from './components/AppShell'
+import { T } from './components/T'
 import { DashboardPage } from './pages/DashboardPage'
 import { WritePage } from './pages/WritePage'
 import { BudgetPage } from './pages/BudgetPage'
@@ -69,7 +70,9 @@ function AppContent(): JSX.Element {
     return (
       <div className="w-full h-screen flex justify-center items-center bg-bg">
         <div className="bg-card rounded-card shadow-[8px_8px_16px_var(--shadow-dark),-8px_-8px_16px_var(--shadow-light)] border border-(--card-border) transition-all duration-300 w-[90vw] max-w-100 py-[5vh] px-[5vw] text-center">
-          <h2>{t?.app?.loading || 'Chargement...'}</h2>
+          <h2>
+            <T value={t?.app?.loading ?? 'Chargement...'} />
+          </h2>
         </div>
       </div>
     )

@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect, JSX } from 'react'
 import { api } from '../services'
+import { AudioPlayer } from './AudioPlayer'
+import { T } from './T'
 import { useModal } from './ModalContext'
 import { useUser } from './UserContext'
-import { AudioPlayer } from './AudioPlayer'
 import { Dropdown } from './ui/Dropdown'
 
 const formatRecordTime = (sec: number): string =>
@@ -217,7 +218,7 @@ export function WriteView({ onBack }: { onBack: () => void }): JSX.Element {
               setHasDate(true)
             }}
           >
-            {t.write.tabGoal}
+            <T value={t.write.tabGoal} />
           </button>
           <button
             className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
@@ -230,7 +231,7 @@ export function WriteView({ onBack }: { onBack: () => void }): JSX.Element {
               setHasDate(true)
             }}
           >
-            {t.write.tabEvent}
+            <T value={t.write.tabEvent} />
           </button>
           <button
             className={`border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 ${
@@ -244,7 +245,7 @@ export function WriteView({ onBack }: { onBack: () => void }): JSX.Element {
               setIsRecurring(false)
             }}
           >
-            {t.write.tabThought}
+            <T value={t.write.tabThought} />
           </button>
         </div>
 
@@ -316,7 +317,7 @@ export function WriteView({ onBack }: { onBack: () => void }): JSX.Element {
                 className="border-0 rounded-xl px-4.5 py-2.5 font-semibold text-lilas-doux cursor-pointer bg-card shadow-[4px_4px_8px_var(--shadow-dark),-4px_-4px_8px_var(--shadow-light)] transition-all duration-200 hover:bg-rose hover:text-white hover:shadow-[6px_6px_12px_var(--shadow-dark),-6px_-6px_12px_var(--shadow-light)] hover:-translate-y-0.5 shrink-0 text-[0.85rem] disabled:opacity-50 disabled:cursor-not-allowed"
                 onClick={clearRecording}
               >
-                {t.write.audioRemove}
+                <T value={t.write.audioRemove} />
               </button>
             </div>
           ) : (
@@ -329,9 +330,8 @@ export function WriteView({ onBack }: { onBack: () => void }): JSX.Element {
               onClick={toggleRecording}
               disabled={isUploading}
             >
-              {isRecording
-                ? `${t.write.audioStop} ${formatRecordTime(recordingTime)}`
-                : t.write.audioRecord}
+              <T value={isRecording ? t.write.audioStop : t.write.audioRecord} />
+              {isRecording && <span>{formatRecordTime(recordingTime)}</span>}
             </button>
           )}
           {isUploading && (
@@ -353,7 +353,7 @@ export function WriteView({ onBack }: { onBack: () => void }): JSX.Element {
             className="bg-lilas text-white border-0 px-6.25 py-3 rounded-[15px] font-bold cursor-pointer transition-all duration-200 enabled:hover:brightness-[1.15] enabled:hover:-translate-y-0.5 disabled:opacity-50 disabled:cursor-not-allowed min-w-35 text-[1rem]"
             disabled={isUploading}
           >
-            {t.write.btnSave}
+            <T value={t.write.btnSave} />
           </button>
         </div>
       </div>
