@@ -41,8 +41,8 @@ jobs:
           push: true
           tags: ghcr.io/xesiah/zatyshok-backend:latest
           build-args: |
-            USER_ID=${{ vars.IMAGE_UID || '1000' }}
-            GROUP_ID=${{ vars.IMAGE_GID || '1000' }}
+            USER_ID=${{ vars.IMAGE_UID || '1001' }}
+            GROUP_ID=${{ vars.IMAGE_GID || '1001' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
